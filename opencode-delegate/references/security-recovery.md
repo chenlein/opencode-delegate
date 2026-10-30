@@ -34,7 +34,7 @@ argv 不等于安全沙箱。授权前审核入口、断言、fixtures、构建�
 python3 "$RUNNER" recover --task "$TASK" --confirmed-stopped --note /absolute/recovery.md
 ```
 
-恢复不会还原源码或宣告通过；后续要求新会话和审核后的检查点。越界、HEAD/index 变化或测试修改源码必须保留现场，不自动 reset 或改证据。
+恢复不会还原源码或宣告通过。run 阶段恢复需要新会话、审核后的检查点和剩余预算；无污染的 verify 阶段恢复为 VERIFY_RETRY_READY，直接重跑冻结检查再 review，不新建模型尝试。越界、HEAD/index 变化或测试修改源码必须保留现场，不自动 reset 或改证据。
 
 EVIDENCE_ERROR 可在排除 Git/IO 故障后重新 verify；缺补丁不等于无差异。损坏或未知状态不自动放行。
 
@@ -52,3 +52,9 @@ CLEANING 的已验证导出必须仍完好。工作区已删除且 Git 注册已
 旧 rc.1 中断任务没有可信 phase，不使用猜测恢复。保留旧代码/日志做人工核对，尤其不能把 rc.1 的 recover 结果当作测试未改源码的证明。
 
 受限 edit 策略保守保留所有大小写 AGENTS.* 与 CLAUDE.* 名称；真实 CLI 的前置拒绝仍需精确版本认证。实际自定义 fallback/配置指令须显式声明；此清单不等于自动解析全部 Codex/OpenCode 配置。
+
+## rc.4 预算和日志边界
+
+先持久化预算预留，再启动执行器。故障后仅用同 operation ID 的完整执行证据结算；未知消耗不得计零，可能保守耗尽该任务余量。total_execution_seconds 是额度扣记，operation.budget.observed_seconds 才是可确认的观测值，均非 token/账单。旧版未预留的活动 run 不享有自动退款。
+
+直接父进程正常退出后的同组残留也要执行完整收尾。无法确认停止时，不宣称日志已固定，不发布最终哈希；failure --include-details 会注明暂不共享。确认停止并 recover 后重新 verify 生成新证据，不能手工补哈希来接受旧日志。

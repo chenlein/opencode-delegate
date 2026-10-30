@@ -98,7 +98,7 @@ class PostfixReviewTests(unittest.TestCase):
             self.verify(expect=2)
         self.assertEqual(self.state()['status'], 'VERIFYING')
         self.recover()
-        self.assertEqual(self.state()['status'], 'RECOVERED')
+        self.assertEqual(self.state()['status'], 'VERIFY_RETRY_READY')
         self.assertEqual(self.state()['operation']['phase'], 'verify')
         self.assertEqual((self.task / 'worktree/cache/out').read_text(), 'legal')
         self.assertIsNone(self.state()['verification'])

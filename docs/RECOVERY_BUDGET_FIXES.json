@@ -1,0 +1,38 @@
+{
+  "version": "2.0.1-rc.4",
+  "baseline": "c1b166459d217dd6e6f1bac41d8adb886b74c73c",
+  "issues": [
+    {
+      "id": "C01",
+      "priority": "P2",
+      "status": "fixed_offline_verified",
+      "summary": "Phase-specific verifier recovery without a worker attempt"
+    },
+    {
+      "id": "C02",
+      "priority": "P2",
+      "status": "fixed_offline_verified",
+      "summary": "Durable reservation and idempotent operation-bound time settlement"
+    },
+    {
+      "id": "C03",
+      "priority": "P2",
+      "status": "fixed_offline_verified",
+      "summary": "Unified bounded process-group cleanup; unconfirmed logs are not final"
+    }
+  ],
+  "tests": {
+    "runner": 173,
+    "installer": 15,
+    "new_acceptance": 19
+  },
+  "real_model_tested": false,
+  "remaining_gates": [
+    "F05",
+    "F10",
+    "F12",
+    "F13",
+    "F14",
+    "F15"
+  ]
+}

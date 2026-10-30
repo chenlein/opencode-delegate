@@ -40,3 +40,7 @@
 A01–A10 的原有回归保持通过。新增复审发现 B01（启动失败记录缺少日志哈希/耗时）和 CI01（macOS 测试路径别名断言），均已修复并增加反例/正向对照；154 个 Runner + 15 个安装测试通过。具体证据见 [POST_FIX_REVIEW.md](POST_FIX_REVIEW.md)。
 
 F05/F10/F12/F13/F14/F15 仍开放。本次没有真实 OpenCode/GPT、用户 Mac 或真实大仓成本验证；不把静态检查、模拟事件或托管 macOS 的离线 CI 当作真实模型认证。
+
+## 第三轮 C01–C03（2.0.1-rc.4）
+
+三个 P2 的已复现路径修复并增加完整验收测试：验证恢复后无需重调模型；跨状态写失败的预算幂等结算；父进程正常退出后的残留组收尾。详见 [RECOVERY_BUDGET_FIXES.md](RECOVERY_BUDGET_FIXES.md)。当前 173 Runner + 15 安装 = 188 项离线测试；不据此扩大真实 CLI 认证。比较核对与下一阶段建议见 [COMPARISON_RECHECK.md](COMPARISON_RECHECK.md)。

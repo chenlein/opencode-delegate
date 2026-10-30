@@ -10,7 +10,7 @@ import tempfile
 from typing import Any
 
 
-VERSION = "2.0.1-rc.3"
+VERSION = "2.0.1-rc.4"
 
 
 STATE_SCHEMA_VERSION = 2
@@ -46,7 +46,7 @@ PROTECTED_PARTS = {".git", ".codex", ".agents", ".opencode", ".claude", ".ssh", 
 SECRET_NAMES = {"id_rsa", "id_ed25519", "credentials", "auth.json"}
 
 
-BAD_STATES = {"POLICY_VIOLATION", "VERIFICATION_MUTATED_SOURCE", "ACCEPTED", "REJECTED", "OUTCOME_UNKNOWN", "RUNNING", "VERIFYING", "ARCHIVED", "EVIDENCE_ERROR", "PREPARING", "CLEANING"}
+BAD_STATES = {"POLICY_VIOLATION", "VERIFICATION_MUTATED_SOURCE", "ACCEPTED", "REJECTED", "OUTCOME_UNKNOWN", "RUNNING", "VERIFYING", "ARCHIVED", "EVIDENCE_ERROR", "PREPARING", "CLEANING", "VERIFY_RETRY_READY"}
 
 
 PRELUDE = """Execute ONE bounded task for the Codex coordinator. Do not orchestrate agents.

@@ -25,6 +25,8 @@ from typing import Any
 from delegate_core import (VERSION, STATE_SCHEMA_VERSION, SCAN_METRICS, AGENT, MAX_JSON, MAX_LOG, MAX_FILES, MAX_BYTES, PROTECTED_NAMES, PROTECTED_PARTS, SECRET_NAMES, BAD_STATES, PRELUDE, GuardError, require, now, canonical, digest, file_hash, read_json, read_text, atomic_json, clean_git_env, git)
 from path_policy import safe_path, matches, paths_overlap, secret_path, assert_clean_visibility, protected, validate_contract
 from state_store import locked, load, save
+from execution_budget import reserve as reserve_budget, settle as settle_budget, recover_accounting
+from process_control import terminate_group
 from lifecycle import begin as begin_operation, start_snapshot as operation_snapshot
 from handoff import ambient_rule_paths, freeze_instructions, check_instructions, instruction_config_fingerprint, redact_excerpt, failure_packet
 from opencode_adapter import probe, permission_config, runtime_env, normalize_config, check_effective_config, parse_events
@@ -112,22 +114,20 @@ def group_alive(pgid: int) -> bool:
 
 
 def execute(argv: list[str], cwd: Path, env: dict[str, str], timeout: int, out: Path, err: Path, on_start=None) -> dict:
-    """Bounded output, process-group termination, no shell, no auto retry."""
+    """Bounded output and unified group cleanup, including orphaned group members."""
     start = time.monotonic()
     result = {"argv": argv, "started_at": now(), "exit_code": None, "reason": None, "pid": None}
+    quiet = True
     with out.open("wb") as stdout, err.open("wb") as stderr:
         try:
             p = subprocess.Popen(argv, cwd=str(cwd), env=env, stdin=subprocess.DEVNULL,
                                  stdout=stdout, stderr=stderr, start_new_session=True)
         except OSError as e:
-            # A launch failure is still an observed execution attempt. Keep the
-            # same evidence shape as a started process so verification/failure
-            # handoff never mistakes absent metadata for a successful empty log.
             stderr.write(("Process could not start: " + str(e) + "\n").encode("utf-8", errors="replace"))
-            stdout.flush()
-            stderr.flush()
+            stdout.flush(); stderr.flush()
             result.update(exit_code=127, reason="spawn_error", error=str(e),
                           elapsed_seconds=round(time.monotonic() - start, 3),
+                          process_group_quiescent=True, log_evidence="final",
                           stdout_sha256=file_hash(out), stderr_sha256=file_hash(err))
             return result
         result["pid"] = p.pid
@@ -136,42 +136,30 @@ def execute(argv: list[str], cwd: Path, env: dict[str, str], timeout: int, out: 
                 on_start(p.pid)
             while p.poll() is None:
                 if time.monotonic() - start > timeout:
-                    result["reason"] = "timeout"
-                    break
+                    result["reason"] = "timeout"; break
                 if out.stat().st_size + err.stat().st_size > MAX_LOG:
-                    result["reason"] = "output_limit"
-                    break
+                    result["reason"] = "output_limit"; break
                 time.sleep(0.05)
         except (KeyboardInterrupt, SystemExit):
             result["reason"] = "interrupted"
         finally:
-            if result["reason"] is not None or p.poll() is None:
-                try:
-                    os.killpg(p.pid, signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
-                try:
-                    p.wait(timeout=2)
-                except subprocess.TimeoutExpired:
-                    pass
-                if group_alive(p.pid):
-                    try:
-                        os.killpg(p.pid, signal.SIGKILL)
-                    except ProcessLookupError:
-                        pass
-            p.wait()
+            # All exits use the same bounded TERM -> wait -> KILL -> wait path.
+            # A normal leader exit does not imply its process group has stopped.
+            p.poll()
+            if p.returncode is not None and group_alive(p.pid):
+                result["reason"] = result["reason"] or "descendants_still_running"
+            cleanup = terminate_group(p)
+            result["cleanup"] = cleanup
+            quiet = cleanup["process_group_quiescent"] and cleanup["leader_reaped"]
+            if not quiet:
+                result["reason"] = result["reason"] or "termination_unconfirmed"
         result["exit_code"] = p.returncode
-        if group_alive(p.pid):
-            result["reason"] = result["reason"] or "descendants_still_running"
-            try:
-                os.killpg(p.pid, signal.SIGTERM)
-            except ProcessLookupError:
-                pass
     if out.stat().st_size + err.stat().st_size > MAX_LOG:
         result["reason"] = result["reason"] or "output_limit"
-    result["elapsed_seconds"] = round(time.monotonic() - start, 3)
-    result["stdout_sha256"] = file_hash(out)
-    result["stderr_sha256"] = file_hash(err)
+    result.update(elapsed_seconds=round(time.monotonic() - start, 3),
+                  process_group_quiescent=quiet, log_evidence="final" if quiet else "unstable",
+                  stdout_sha256=file_hash(out) if quiet else None,
+                  stderr_sha256=file_hash(err) if quiet else None)
     return result
 
 
@@ -282,7 +270,9 @@ def cmd_run(args) -> int:
         s.pop("protocol_error", None)
         s.update(attempts=n, last_attempt=str(attempt.relative_to(task)), runtime=info,
                  effective_config_sha256=effective_hash, verification=None)
-        begin_operation(task, s, before, "run", "PREPARING")
+        allowance = min(c["timeout_seconds"], max(1, int(remaining)))
+        budget = reserve_budget(s, allowance, c.get("max_execution_seconds", 1800))
+        begin_operation(task, s, before, "run", "PREPARING", {"budget": budget})
         attempt.mkdir(parents=True, mode=0o700)
         atomic_json(attempt / "operation.json", s["operation"])
         atomic_json(attempt / "packet.json", packet)
@@ -302,11 +292,13 @@ def cmd_run(args) -> int:
             s["process_pid"] = pid
             s["operation"]["stage"] = "running"
             save(task, s)
-        execution = execute(argv, wt, env, min(c["timeout_seconds"], max(1, int(remaining))), attempt / "events.ndjson", attempt / "stderr.log", started)
+        execution = execute(argv, wt, env, allowance, attempt / "events.ndjson", attempt / "stderr.log", started)
         # Store a prompt digest instead of duplicating the entire prompt in argv metadata.
         execution["argv"][-1] = "<task packet sha256:" + digest(packet) + ">"
+        execution.update(operation_id=s["operation"]["id"], contract_sha256=s["contract_sha256"])
         atomic_json(attempt / "execution.json", execution)
-        s["total_execution_seconds"] += execution.get("elapsed_seconds", 0)
+        settle_budget(s, execution, task_limit=c.get("max_execution_seconds", 1800),
+                      evidence_sha256=file_hash(attempt / "execution.json"))
         try:
             after = snapshot(wt)
             errors = invariant_errors(c, base, before, after, "run")
@@ -325,7 +317,7 @@ def cmd_run(args) -> int:
                 parsed = candidate  # Commit success ONLY after validation and persistence.
         except (GuardError, UnicodeError, OSError) as e:
             s["protocol_error"] = str(e)
-        if execution["reason"] in ("timeout", "interrupted", "output_limit", "descendants_still_running"):
+        if execution["reason"] in ("timeout", "interrupted", "output_limit", "descendants_still_running", "termination_unconfirmed"):
             s["status"] = "OUTCOME_UNKNOWN"
         elif errors:
             s["status"] = "POLICY_VIOLATION"
@@ -349,7 +341,7 @@ def cmd_verify(args) -> int:
     task = Path(args.task).expanduser().resolve()
     with locked(task):
         c, s, base, cp = load(task)
-        require(s["status"] in ("AWAITING_VERIFY", "NEEDS_FIX", "REVIEW_REQUIRED", "EVIDENCE_ERROR"), f"Cannot verify in state {s['status']}", 3)
+        require(s["status"] in ("AWAITING_VERIFY", "VERIFY_RETRY_READY", "NEEDS_FIX", "REVIEW_REQUIRED", "EVIDENCE_ERROR"), f"Cannot verify in state {s['status']}", 3)
         require(not c["checks"] or args.authorize_tests, "Review test commands/code first, then pass --authorize-tests", 3)
         check_instructions(task, c, s)
         before = current_checked(task, s, cp)
@@ -393,7 +385,7 @@ def cmd_verify(args) -> int:
                 previous = after
             except (GuardError, OSError) as e:
                 errors.append(str(e))
-            if result["reason"] in ("timeout", "interrupted", "output_limit", "descendants_still_running"):
+            if result["reason"] in ("timeout", "interrupted", "output_limit", "descendants_still_running", "termination_unconfirmed"):
                 uncertain = True
             s["operation"].update(errors=list(errors), stage="uncertain" if uncertain else "checking")
             save(task, s)  # Never lose already observed source-mutation evidence.
@@ -483,12 +475,17 @@ def cmd_recover(args) -> int:
         atomic_json(task / "recovery" / (str(time.time_ns()) + ".json"), {"time": now(), "note": note,
                     "old_status": s["status"], "operation": s["operation"], "changes": differences(start, current),
                     "errors": errors, "snapshot": current["sha256"]})
-        s["status"] = ("VERIFICATION_MUTATED_SOURCE" if phase == "verify" else "POLICY_VIOLATION") if errors else "RECOVERED"
+        if phase == "verify":
+            require(s["operation"]["prior_status"] in ("AWAITING_VERIFY", "VERIFY_RETRY_READY", "NEEDS_FIX", "REVIEW_REQUIRED", "EVIDENCE_ERROR"),
+                    "Verification recovery has no valid worker/verification origin", 3)
+        recover_accounting(task, s, c)
+        s["status"] = ("VERIFICATION_MUTATED_SOURCE" if phase == "verify" else "POLICY_VIOLATION") if errors else ("VERIFY_RETRY_READY" if phase == "verify" else "RECOVERED")
         s["operation"].update(stage="reconciled", errors=errors)
-        s["session_id"] = None
+        if phase == "run":
+            s["session_id"] = None
         s["verification"] = None
         save(task, s, current)
-        print(json.dumps({"status": s["status"], "phase": phase, "next": "Fresh session with reviewed checkpoint required; previous result is not accepted."}))
+        print(json.dumps({"status": s["status"], "phase": phase, "next": "Rerun the frozen verify plan; worker attempt/session is retained; no acceptance yet." if phase == "verify" and not errors else "Inspect evidence; run recovery requires a fresh session and remaining budget. No result accepted."}))
         return 3 if errors else 0
 
 

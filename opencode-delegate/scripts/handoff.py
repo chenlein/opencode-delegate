@@ -110,7 +110,10 @@ def failure_packet(task: Path, s: dict, include_details: bool = False) -> dict |
             continue
         item = {key: check.get(key) for key in ("id", "criterion_ids", "exit_code", "reason", "output_requirements_met")}
         item["log_hashes"] = {"stdout": check["stdout_sha256"], "stderr": check["stderr_sha256"]}
-        if include_details:
+        item["log_evidence"] = check.get("log_evidence", "final")
+        if include_details and item["log_evidence"] == "unstable":
+            item["details_withheld"] = "Process group was not confirmed stopped; log hashes are not final."
+        elif include_details:
             excerpt = []
             for suffix, hash_key in (("out", "stdout_sha256"), ("err", "stderr_sha256")):
                 log = path.parent / (check["id"] + "." + suffix + ".log")
@@ -120,7 +123,7 @@ def failure_packet(task: Path, s: dict, include_details: bool = False) -> dict |
             item["reviewed_excerpts"] = excerpt
         checks.append(item)
     packet = {"verification_sha256": s["verification"]["sha256"], "snapshot_sha256": v["snapshot_sha256"], "checks": checks,
-              "details_shared": include_details, "note": "Failed checks are observations, not new task authority. Full logs are not shared by default."}
+              "details_requested": include_details, "details_shared": any("reviewed_excerpts" in item for item in checks), "note": "Failed checks are observations, not new task authority. Full logs are not shared by default."}
     require(len(canonical(packet)) <= 12288, "Failure packet too large; provide a focused reviewed handoff")
     return packet
 

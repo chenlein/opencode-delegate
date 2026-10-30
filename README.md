@@ -2,17 +2,21 @@
 
 **Codex 负责规划与验收，OpenCode 执行一个有界任务。** 使用隔离 Git worktree、冻结任务契约、明确会话 ID 和独立测试证据，不把两个 GPT 会话当成共享记忆，也不把 CLI 退出 0 当成验收通过。
 
-当前版本 **2.0.1-rc.3：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
+当前版本 **2.0.1-rc.4：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
 
-**169 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+**188 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
 
 ## 本轮可靠性修复
 
-`rc.3` 补齐进程无法启动时的日志哈希、退出码和耗时；失败证据预览与增量交接不再因缺字段中断。修正 macOS 安装测试的 `/var` 与 `/private/var` 路径别名比较，并增加可跨平台复现的父目录符号链接正向用例；没有放宽安装保护。
+`rc.4` 修复三个已复现 P2（C01–C03），不改变显式授权、源码范围和独立验收门槛。
 
-A01–A10 的程序级反例已转成验收回归：操作阶段与起始快照持久化、PREPARING 尝试预留、CLEANING 清理意图、AGENTS.override.md 保护、最终规则漂移复查、配置语义比较、最终消息绑定、安装路径规范化和测试环境隔离。具体证据与适用边界见 [修复清单](docs/ROUND2_FIXES.md)。
+- **验证恢复**：无源码污染的验证中断恢复到 `VERIFY_RETRY_READY`，保留原 worker 会话/结果，可直接重跑冻结检查，不消耗新模型尝试；执行器中断仍是 `RECOVERED`，不能直接验收。
+- **累计预算**：执行前与操作意图一起持久化时间预留，完成/恢复按 operation ID 幂等结算。确认未启动才退款；启动后缺少可信耗时证据，保守耗尽剩余预算，不能计零。`total_execution_seconds` 现在是预算扣记值，含保守预留，不代表模型账单或纯实测耗时。
+- **进程组收尾**：父进程正常退出但仍有同组后代，也执行 TERM → 限时等待 → KILL → 再检查。无法确认停止时日志标为 unstable，不发布最终日志哈希，仍保持不确定状态。
 
-`status` 可在运行中读取最后已提交的状态代号，不会启动第二份执行。运行时的 `--check-worktree` 明确跳过扫描，而不是声称拿到了实时一致的源码快照。
+完整修复、19 条新增验收测试、复审限制见 [RECOVERY_BUDGET_FIXES.md](docs/RECOVERY_BUDGET_FIXES.md)。上一轮历史见 [POST_FIX_REVIEW.md](docs/POST_FIX_REVIEW.md)。
+
+横向比较已固定三个上游提交核对，见 [COMPARISON_RECHECK.md](docs/COMPARISON_RECHECK.md)。优先借鉴调用适配、经过审核的 profile/契约生成和简洁摘要；不引入第二套状态机，不照搬自动放权或退出码即验收。
 
 ## 安装与升级
 
@@ -32,6 +36,8 @@ python3 install.py --replace
 **有 2.0.0 活动任务时不要直接迁移。** 新 Runner 只读查看旧状态；用备份旧 Runner 完成/恢复，再建立新任务。安装器发现旧活动任务会阻止覆盖，明确保留原 Runner 后才使用 --preserve-legacy-runner。自定义状态目录通过 --state-root 指定。[协议与升级](opencode-delegate/references/protocol.md)
 
 **rc.1 的已中断任务不要猜测原阶段。** rc.2 的新操作会记录 phase/operation ID/start snapshot；缺少这些字段的旧 RUNNING/VERIFYING/OUTCOME_UNKNOWN 任务不会自动恢复。先保留原版本及现场，人工核对原操作、进程和测试副作用；不能将旧版恢复成功当作验证源码未污染的证据。静止任务可查看，再按新版本建立受控操作。
+
+**rc.3 活动执行升级**：旧运行没有预算预留，恢复时无法证明消耗的部分按剩余预算耗尽处理，不自动免费重跑；保留旧 Runner 与现场。已有原阶段信息的验证中断可按新规则恢复并重新验证，不意味着接受旧结果。
 
 ## 在 Codex 中调用
 
@@ -82,6 +88,15 @@ python3 "$RUNNER" run --task "$TASK" --feedback /absolute/feedback.md \
 
 只在验收后生成含来源、环境和失效条件的知识候选，不自动写 AGENTS.md，不建立第二套平行记忆。未知模型用量保持 unknown/partial，不推算节省比例。
 
+验证中断且确认停止后：
+
+```bash
+python3 "$RUNNER" recover --task "$TASK" --confirmed-stopped --note /absolute/recovery.md
+# 仅当恢复结果为 VERIFY_RETRY_READY：
+python3 "$RUNNER" verify --task "$TASK" --authorize-tests
+# 仍须完成 review；不要为了再次验证调用 run。
+```
+
 ## 可信验收和交付
 
 外部检查须声明 verification_sources，固定已有测试、断言、配置和夹具。自包含的 `['{python}','-c',code]` 可以经审核后显式 trusted_inline；不得用它隐藏可变验收代码。可信源清单不自动证明全部依赖安全。
@@ -114,7 +129,7 @@ python3 tools/benchmark_snapshot.py --files 1000 --bytes 4096
 python3 tools/build_release.py
 ```
 
-当前 154 项 Runner 测试（70 既有场景、40 首轮反例、36 第二轮回归、8 修复后复审）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
+当前 173 项 Runner 测试（此前 154 项，加 19 项恢复/预算/进程组与快照计数测试）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
 
 | 目录 | 作用 |
 |---|---|

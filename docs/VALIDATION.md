@@ -56,3 +56,9 @@ GitHub Actions 配置 Linux/macOS、Python 3.9/3.11/3.13 离线矩阵。这里�
 未安装或调用真实 OpenCode/GPT，未访问用户 Mac，未验证真实 V1/V2 配置输出/权限/事件，未执行实际 Codex 行为对照，未采集双方完整用量费用及用户大仓性能。
 
 精确 CLI 认证矩阵仍为空。剩余 F05/F10/F12/F13/F14/F15 见 [整改状态](REVIEW_STATUS.md) 与 [真实验证方案](LIVE_VALIDATION.md)。
+
+## rc.4：C01–C03（2026-10-30）
+
+新增 19 项验收：验证恢复完整闭环、保守预算与崩溃幂等结算、真实 POSIX 同组子进程收尾、停止未确认的日志策略、正常路径快照计数。当前 173 Runner + 15 安装 = 188 项离线测试。Python AST、Shell 语法、manifest、临时目录安装校验同时检查。见 [RECOVERY_BUDGET_FIXES.md](RECOVERY_BUDGET_FIXES.md)。远端 CI 必须核对本版本提交，不能继承旧提交结果。
+
+跨方案只读源码核对见 [COMPARISON_RECHECK.md](COMPARISON_RECHECK.md)，不属于第三方运行时测试或真实目标版本认证。

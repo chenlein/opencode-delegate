@@ -65,7 +65,7 @@ class LifecycleTests(unittest.TestCase):
         self.contract['checks'][0]['timeout_seconds'] = 1
         self.init(); self.run_worker(); self.verify(expect=5)
         self.recover()
-        self.assertEqual(self.state()['status'], 'RECOVERED')
+        self.assertEqual(self.state()['status'], 'VERIFY_RETRY_READY')
         self.assertEqual(self.state()['operation']['phase'], 'verify')
 
     def test_a01_crash_without_report_uses_start_snapshot(self):
@@ -117,9 +117,17 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn(self.state()['status'], ('PREPARING', 'RUNNING'))
         self.recover()
         checkpoint = self.root / 'checkpoint.md'; checkpoint.write_text('Prepared attempt reconciled. No result accepted; scope unchanged.')
-        self.run_worker(extra=('--fresh-session', '--checkpoint', str(checkpoint)))
-        self.assertEqual(self.state()['attempts'], 2)
-        self.assertTrue((self.task / 'attempts/002/worker-result.json').is_file())
+        if boundary == 'pid':
+            # The process was started but its identity/evidence commit failed.
+            # Unknown runtime must not be treated as free execution time.
+            self.run_worker(extra=('--fresh-session', '--checkpoint', str(checkpoint)), expect=3)
+            self.assertIn('budget exhausted', self.last_err)
+            self.assertEqual(self.state()['attempts'], 1)
+            self.assertFalse((self.task / 'attempts/002').exists())
+        else:
+            self.run_worker(extra=('--fresh-session', '--checkpoint', str(checkpoint)))
+            self.assertEqual(self.state()['attempts'], 2)
+            self.assertTrue((self.task / 'attempts/002/worker-result.json').is_file())
 
     def test_a02_packet_write_failure_recovers(self): self.attempt_fault('packet.json')
     def test_a02_policy_write_failure_recovers(self): self.attempt_fault('requested-policy.json')

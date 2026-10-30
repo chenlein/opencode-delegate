@@ -5,7 +5,7 @@ description: Delegate one bounded repository task from Codex to local OpenCode w
 
 # OpenCode Delegate
 
-Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.3；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
+Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.4；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
 
 ## 选择与边界
 
@@ -36,7 +36,7 @@ python3 "$RUNNER" run --task "$TASK" --acknowledge-local-execution \
 
 先读 state、changes 和 worker-result，有疑点才展开日志。run 返回 0 仅表示 AWAITING_VERIFY，不是验收通过。
 
-同任务用已登记 session 和 `--feedback /absolute/feedback.md` 发送增量；合法已登记改动可以续跑，未知外部修改必须停止。禁止 --continue、--auto 和“最近会话”。次数或累计时间耗尽则重新分析，不换任务 ID 绕过。
+同任务用已登记 session 和 `--feedback /absolute/feedback.md` 发送增量；合法已登记改动可以续跑，未知外部修改必须停止。禁止 --continue、--auto 和“最近会话”。次数或累计时间耗尽则重新分析，不换任务 ID 绕过。预算先预留、后结算；未知消耗保守扣记，不等于实测用量或账单。
 
 失败包默认共享验证计划、检查 ID、退出码和哈希。先用 `failure --task "$TASK" --include-details` 预览脱敏摘录，审核后才在 run 加 `--share-failure-details`。正则脱敏不是秘密检测保证。
 
@@ -62,7 +62,7 @@ ACCEPTED 不自动合并。`export --task "$TASK" --output /absolute/delivery.zi
 
 越界、HEAD/index 改动或验证修改源码时保留现场，不 reset 或篡改证据。EVIDENCE_ERROR 表示差异/证据生成失败，排障后可重新 verify，不等于合法空差异。
 
-超时、残留进程与中断按 [恢复流程](references/security-recovery.md) 确认停止及实际副作用，再 recover；不能盲重试。PREPARING 也是持久化尝试，恢复后保留原目录并使用新尝试号；recover 按原 phase 检查，测试改源码绝不登记为合法实现。CLEANING 用原 cleanup --confirm 收尾，不调用 run。没有 phase 的旧中断任务禁止推断原阶段，须人工核对现场及旧版本；2.0.0 状态只读兼容，用备份旧 Runner 完成/恢复，不让新版静默改写。
+超时、残留进程与中断按 [恢复流程](references/security-recovery.md) 确认停止及实际副作用，再 recover；不能盲重试。PREPARING 也是持久化尝试，恢复后保留原目录并使用新尝试号；recover 按原 phase 检查，测试改源码绝不登记为合法实现。无污染的验证恢复为 VERIFY_RETRY_READY，直接重跑固定 verify 再 review，不追加模型调用；run 阶段恢复仍需新会话与剩余预算。进程组停止未确认时日志为 unstable，不能当最终证据。CLEANING 用原 cleanup --confirm 收尾，不调用 run。没有 phase 的旧中断任务禁止推断原阶段，须人工核对现场及旧版本；2.0.0 状态只读兼容，用备份旧 Runner 完成/恢复，不让新版静默改写。
 
 通过验收后 memory 只产生含来源、环境、证据和失效条件的知识候选，不自动改 AGENTS.md，不建立平行项目记忆。
 
