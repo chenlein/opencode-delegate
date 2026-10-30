@@ -21,6 +21,25 @@ jobs:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Archive exact tracked source for reproducible review
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.13'
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/review-source"
+          git archive --format=zip --output="$RUNNER_TEMP/review-source/source.zip" HEAD
+          git rev-parse HEAD > "$RUNNER_TEMP/review-source/commit.txt"
+          git rev-parse 'HEAD^{tree}' > "$RUNNER_TEMP/review-source/tree.txt"
+          (cd "$RUNNER_TEMP/review-source" && sha256sum source.zip > SHA256SUMS)
+      - name: Preserve tracked source (no credentials or runtime state)
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.13'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4, pinned
+        with:
+          name: review-source-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/review-source/
+          if-no-files-found: error
+          retention-days: 7
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}

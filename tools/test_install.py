@@ -14,7 +14,9 @@ ROOT = Path(__file__).resolve().parents[1]
 class InstallerTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(prefix='delegate-install-test-')
-        self.home = Path(self.tmp.name)
+        # macOS can return /var/... while the installer returns /private/var/....
+        # Compare filesystem identities, not two spellings of the same directory.
+        self.home = Path(self.tmp.name).resolve()
         self.target = self.home / '.agents/skills/opencode-delegate'
         self.env = {"PATH": os.environ.get("PATH", os.defpath), "HOME": str(self.home),
                     "XDG_CONFIG_HOME": str(self.home / ".config"), "CODEX_HOME": str(self.home / ".codex"),
@@ -59,7 +61,7 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         backup = Path(json.loads(result.stdout)['backup'])
         self.assertEqual((backup / 'scripts/delegate.py').read_bytes(), before)
-        self.assertNotIn(self.target.parent, backup.parents)
+        self.assertNotIn(self.target.parent.resolve(), backup.resolve().parents)
 
     def test_ambiguous_install_locations_require_target(self):
         self.old_install()
@@ -123,8 +125,20 @@ class InstallerTests(unittest.TestCase):
         result = self.run_install('--replace', '--backup-root', str(root))
         self.assertEqual(result.returncode, 0, result.stderr)
         saved = Path(json.loads(result.stdout)['backup'])
-        self.assertIn(root, saved.parents)
+        self.assertIn(root.resolve(), saved.resolve().parents)
         self.assertEqual((saved / 'scripts/delegate.py').read_bytes(), original)
+
+    def test_a08_legal_backup_parent_alias_preserves_files(self):
+        original = self.old_install().read_bytes()
+        real = self.home / 'separate-backups'; real.mkdir()
+        alias = self.home / 'backup-alias'; alias.symlink_to(real, target_is_directory=True)
+        result = self.run_install('--replace', '--backup-root', str(alias))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        saved = Path(json.loads(result.stdout)['backup'])
+        self.assertIn(real.resolve(), saved.resolve().parents)
+        self.assertEqual((saved / 'scripts/delegate.py').read_bytes(), original)
+        self.assertEqual((self.target / 'scripts/delegate.py').read_bytes(), (ROOT / 'opencode-delegate/scripts/delegate.py').read_bytes())
+        self.assertTrue(alias.is_symlink())
 
     def test_a08_install_cannot_replace_ancestor_of_release(self):
         outer = self.home / 'opencode-delegate'
