@@ -1,0 +1,19 @@
+{
+  "task_id": "REPLACE_FROM_STATUS",
+  "contract_sha256": "REPLACE_FROM_STATUS",
+  "snapshot_sha256": "REPLACE_FROM_STATUS_CHECKPOINT_SHA256",
+  "verification_sha256": "REPLACE_FROM_STATUS_VERIFICATION_SHA256",
+  "decision": "needs_fix",
+  "reviewer": "codex-coordinator",
+  "criteria": [
+    {
+      "id": "A1",
+      "result": "blocked",
+      "evidence": [
+        "diff"
+      ],
+      "note": "Replace with independent evidence and semantic assessment; do not rubber-stamp."
+    }
+  ],
+  "rationale": "Replace with independent review rationale."
+}

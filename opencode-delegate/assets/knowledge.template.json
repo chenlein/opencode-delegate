@@ -1,0 +1,8 @@
+{
+  "statement": "Replace with a verified, narrowly scoped conclusion.",
+  "applies_to": "Specify component versions and environment.",
+  "invalidated_by": "Specify source/config/version changes that invalidate this conclusion.",
+  "evidence": [
+    "file:REPLACE_WITH_EXISTING_SOURCE_PATH"
+  ]
+}

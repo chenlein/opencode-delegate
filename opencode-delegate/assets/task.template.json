@@ -1,0 +1,29 @@
+{
+  "schema_version": 2,
+  "project_id": "example-project",
+  "task_id": "review-001",
+  "environment": "local-development",
+  "repo": "/absolute/path/to/repository",
+  "mode": "analyze",
+  "objective": "Analyze the bounded target and cite code evidence; do not modify files.",
+  "non_goals": [
+    "No deployment, credential access, global configuration changes, commits or pushes."
+  ],
+  "allowed_paths": [],
+  "protected_paths": [],
+  "context": [],
+  "acceptance": [
+    {
+      "id": "A1",
+      "description": "Findings cite exact source files and distinguish verified facts from hypotheses."
+    }
+  ],
+  "checks": [],
+  "verification_artifacts": [],
+  "model": "openai/REPLACE_WITH_CONFIGURED_MODEL",
+  "timeout_seconds": 600,
+  "max_attempts": 3,
+  "verification_sources": [],
+  "instruction_sources": [],
+  "max_execution_seconds": 1800
+}

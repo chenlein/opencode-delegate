@@ -1,0 +1,6 @@
+interface:
+  display_name: "OpenCode Delegate"
+  short_description: "Delegate scoped work with session recovery and verified evidence"
+  default_prompt: "Use $opencode-delegate to run one bounded OpenCode task, preserve explicit context, and independently verify the result."
+policy:
+  allow_implicit_invocation: false

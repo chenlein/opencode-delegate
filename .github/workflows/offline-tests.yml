@@ -1,0 +1,34 @@
+name: Offline regression
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.11', '3.13']
+        include:
+          - os: ubuntu-latest
+            python: '3.9'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Offline runner and review regressions
+        run: python -m unittest discover -s opencode-delegate/scripts -p 'test_*.py' -v
+      - name: Installer regression
+        run: python tools/test_install.py
+      - name: Verify package manifest
+        run: python tools/build_release.py --check
+      - name: Installer dry run
+        run: python install.py --dry-run --target "${{ runner.temp }}/skill-install/opencode-delegate"
