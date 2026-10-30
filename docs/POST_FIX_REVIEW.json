@@ -2,7 +2,7 @@
   "version": "2.0.1-rc.3",
   "base_commit": "2270ef1008f635d965a242d6231ba00e48b8985b",
   "runner_sha256": "93737405a74bd399498cac696566b7f8e5c733f36fcd41c03b2b799944bcc244",
-  "manifest_sha256": "ee87f13c8515156e6e1370fbe0628c751998dad879b7d8d546d811ff1061e593",
+  "manifest_sha256": "dd78e8b58cfe24fadf61607468902e34a77e99da69a3855c70f3bf4018b9bd12",
   "local_tests": {
     "runner": 154,
     "installer": 15,
@@ -35,10 +35,11 @@
       "id": "CI01",
       "priority": "P2",
       "status": "fixed",
-      "title": "macOS canonical-path alias assertion incorrectly rejected valid backup",
+      "title": "Canonical-path alias assumptions in installer assertion and worker fault-injection test on macOS",
       "tests": [
         "test_a08_legal_external_backup_is_supported",
-        "test_a08_legal_backup_parent_alias_preserves_files"
+        "test_a08_legal_backup_parent_alias_preserves_files",
+        "test_missing_worker_records_complete_execution_metadata"
       ]
     }
   ],
@@ -51,5 +52,11 @@
     "F15"
   ],
   "live_model_calls": false,
-  "user_machine_modified": false
+  "user_machine_modified": false,
+  "ci_followup": {
+    "failed_commit": "331a3e1f38424e4bc89b29b7d58f6c0b72468e48",
+    "run_id": 41059407939,
+    "cause": "test compared unresolved executable spelling with resolved adapter path; fault not injected",
+    "fix": "canonical identity comparison; force symlink-parent scenario on Linux/macOS; no production behavior change"
+  }
 }

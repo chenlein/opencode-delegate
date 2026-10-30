@@ -54,9 +54,14 @@ class PostfixReviewTests(unittest.TestCase):
 
     def test_missing_worker_records_complete_execution_metadata(self):
         self.init()
+        # Always exercise a parent-path alias, including on Linux. The adapter
+        # resolves the executable, so fault injection must compare identity.
+        alias = self.root / 'worker-parent-alias'
+        alias.symlink_to(self.root, target_is_directory=True)
+        self.binary = alias / self.binary.name
         popen = subprocess.Popen
         def missing(argv, *args, **kwargs):
-            if argv[:2] == [str(self.binary), 'run'] and '--format' in argv:
+            if len(argv) > 1 and Path(argv[0]).resolve() == self.binary.resolve() and argv[1] == 'run' and '--format' in argv:
                 raise PermissionError('injected worker launch permission failure')
             return popen(argv, *args, **kwargs)
         with patch.object(d.subprocess, 'Popen', side_effect=missing):

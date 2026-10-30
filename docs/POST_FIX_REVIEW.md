@@ -13,7 +13,7 @@ rc.2 的 [CI #2](https://github.com/chenlein/opencode-delegate/actions/runs/4105
 rc.3 在这个受核对基线上新增以下复审及 B01 修复。发布内容身份：
 
 - `scripts/delegate.py` SHA-256：`93737405a74bd399498cac696566b7f8e5c733f36fcd41c03b2b799944bcc244`。
-- `MANIFEST.json` SHA-256：`ee87f13c8515156e6e1370fbe0628c751998dad879b7d8d546d811ff1061e593`；覆盖 23 个安装输入，包括本轮新增测试。
+- `MANIFEST.json` SHA-256：`dd78e8b58cfe24fadf61607468902e34a77e99da69a3855c70f3bf4018b9bd12`；覆盖 23 个安装输入，包括本轮新增测试。
 - 本地受测操作系统为 Linux，Python 3.13.5；Git 2.47.3。没有真实 OpenCode/GPT 调用，没有读取或修改用户 Mac。
 
 ## 2. A01–A10 复查结论
@@ -82,3 +82,9 @@ F05/F10/F12/F13/F14/F15 继续由 [Issue #1](https://github.com/chenlein/opencod
 本轮确认的新增程序问题 B01 和 CI01 已修复，在已执行的范围内没有新增未修复 P1/P2 程序反例。该陈述不等于没有未知问题；剩余 F05 本身仍是 P1 真实准入缺口。同账号恶意进程、任意不可信测试/插件、OS 级隔离不在此 Runner 的保证内。
 
 复审依据保持与 [官方资料](SOURCES.md) 一致：Skill 按需加载、职责单一，Codex override 规则受保护；OpenCode 的权限顺序依版本区别处理。认证失败不得以扩大权限解决，测试通过不得代替真实模型验证。
+
+## 6. 最终 CI 的测试可移植性复查
+
+提交 `331a3e1` 的 [CI #4](https://github.com/chenlein/opencode-delegate/actions/runs/41059407939) 又发现新增故障注入测试的一处路径别名假设：`test_missing_worker_records_complete_execution_metadata` 用原始字符串匹配可执行文件，而生产适配器使用规范路径；macOS 上 `/var` 与 `/private/var` 不相等，导致注入没有发生、模拟执行器正常执行，测试却期望退出 4。它不证明生产代码把启动失败当成成功。
+
+已将测试匹配改成两边 Path.resolve() 后比较，并在所有平台主动经父目录符号链接调用，确保 Linux 也覆盖这个条件。没有修改生产运行逻辑或减少断言。该修正归入 CI01 测试路径可移植性问题；重新生成 manifest 后，本地完整 154+15 项再次通过。上文 manifest 哈希对应这份最终测试包；Runner 内容哈希不变。最新远端结果必须读取这个后续提交本身，不能引用失败的 CI #4 作为通过证明。

@@ -20,7 +20,7 @@
     "opencode-delegate/scripts/state_store.py": "f13c26d6a8318abc564a9ec737d7a0ac0236cfb0f58e5a0fa97d9311ee206763",
     "opencode-delegate/scripts/test_delegate.py": "cdd709a5fffe1bca0d00e666cce290bba6cb81c969ff859052d8901311cd1de9",
     "opencode-delegate/scripts/test_lifecycle_fixes.py": "359d91a28468d9e002d993d08a05eae91f46fe99318829d3ab0a3973b7cf9b7f",
-    "opencode-delegate/scripts/test_postfix_review.py": "6b714474e5c4b995fd875870e5cd64d033ed7ce328e15c7a9bfbd40c46ed45be",
+    "opencode-delegate/scripts/test_postfix_review.py": "a4e5e035426a0838f0de742a6532d4d8cebafc53a7537d2ea1a27d0e1933e0ae",
     "opencode-delegate/scripts/test_review_fixes.py": "5d83791ff4ae7e96f9f3fbe315dce916bf45c666aa706348bc5618067bbbe291",
     "opencode-delegate/scripts/verification_support.py": "88781f2e9c2f758c233eb1af2dd6466a3d2a7267fa83344ee0cbcff649725d27",
     "install.py": "29e0bed70749af53f8b0f5ebc06420b40b1d03b99f2a53e5a09cfa41e63c11f0"
