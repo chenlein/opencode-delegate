@@ -4,7 +4,7 @@
 
 当前版本 **2.0.1-rc.4：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
 
-**188 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+**196 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
 
 ## 本轮可靠性修复
 
@@ -14,7 +14,9 @@
 - **累计预算**：执行前与操作意图一起持久化时间预留，完成/恢复按 operation ID 幂等结算。确认未启动才退款；启动后缺少可信耗时证据，保守耗尽剩余预算，不能计零。`total_execution_seconds` 现在是预算扣记值，含保守预留，不代表模型账单或纯实测耗时。
 - **进程组收尾**：父进程正常退出但仍有同组后代，也执行 TERM → 限时等待 → KILL → 再检查。无法确认停止时日志标为 unstable，不发布最终日志哈希，仍保持不确定状态。
 
-完整修复、19 条新增验收测试、复审限制见 [RECOVERY_BUDGET_FIXES.md](docs/RECOVERY_BUDGET_FIXES.md)。上一轮历史见 [POST_FIX_REVIEW.md](docs/POST_FIX_REVIEW.md)。
+原始修复、19 条新增验收测试、复审限制见 [RECOVERY_BUDGET_FIXES.md](docs/RECOVERY_BUDGET_FIXES.md)。上一轮历史见 [POST_FIX_REVIEW.md](docs/POST_FIX_REVIEW.md)。
+
+本次在已发布的 `4797128` 上整合交付包，保留原有状态/预算/进程收尾接口，补齐 worker 完成证据绑定和恢复时日志哈希校验。新增 8 条测试，详见 [交付整合记录](docs/RC4_DELIVERY_INTEGRATION.md)。
 
 横向比较已固定三个上游提交核对，见 [COMPARISON_RECHECK.md](docs/COMPARISON_RECHECK.md)。优先借鉴调用适配、经过审核的 profile/契约生成和简洁摘要；不引入第二套状态机，不照搬自动放权或退出码即验收。
 
@@ -37,7 +39,7 @@ python3 install.py --replace
 
 **rc.1 的已中断任务不要猜测原阶段。** rc.2 的新操作会记录 phase/operation ID/start snapshot；缺少这些字段的旧 RUNNING/VERIFYING/OUTCOME_UNKNOWN 任务不会自动恢复。先保留原版本及现场，人工核对原操作、进程和测试副作用；不能将旧版恢复成功当作验证源码未污染的证据。静止任务可查看，再按新版本建立受控操作。
 
-**rc.3 活动执行升级**：旧运行没有预算预留，恢复时无法证明消耗的部分按剩余预算耗尽处理，不自动免费重跑；保留旧 Runner 与现场。已有原阶段信息的验证中断可按新规则恢复并重新验证，不意味着接受旧结果。
+**rc.3 活动执行升级**：旧运行没有预算预留，恢复时无法证明消耗的部分按剩余预算耗尽处理，不自动免费重跑；保留旧 Runner 与现场。验证中断还必须具备本修订记录的 worker_completion 绑定；缺少绑定的旧任务请固定原 Runner 完成或恢复，不自动采信旧结果。
 
 ## 在 Codex 中调用
 
@@ -129,7 +131,7 @@ python3 tools/benchmark_snapshot.py --files 1000 --bytes 4096
 python3 tools/build_release.py
 ```
 
-当前 173 项 Runner 测试（此前 154 项，加 19 项恢复/预算/进程组与快照计数测试）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
+当前 181 项 Runner 测试（既有 173 项，加 8 项交付整合边界测试）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
 
 | 目录 | 作用 |
 |---|---|

@@ -31,6 +31,7 @@ from lifecycle import begin as begin_operation, start_snapshot as operation_snap
 from handoff import ambient_rule_paths, freeze_instructions, check_instructions, instruction_config_fingerprint, redact_excerpt, failure_packet
 from opencode_adapter import probe, permission_config, runtime_env, normalize_config, check_effective_config, parse_events
 from verification_support import verify_evidence, evidence_valid
+from completion_binding import checked_worker_completion
 
 
 def snapshot(root: Path) -> dict:
@@ -269,7 +270,7 @@ def cmd_run(args) -> int:
         attempt = task / "attempts" / f"{n:03d}"
         s.pop("protocol_error", None)
         s.update(attempts=n, last_attempt=str(attempt.relative_to(task)), runtime=info,
-                 effective_config_sha256=effective_hash, verification=None)
+                 effective_config_sha256=effective_hash, verification=None, worker_completion=None)
         allowance = min(c["timeout_seconds"], max(1, int(remaining)))
         budget = reserve_budget(s, allowance, c.get("max_execution_seconds", 1800))
         begin_operation(task, s, before, "run", "PREPARING", {"budget": budget})
@@ -328,6 +329,14 @@ def cmd_run(args) -> int:
         else:
             s["session_id"] = parsed["session_id"]
             s["status"] = "AWAITING_VERIFY" if parsed["result"]["status"] == "complete" else "BLOCKED"
+            if s["status"] == "AWAITING_VERIFY":
+                s["worker_completion"] = {
+                    "path": str((attempt / "worker-result.json").relative_to(task)),
+                    "sha256": file_hash(attempt / "worker-result.json"), "attempt": n,
+                    "contract_sha256": s["contract_sha256"],
+                    "instruction_manifest_sha256": s["instruction_manifest_sha256"],
+                    "snapshot_sha256": after["sha256"],
+                }
         s["last_errors"] = errors
         s["operation"].update(stage="uncertain" if s["status"] == "OUTCOME_UNKNOWN" else "finished", errors=errors)
         save(task, s, after if s["status"] != "OUTCOME_UNKNOWN" else None)
@@ -350,8 +359,9 @@ def cmd_verify(args) -> int:
         wt = Path(s["worktree"])
         stamp = str(time.time_ns())
         evidence = task / "verification" / stamp
+        binding = checked_worker_completion(task, c, s)
         s["verification"] = None
-        begin_operation(task, s, before, "verify", "VERIFYING")
+        begin_operation(task, s, before, "verify", "VERIFYING", {"worker_completion": dict(binding)})
         evidence.mkdir(parents=True, mode=0o700)
         verification_start = time.monotonic()
         results, errors = [], []
@@ -478,6 +488,11 @@ def cmd_recover(args) -> int:
         if phase == "verify":
             require(s["operation"]["prior_status"] in ("AWAITING_VERIFY", "VERIFY_RETRY_READY", "NEEDS_FIX", "REVIEW_REQUIRED", "EVIDENCE_ERROR"),
                     "Verification recovery has no valid worker/verification origin", 3)
+            if not errors:
+                check_instructions(task, c, s)
+                binding = checked_worker_completion(task, c, s)
+                require(s["operation"].get("worker_completion") == binding,
+                        "Verification recovery lost its original completed-worker binding", 3)
         recover_accounting(task, s, c)
         s["status"] = ("VERIFICATION_MUTATED_SOURCE" if phase == "verify" else "POLICY_VIOLATION") if errors else ("VERIFY_RETRY_READY" if phase == "verify" else "RECOVERED")
         s["operation"].update(stage="reconciled", errors=errors)

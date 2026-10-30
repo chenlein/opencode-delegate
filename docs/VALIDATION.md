@@ -59,6 +59,12 @@ GitHub Actions 配置 Linux/macOS、Python 3.9/3.11/3.13 离线矩阵。这里�
 
 ## rc.4：C01–C03（2026-10-30）
 
-新增 19 项验收：验证恢复完整闭环、保守预算与崩溃幂等结算、真实 POSIX 同组子进程收尾、停止未确认的日志策略、正常路径快照计数。当前 173 Runner + 15 安装 = 188 项离线测试。Python AST、Shell 语法、manifest、临时目录安装校验同时检查。见 [RECOVERY_BUDGET_FIXES.md](RECOVERY_BUDGET_FIXES.md)。远端 CI 必须核对本版本提交，不能继承旧提交结果。
+新增 19 项验收：验证恢复完整闭环、保守预算与崩溃幂等结算、真实 POSIX 同组子进程收尾、停止未确认的日志策略、正常路径快照计数。该次记录为 173 Runner + 15 安装 = 188 项离线测试。Python AST、Shell 语法、manifest、临时目录安装校验同时检查。见 [RECOVERY_BUDGET_FIXES.md](RECOVERY_BUDGET_FIXES.md)。远端 CI 必须核对本版本提交，不能继承旧提交结果。
 
 跨方案只读源码核对见 [COMPARISON_RECHECK.md](COMPARISON_RECHECK.md)，不属于第三方运行时测试或真实目标版本认证。
+
+## rc.4 交付整合（2026-10-31）
+
+在已发布 `4797128`（188 项）上整合交付中的额外边界保护，不整体覆盖远端代码或删除远端测试。新增 `test_delivery_guards.py` 的 8 项，完整重跑结果为 181/181 Runner + 15/15 安装 = 196/196；发布清单、Python AST、Shell 语法和差异检查通过。此为本轮隔离 Linux 结果；本提交的 Linux/macOS CI 以对应 Actions 运行结果为准，不继承 `4797128` 的 CI 成功。
+
+测试使用 mock CLI、临时 Git 和真实本地验证程序，无真实 OpenCode/GPT 或用户 Mac 访问。精确远端基线、整合取舍、兼容性边界见 [RC4_DELIVERY_INTEGRATION.md](RC4_DELIVERY_INTEGRATION.md)。

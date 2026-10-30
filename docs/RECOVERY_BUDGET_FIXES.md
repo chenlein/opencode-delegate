@@ -52,3 +52,7 @@ python3 -m unittest discover -s opencode-delegate/scripts -p 'test_*.py' -v
 python3 tools/test_install.py
 python3 tools/build_release.py --check
 ```
+
+## 交付整合补充
+
+后续整合在 `4797128` 上保留本文的恢复状态和预算接口，增加已完成 worker-result 的固定身份及哈希，在首次验证和验证恢复时检查；恢复还复查规则，不能采信漂移结果。预算恢复按精确 operation/contract 绑定，并核对最终 stdout/stderr 文件哈希。无法读取的损坏记录不能退款，按未知消耗耗尽余量；身份不符或最终日志变化仍拒绝恢复。完整增量见 [交付整合记录](RC4_DELIVERY_INTEGRATION.md)。

@@ -7,7 +7,7 @@ remaining task allowance; PREPARING proves that no spawn was possible.
 from __future__ import annotations
 import math
 from pathlib import Path
-from delegate_core import require, read_json, MAX_LOG, file_hash
+from delegate_core import require, read_json, MAX_LOG, file_hash, GuardError
 
 
 def seconds(value) -> float:
@@ -87,7 +87,21 @@ def recover_accounting(task: Path, state: dict, contract: dict) -> None:
                 "Invalid attempt binding for budget recovery", 3)
         path = task / rel / "execution.json"
         if path.exists() or path.is_symlink():
-            execution = read_json(path, MAX_LOG)
-            evidence_hash = file_hash(path)
+            # A torn/missing record cannot refund a reservation. Wrong identities
+            # and changed final logs still stop recovery, preserving the evidence.
+            try:
+                execution = read_json(path, MAX_LOG)
+                require(isinstance(execution, dict), "Malformed execution record", 3)
+                evidence_hash = file_hash(path)
+            except (GuardError, OSError, UnicodeError, ValueError) as exc:
+                execution = None
+                op["budget"]["recovery_evidence_error"] = type(exc).__name__
+            if execution is not None and execution.get("process_group_quiescent") is True:
+                for name, field in (("events.ndjson", "stdout_sha256"), ("stderr.log", "stderr_sha256")):
+                    log = path.parent / name
+                    require(log.is_file() and not log.is_symlink(),
+                            "Final execution log missing or unsafe: " + name, 3)
+                    require(file_hash(log) == execution.get(field),
+                            "Final execution log changed: " + name, 3)
     settle(state, execution, never_started=never_started, task_limit=limit,
            evidence_sha256=evidence_hash)

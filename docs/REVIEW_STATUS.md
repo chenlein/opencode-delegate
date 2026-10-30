@@ -44,3 +44,7 @@ F05/F10/F12/F13/F14/F15 仍开放。本次没有真实 OpenCode/GPT、用户 Mac
 ## 第三轮 C01–C03（2.0.1-rc.4）
 
 三个 P2 的已复现路径修复并增加完整验收测试：验证恢复后无需重调模型；跨状态写失败的预算幂等结算；父进程正常退出后的残留组收尾。详见 [RECOVERY_BUDGET_FIXES.md](RECOVERY_BUDGET_FIXES.md)。当前 173 Runner + 15 安装 = 188 项离线测试；不据此扩大真实 CLI 认证。比较核对与下一阶段建议见 [COMPARISON_RECHECK.md](COMPARISON_RECHECK.md)。
+
+## rc.4 交付整合补充（2026-10-31）
+
+以远端 `4797128` 为基线补齐先前交付中的完成结果绑定、验证恢复规则复查、执行日志哈希及损坏记录保守结算；保留 `VERIFY_RETRY_READY` 和原进程组/预算接口。原有 188 项加 8 项回归，共 196 项。详见 [交付整合记录](RC4_DELIVERY_INTEGRATION.md)。真实认证项仍未关闭。

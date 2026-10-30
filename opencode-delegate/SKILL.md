@@ -67,3 +67,5 @@ ACCEPTED 不自动合并。`export --task "$TASK" --output /absolute/delivery.zi
 通过验收后 memory 只产生含来源、环境、证据和失效条件的知识候选，不自动改 AGENTS.md，不建立平行项目记忆。
 
 汇报准确状态、修改、独立验证证据、风险和交付位置；区分执行器声明与已验证事实，用量缺失标未知。mock 通过不代表真实 OpenCode/GPT/macOS 已认证。
+
+rc.4 交付整合：verify 与验证恢复会核对 worker_completion 和规则；缺少完成结果绑定的旧任务须保留原 Runner，不自动采信或迁移。预算恢复不以损坏记录或变化日志退款。状态名称仍为 VERIFY_RETRY_READY，详情按需读 references/protocol.md。

@@ -62,3 +62,9 @@ usage 缺失为 unknown、片段为 partial；不推算账单。工具无法得�
 预算在 PREPARING 状态提交时预留与本次 timeout 相同的额度；execution.json 绑定 operation_id 与 contract_sha256。完整且确认进程组停止的结果按 observed_seconds 结算（含收尾耗时，可能略超时）；保存中断后恢复用同一记录幂等结算，不重复扣记。确认停留 PREPARING/preparing 才能证明尚未 spawn 并释放预留；RUNNING/starting 不能这样推断。缺少记录或停止未确认的运行保守耗尽剩余额度；旧活动 run 没有预留协议时也不假定零消耗。未知预算不靠换 task_id 绕过。
 
 同组残留后代与超时共用 TERM（最多 2 秒）→ KILL（最多 1 秒）收尾。组仍存在（含可能未回收的僵尸）时保守标为不确定；日志 hash=null、log_evidence=unstable，详细失败包暂不共享这些日志。监督程序退出不证明脱组 daemon/远端会话已停止；恢复仍需人工确认。
+
+### rc.4 完成结果绑定与交付整合
+
+保留 `VERIFY_RETRY_READY`，不消耗 worker 尝试来重验。成功执行记录 `worker_completion`（结果路径/哈希、attempt、contract、instruction manifest、源码快照）；首次 verify 和无污染的验证恢复均复核结果身份，验证 operation 固定同一绑定。恢复时新增或变化的规则也会阻断。缺少绑定的旧任务由其原 Runner 完成，不自动迁移。
+
+预算恢复只对 operation/contract 相符、停止已确认且最终日志哈希有效的执行记录按观测时间结算。记录缺失/损坏保守耗尽剩余预算，不计零；身份冲突、最终日志缺失或变化则停止恢复、不退款。保留远端已有 operation.budget 和 log_evidence 字段，不引入平行账本。
