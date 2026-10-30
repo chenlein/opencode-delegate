@@ -2,11 +2,13 @@
 
 **Codex 负责规划与验收，OpenCode 执行一个有界任务。** 使用隔离 Git worktree、冻结任务契约、明确会话 ID 和独立测试证据，不把两个 GPT 会话当成共享记忆，也不把 CLI 退出 0 当成验收通过。
 
-当前版本 **2.0.1-rc.2：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
+当前版本 **2.0.1-rc.3：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
 
-**160 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+**169 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
 
 ## 本轮可靠性修复
+
+`rc.3` 补齐进程无法启动时的日志哈希、退出码和耗时；失败证据预览与增量交接不再因缺字段中断。修正 macOS 安装测试的 `/var` 与 `/private/var` 路径别名比较，并增加可跨平台复现的父目录符号链接正向用例；没有放宽安装保护。
 
 A01–A10 的程序级反例已转成验收回归：操作阶段与起始快照持久化、PREPARING 尝试预留、CLEANING 清理意图、AGENTS.override.md 保护、最终规则漂移复查、配置语义比较、最终消息绑定、安装路径规范化和测试环境隔离。具体证据与适用边界见 [修复清单](docs/ROUND2_FIXES.md)。
 
@@ -112,7 +114,7 @@ python3 tools/benchmark_snapshot.py --files 1000 --bytes 4096
 python3 tools/build_release.py
 ```
 
-当前 146 项 Runner 测试（70 既有场景、40 首轮反例、36 本轮回归）和 14 项安装测试（8 既有、6 本轮）通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。
+当前 154 项 Runner 测试（70 既有场景、40 首轮反例、36 第二轮回归、8 修复后复审）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
 
 | 目录 | 作用 |
 |---|---|
@@ -120,6 +122,7 @@ python3 tools/build_release.py
 | opencode-delegate/scripts/ | Runner、独立模块、离线回归 |
 | opencode-delegate/assets/ | 契约、裁决、检查点、知识与行为评测模板 |
 | docs/REVIEW_STATUS.md | F01–F18 状态及剩余准入项 |
+| docs/POST_FIX_REVIEW.md | 修复后复审、新发现、修复证据与未关闭边界 |
 | docs/VALIDATION.md | 实际已执行验证，不把计划当结果 |
 | docs/LIVE_VALIDATION.md | 精确版本认证与真实对照方案 |
 | docs/SOURCES.md | 官方规范和设计依据 |

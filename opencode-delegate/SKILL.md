@@ -5,7 +5,7 @@ description: Delegate one bounded repository task from Codex to local OpenCode w
 
 # OpenCode Delegate
 
-Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.2；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
+Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.3；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
 
 ## 选择与边界
 

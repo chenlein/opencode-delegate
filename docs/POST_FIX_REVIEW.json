@@ -1,0 +1,55 @@
+{
+  "version": "2.0.1-rc.3",
+  "base_commit": "2270ef1008f635d965a242d6231ba00e48b8985b",
+  "runner_sha256": "93737405a74bd399498cac696566b7f8e5c733f36fcd41c03b2b799944bcc244",
+  "manifest_sha256": "ee87f13c8515156e6e1370fbe0628c751998dad879b7d8d546d811ff1061e593",
+  "local_tests": {
+    "runner": 154,
+    "installer": 15,
+    "passed": 169
+  },
+  "round2": {
+    "A01": "programmatic_regressions_passed",
+    "A02": "programmatic_regressions_passed",
+    "A03": "programmatic_regressions_passed",
+    "A04": "programmatic_regressions_passed",
+    "A05": "programmatic_regressions_passed",
+    "A06": "programmatic_regressions_passed",
+    "A07": "programmatic_regressions_passed",
+    "A08": "programmatic_regressions_passed",
+    "A09": "programmatic_regressions_passed",
+    "A10": "programmatic_regressions_passed"
+  },
+  "new_findings": [
+    {
+      "id": "B01",
+      "priority": "P2",
+      "status": "fixed",
+      "title": "Spawn errors lacked log hashes and elapsed time; failure handoff raised KeyError",
+      "tests": [
+        "test_missing_verifier_preserves_failure_handoff",
+        "test_missing_worker_records_complete_execution_metadata"
+      ]
+    },
+    {
+      "id": "CI01",
+      "priority": "P2",
+      "status": "fixed",
+      "title": "macOS canonical-path alias assertion incorrectly rejected valid backup",
+      "tests": [
+        "test_a08_legal_external_backup_is_supported",
+        "test_a08_legal_backup_parent_alias_preserves_files"
+      ]
+    }
+  ],
+  "open_live_gates": [
+    "F05",
+    "F10",
+    "F12",
+    "F13",
+    "F14",
+    "F15"
+  ],
+  "live_model_calls": false,
+  "user_machine_modified": false
+}

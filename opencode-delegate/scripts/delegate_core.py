@@ -10,7 +10,7 @@ import tempfile
 from typing import Any
 
 
-VERSION = "2.0.1-rc.2"
+VERSION = "2.0.1-rc.3"
 
 
 STATE_SCHEMA_VERSION = 2

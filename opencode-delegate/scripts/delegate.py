@@ -120,7 +120,15 @@ def execute(argv: list[str], cwd: Path, env: dict[str, str], timeout: int, out: 
             p = subprocess.Popen(argv, cwd=str(cwd), env=env, stdin=subprocess.DEVNULL,
                                  stdout=stdout, stderr=stderr, start_new_session=True)
         except OSError as e:
-            result.update(exit_code=127, reason="spawn_error", error=str(e))
+            # A launch failure is still an observed execution attempt. Keep the
+            # same evidence shape as a started process so verification/failure
+            # handoff never mistakes absent metadata for a successful empty log.
+            stderr.write(("Process could not start: " + str(e) + "\n").encode("utf-8", errors="replace"))
+            stdout.flush()
+            stderr.flush()
+            result.update(exit_code=127, reason="spawn_error", error=str(e),
+                          elapsed_seconds=round(time.monotonic() - start, 3),
+                          stdout_sha256=file_hash(out), stderr_sha256=file_hash(err))
             return result
         result["pid"] = p.pid
         try:
