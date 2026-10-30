@@ -1,25 +1,27 @@
 {
-  "version": "2.0.1-rc.1",
+  "version": "2.0.1-rc.2",
   "sha256": {
-    "opencode-delegate/SKILL.md": "a9cce7ee9222687cb3ed6d3a6b274363892a0b9b96b78f4be69ed5d8a629d37d",
+    "opencode-delegate/SKILL.md": "a9bd390dc73711e0f166e51121ca212fa5320baf683a756aa4d3c32323843f8d",
     "opencode-delegate/agents/openai.yaml": "1c5d7e5539025ef2e7ffd092b868e3d639f9de48a287dd713a4e0040e9cd0e08",
     "opencode-delegate/assets/behavior-evals.json": "4bc3187f24db28e706c2e5ce932a3a19b1a19869957a7cba9342e0ccdd048928",
     "opencode-delegate/assets/handoff.template.md": "f1ca7b878c5a714cb9add21f5ba6be9cbdb92a72ccf934ca66b60fe172943807",
     "opencode-delegate/assets/knowledge.template.json": "b35f11803c4d998bef240c1b7964901d01f35dccdf2e62075ba2e2e7cd47d4f0",
     "opencode-delegate/assets/review.template.json": "7a29014a2ce5c02001e2291fea9ecbfd8a5cb9410108e132c8929ca874baae6f",
     "opencode-delegate/assets/task.template.json": "d1b19007ef5cd2cc6ca2c6244818dea2f88723bbb3361970df2cb76fef4babff",
-    "opencode-delegate/references/protocol.md": "4c2404640eaa7c09bec6a5551ccd019e46669788fa5df1a7a0813e4b93401e43",
-    "opencode-delegate/references/security-recovery.md": "0f11144e99874e456ae09ea44810a5a307874f5b0954071b927d4ed87383b0a5",
-    "opencode-delegate/scripts/delegate.py": "7c34e10676e40662a23833b9bb43339adaac94340359a61e13e0fa445963bb36",
+    "opencode-delegate/references/protocol.md": "c9719d869d182b403297b8957dea91bc5259a0e7735c5bff2206b103b3589216",
+    "opencode-delegate/references/security-recovery.md": "5968a49cc7b1a1f50915090346f005e0dd0d7c9ee422d08fa57a849d8ff86529",
+    "opencode-delegate/scripts/delegate.py": "708abc2f93057dbfbb52ef71b4272c280f18dcc04e81b44cbae8df7b8d5b9b62",
     "opencode-delegate/scripts/delegate.sh": "56314d3b9a0f2992c3c800680853623216e67a53de942c45171c293e5cba5726",
-    "opencode-delegate/scripts/delegate_core.py": "c44dc09a3a2cec9c67fe16281d53cd1279f1e07fbfb824dc0068331adb7d431a",
-    "opencode-delegate/scripts/handoff.py": "d9de68855e67fa07100e51ce01a61725f366c25d4de306388b15dbd6c7aefaa5",
-    "opencode-delegate/scripts/opencode_adapter.py": "f2e34bd0c28490e4e670af85abb3e09a2d9367f6de4448260dc7f215fde422f8",
+    "opencode-delegate/scripts/delegate_core.py": "73a9e8fadb21f39f9549052daf6faded2f99510cac8859d735748ef3b1c11de0",
+    "opencode-delegate/scripts/handoff.py": "1d90ea8e8a4eac11c2b967dc4053cad6394bd3a9f9e53f42dbd20d64b57207fd",
+    "opencode-delegate/scripts/lifecycle.py": "383ecf17c2b8977c4a791de63bc662ee617ae28061b33a840ede9bcd243057df",
+    "opencode-delegate/scripts/opencode_adapter.py": "9683a32586ef9ef7598799ece78e219892c7dce85a75ca52f829266df4c81af9",
     "opencode-delegate/scripts/path_policy.py": "7b613368f8c503a11fce293a7d419572399bd7581116eeba1c403a91aca8192d",
-    "opencode-delegate/scripts/state_store.py": "a561eb9cc66e83382438b77b5e894cf13226d0db50291e57b3003cdb6120fd45",
-    "opencode-delegate/scripts/test_delegate.py": "0a1e412cf3941a949f795334180d8ecb4785049335bf41cdc33d77854ff18a8c",
+    "opencode-delegate/scripts/state_store.py": "f13c26d6a8318abc564a9ec737d7a0ac0236cfb0f58e5a0fa97d9311ee206763",
+    "opencode-delegate/scripts/test_delegate.py": "cdd709a5fffe1bca0d00e666cce290bba6cb81c969ff859052d8901311cd1de9",
+    "opencode-delegate/scripts/test_lifecycle_fixes.py": "359d91a28468d9e002d993d08a05eae91f46fe99318829d3ab0a3973b7cf9b7f",
     "opencode-delegate/scripts/test_review_fixes.py": "5d83791ff4ae7e96f9f3fbe315dce916bf45c666aa706348bc5618067bbbe291",
     "opencode-delegate/scripts/verification_support.py": "88781f2e9c2f758c233eb1af2dd6466a3d2a7267fa83344ee0cbcff649725d27",
-    "install.py": "7e8ac342e5172f7ff7cc826fbb4f75a7f4a9fdad6d3bd4a8adf85116c5e530b0"
+    "install.py": "29e0bed70749af53f8b0f5ebc06420b40b1d03b99f2a53e5a09cfa41e63c11f0"
   }
 }

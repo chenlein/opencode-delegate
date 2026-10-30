@@ -4,7 +4,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 from typing import Any
-from delegate_core import require, file_hash, read_text, read_json, canonical, digest, MAX_LOG
+from delegate_core import require, file_hash, read_text, read_json, canonical, digest, MAX_LOG, RULE_NAMES
 from path_policy import secret_path
 
 
@@ -12,13 +12,18 @@ def ambient_rule_paths(repo: Path, wt: Path) -> list[Path]:
     candidates = set()
     for root in (repo, wt):
         for parent in root.parents:
-            for name in ("AGENTS.md", "CLAUDE.md"):
+            for name in ("AGENTS.md", "AGENTS.override.md", "CLAUDE.md"):
                 p = parent / name
                 if p.is_file() or p.is_symlink():
                     candidates.add(p.absolute())
     config = Path(os.environ.get("XDG_CONFIG_HOME", str(Path.home() / ".config"))) / "opencode/AGENTS.md"
     if config.is_file() or config.is_symlink():
         candidates.add(config.absolute())
+    codex_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))).expanduser()
+    for name in ("AGENTS.md", "AGENTS.override.md"):
+        p = codex_home / name
+        if p.is_file() or p.is_symlink():
+            candidates.add(p.absolute())
     return sorted(candidates, key=str)
 
 
@@ -30,7 +35,7 @@ def freeze_instructions(c: dict, repo: Path, wt: Path, baseline: dict) -> list[d
     require(not missing, "Declare/review ambient rules in instruction_sources before delegation: " + ", ".join(missing), 3)
     entries = []
     local = {x["path"] for x in c["context"] if x["kind"] == "rule"}
-    local |= {p for p in baseline["files"] if PurePosixPath(p).name.lower() in ("agents.md", "claude.md")}
+    local |= {p for p in baseline["files"] if PurePosixPath(p).name.lower() in RULE_NAMES}
     for rel in sorted(local):
         p = wt / rel
         require(p.is_file() and not p.is_symlink(), "Unsafe rule source: " + rel)

@@ -10,7 +10,7 @@ import tempfile
 from typing import Any
 
 
-VERSION = "2.0.1-rc.1"
+VERSION = "2.0.1-rc.2"
 
 
 STATE_SCHEMA_VERSION = 2
@@ -34,7 +34,10 @@ MAX_FILES = 100000
 MAX_BYTES = 2 * 1024 * 1024 * 1024
 
 
-PROTECTED_NAMES = {"agents.md", "claude.md", "opencode.json", "opencode.jsonc", ".gitignore", ".gitattributes", ".gitmodules"}
+RULE_NAMES = {"agents.md", "agents.override.md", "claude.md"}
+
+
+PROTECTED_NAMES = RULE_NAMES | { "opencode.json", "opencode.jsonc", ".gitignore", ".gitattributes", ".gitmodules"}
 
 
 PROTECTED_PARTS = {".git", ".codex", ".agents", ".opencode", ".claude", ".ssh", ".aws"}
@@ -43,7 +46,7 @@ PROTECTED_PARTS = {".git", ".codex", ".agents", ".opencode", ".claude", ".ssh", 
 SECRET_NAMES = {"id_rsa", "id_ed25519", "credentials", "auth.json"}
 
 
-BAD_STATES = {"POLICY_VIOLATION", "VERIFICATION_MUTATED_SOURCE", "ACCEPTED", "REJECTED", "OUTCOME_UNKNOWN", "RUNNING", "VERIFYING", "ARCHIVED", "EVIDENCE_ERROR"}
+BAD_STATES = {"POLICY_VIOLATION", "VERIFICATION_MUTATED_SOURCE", "ACCEPTED", "REJECTED", "OUTCOME_UNKNOWN", "RUNNING", "VERIFYING", "ARCHIVED", "EVIDENCE_ERROR", "PREPARING", "CLEANING"}
 
 
 PRELUDE = """Execute ONE bounded task for the Codex coordinator. Do not orchestrate agents.

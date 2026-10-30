@@ -1,3 +1,13 @@
+# 2.0.1-rc.2 验证记录
+
+日期：2026-10-30。基于远端 d4ac2af 的原始文件树 `211c967bcd9f806435fcaaff9ee1a56e9500bef7`，先核对源码再修复。
+
+本地 Linux/Python 3.13.5/Git 2.47.3：146 项 Runner 测试与 14 项安装测试通过，共 160。包含真实临时 Git 仓库、模拟 OpenCode、受控本地测试进程以及文件/状态写入故障注入。发布 manifest 与语法检查另行校验，不算进用例数。真实 OpenCode/GPT 与用户 Mac 没有运行。
+
+CI 使用既有 Ubuntu/macOS 矩阵。结果必须以本次提交的 GitHub Actions 为准；不能把 rc.1 的 CI 通过继承为 rc.2 结果。后续复审见 [修复清单](ROUND2_FIXES.md) 与对应提交记录。
+
+## 历史 rc.1 记录（不代表 rc.2 已完成真实认证）
+
 # 实际验证记录 — 2.0.1-rc.1
 
 日期 2026-10-30；Linux x86_64、Python 3.13.5、Git 2.47.3。

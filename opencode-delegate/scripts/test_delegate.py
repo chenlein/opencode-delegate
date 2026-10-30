@@ -77,6 +77,16 @@ class RunnerTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(prefix="opencode-delegate-test-")
         self.root = Path(self.tmp.name)
+        home = self.root / "home"
+        home.mkdir()
+        env = {"PATH": os.environ.get("PATH", os.defpath), "HOME": str(home),
+               "XDG_CONFIG_HOME": str(home / ".config"), "XDG_DATA_HOME": str(home / ".local/share"),
+               "XDG_STATE_HOME": str(home / ".local/state"), "XDG_CACHE_HOME": str(home / ".cache"),
+               "CODEX_HOME": str(home / ".codex"), "PYTHONDONTWRITEBYTECODE": "1",
+               "MOCK_SCENARIO": "ok", "MOCK_VERSION": "1.2.0", "MOCK_LOG": str(self.root / "calls.json")}
+        self.env_patch = patch.dict(os.environ, env, clear=True)
+        self.env_patch.start()
+        self.addCleanup(self.env_patch.stop)
         self.repo = self.root / "repo"
         self.repo.mkdir()
         self.git("init", "-q")
@@ -98,8 +108,6 @@ class RunnerTests(unittest.TestCase):
                          "acceptance": [{"id": "A1", "description": "File content is fixed"}], "checks": [],
                          "verification_artifacts": [], "model": "openai/test-model", "timeout_seconds": 30, "max_attempts": 3}
         self.task = None
-        self.env_patch = patch.dict(os.environ, {"MOCK_SCENARIO": "ok", "MOCK_VERSION": "1.2.0", "MOCK_LOG": str(self.root / "calls.json")}, clear=False)
-        self.env_patch.start()
         self.old_umask = os.umask(0o077)
 
     def tearDown(self):

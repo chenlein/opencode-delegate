@@ -5,7 +5,7 @@ description: Delegate one bounded repository task from Codex to local OpenCode w
 
 # OpenCode Delegate
 
-Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.1；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
+Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.2；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
 
 ## 选择与边界
 
@@ -17,7 +17,7 @@ worktree 与工具权限不是 OS 沙箱；相同 GPT 模型不共享记忆，�
 
 1. 执行 `python3 <SKILL_DIR>/scripts/delegate.py doctor`。它只探测 CLI，不调用模型、不证明兼容。阅读 [权限与恢复](references/security-recovery.md)。真实试用须明确认可未认证状态。
 2. 阅读 [任务协议](references/protocol.md)，复制 `assets/task.template.json` 到仓库外，填写实际项目/任务/环境、目标/非目标、模型、允许文件、验收项和固定检查。
-3. 审阅项目规则。`context.kind=rule`、AGENTS/CLAUDE 与 `verification_sources` 冻结保护；外部规则通过 `instruction_sources` 声明来源与作用域。不发送完整聊天或秘密；区分事实与假设。
+3. 审阅项目规则。`context.kind=rule`、AGENTS.md/AGENTS.override.md/CLAUDE.md 与 `verification_sources` 冻结保护；外部规则通过 `instruction_sources` 声明来源与作用域。不发送完整聊天或秘密；区分事实与假设。
 4. 审核验证命令及其测试、配置、依赖断言和副作用。外部检查必须声明可信测试源；`trusted_inline` 仅用于已审核且自包含的 Python -c，不用于隐藏可变测试入口。
 5. 源仓库必须干净；不自动 stash、commit、reset 或复制未知修改。init 创建独立 detached worktree。含敏感命名文件或符号链接的工作区会被拒绝。
 
@@ -50,11 +50,11 @@ python3 "$RUNNER" status --task "$TASK"
 python3 "$RUNNER" review --task "$TASK" --review /absolute/review.json
 ```
 
-只运行已审核获授权的测试。status 默认不扫描；需要完整指纹核对时加 --check-worktree。REVIEW_REQUIRED 仍不是通过。
+只运行已审核获授权的测试。status 可在写操作持锁期间读取最后已提交状态，默认不扫描；--check-worktree 遇运行中任务会明确跳过。REVIEW_REQUIRED 仍不是通过。
 
 Codex 根据原目标、代码、反例及可信测试独立判断，用 `assets/review.template.json` 绑定当前契约/源码/验证哈希。失败测试可支持 fail，不能支持 pass；测试必须关联该验收项。不能修改原测试门槛来使实现通过。
 
-只有固定检查和语义条目全部通过、证据未变，才 ACCEPTED。执行器声明不是测试证明。分析任务没有自动测试时仍需要有代码/差异证据的语义审查。
+review、memory、export 均复查冻结规则来源。只有固定检查和语义条目全部通过、证据未变，才 ACCEPTED。执行器声明不是测试证明。分析任务没有自动测试时仍需要有代码/差异证据的语义审查。
 
 ACCEPTED 不自动合并。`export --task "$TASK" --output /absolute/delivery.zip` 导出新增/修改/删除及哈希。`cleanup --task "$TASK"` 仅预览；用户授权后才 --confirm，只移除完整导出且快照匹配的终态 worktree，保留证据。
 
@@ -62,7 +62,7 @@ ACCEPTED 不自动合并。`export --task "$TASK" --output /absolute/delivery.zi
 
 越界、HEAD/index 改动或验证修改源码时保留现场，不 reset 或篡改证据。EVIDENCE_ERROR 表示差异/证据生成失败，排障后可重新 verify，不等于合法空差异。
 
-超时、残留进程与中断按 [恢复流程](references/security-recovery.md) 确认停止及实际副作用，再 recover；不能盲重试。2.0.0 状态只读兼容，用备份旧 Runner 完成/恢复，不让新版静默改写。
+超时、残留进程与中断按 [恢复流程](references/security-recovery.md) 确认停止及实际副作用，再 recover；不能盲重试。PREPARING 也是持久化尝试，恢复后保留原目录并使用新尝试号；recover 按原 phase 检查，测试改源码绝不登记为合法实现。CLEANING 用原 cleanup --confirm 收尾，不调用 run。没有 phase 的旧中断任务禁止推断原阶段，须人工核对现场及旧版本；2.0.0 状态只读兼容，用备份旧 Runner 完成/恢复，不让新版静默改写。
 
 通过验收后 memory 只产生含来源、环境、证据和失效条件的知识候选，不自动改 AGENTS.md，不建立平行项目记忆。
 

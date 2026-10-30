@@ -2,9 +2,15 @@
 
 **Codex 负责规划与验收，OpenCode 执行一个有界任务。** 使用隔离 Git worktree、冻结任务契约、明确会话 ID 和独立测试证据，不把两个 GPT 会话当成共享记忆，也不把 CLI 退出 0 当成验收通过。
 
-当前版本 **2.0.1-rc.1：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
+当前版本 **2.0.1-rc.2：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
 
-**118 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+**160 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+
+## 本轮可靠性修复
+
+A01–A10 的程序级反例已转成验收回归：操作阶段与起始快照持久化、PREPARING 尝试预留、CLEANING 清理意图、AGENTS.override.md 保护、最终规则漂移复查、配置语义比较、最终消息绑定、安装路径规范化和测试环境隔离。具体证据与适用边界见 [修复清单](docs/ROUND2_FIXES.md)。
+
+`status` 可在运行中读取最后已提交的状态代号，不会启动第二份执行。运行时的 `--check-worktree` 明确跳过扫描，而不是声称拿到了实时一致的源码快照。
 
 ## 安装与升级
 
@@ -22,6 +28,8 @@ python3 install.py --replace
 新安装默认 `~/.agents/skills/opencode-delegate`；识别已有 `~/.codex/skills/opencode-delegate`。两处都存在时必须显式选择 --target，不自动删除。旧版备份在 `~/.local/share/opencode-delegate/skill-backups/`，不进入技能扫描目录。
 
 **有 2.0.0 活动任务时不要直接迁移。** 新 Runner 只读查看旧状态；用备份旧 Runner 完成/恢复，再建立新任务。安装器发现旧活动任务会阻止覆盖，明确保留原 Runner 后才使用 --preserve-legacy-runner。自定义状态目录通过 --state-root 指定。[协议与升级](opencode-delegate/references/protocol.md)
+
+**rc.1 的已中断任务不要猜测原阶段。** rc.2 的新操作会记录 phase/operation ID/start snapshot；缺少这些字段的旧 RUNNING/VERIFYING/OUTCOME_UNKNOWN 任务不会自动恢复。先保留原版本及现场，人工核对原操作、进程和测试副作用；不能将旧版恢复成功当作验证源码未污染的证据。静止任务可查看，再按新版本建立受控操作。
 
 ## 在 Codex 中调用
 
@@ -84,7 +92,7 @@ python3 "$RUNNER" cleanup --task "$TASK"           # 仅预览
 python3 "$RUNNER" cleanup --task "$TASK" --confirm # 必须明确授权
 ```
 
-导出包含新增/修改文件内容、删除清单及哈希，不自动应用。清理只移除已审查终态、导出完整、快照一致且进程已停止的托管 worktree，保留证据；不清理主仓或未知状态。
+导出包含新增/修改文件内容、删除清单及哈希，不自动应用。清理先持久化 CLEANING 意图与完整导出绑定，再移除托管 worktree，最后提交 ARCHIVED。删除完成但状态提交中断后，可重跑同一条 `cleanup --confirm` 收尾。导出损坏、路径重新出现、Git 注册残留或没有清理意图的目录丢失仍会阻断；不扩大删除范围、不清理主仓或未知状态。
 
 ## 安全限制
 
@@ -104,7 +112,7 @@ python3 tools/benchmark_snapshot.py --files 1000 --bytes 4096
 python3 tools/build_release.py
 ```
 
-原有 70 个回归场景已适配更严格协议，新增 40 个审查反例与 8 个安装器测试。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。
+当前 146 项 Runner 测试（70 既有场景、40 首轮反例、36 本轮回归）和 14 项安装测试（8 既有、6 本轮）通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。
 
 | 目录 | 作用 |
 |---|---|

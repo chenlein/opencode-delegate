@@ -41,3 +41,14 @@ EVIDENCE_ERROR 可在排除 Git/IO 故障后重新 verify；缺补丁不等于�
 ## 清理
 
 export 不合并、提交、推送。cleanup 默认预览；只有明确 --confirm、已审查终态、导出完整未变、快照一致、进程停止时，才移除本工具创建的 worktree，保留状态和证据。运行中/不确定任务不得清理，主仓和未知目录不在清理范围。
+
+
+## rc.2 阶段恢复补充
+
+PREPARING 表示已预留尝试且可能尚未启动；RUNNING/VERIFYING/OUTCOME_UNKNOWN 必须依据 operation.phase 和 start_sha256 检查。即使没有 verification.json，也不能放宽测试不得改源码的规则；已经记录的违规不可因文件恢复原样而抹除。未启动尝试同样需要显式确认现场，不自动删除/重用 attempts 目录。
+
+CLEANING 的已验证导出必须仍完好。工作区已删除且 Git 注册已消失时，cleanup --confirm 只补交 ARCHIVED；原路径重新出现时不自动清理。Git 部分删除留下注册时停止，保留证据并人工核对，不自动全局 prune。
+
+旧 rc.1 中断任务没有可信 phase，不使用猜测恢复。保留旧代码/日志做人工核对，尤其不能把 rc.1 的 recover 结果当作测试未改源码的证明。
+
+受限 edit 策略保守保留所有大小写 AGENTS.* 与 CLAUDE.* 名称；真实 CLI 的前置拒绝仍需精确版本认证。实际自定义 fallback/配置指令须显式声明；此清单不等于自动解析全部 Codex/OpenCode 配置。

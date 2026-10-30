@@ -49,11 +49,17 @@ def main():
         raise RuntimeError("Target must be a non-symlink directory named opencode-delegate")
     if target.exists() and not target.is_dir():
         raise RuntimeError("Target exists and is not a directory")
-    backup_root = Path(a.backup_root).expanduser().absolute()
-    if target == root / "opencode-delegate" or root in target.parents:
+    target = target.resolve()
+    backup_root = Path(a.backup_root).expanduser().resolve()
+    if target == root or root in target.parents or target in root.parents:
         raise RuntimeError("Refusing to install over the unpacked release")
-    if target in backup_root.parents or backup_root == target or target.parent == backup_root or target.parent in backup_root.parents:
-        raise RuntimeError("Backup must be outside the skill-discovery directory")
+    discovery_roots = {p.parent.resolve() for p in candidates}
+    discovery_roots.add(target.parent)
+    discovery_roots.add((Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))).expanduser() / "skills").resolve())
+    if any(backup_root == scan or scan in backup_root.parents for scan in discovery_roots):
+        raise RuntimeError("Backup must be outside every known skill-discovery directory")
+    if backup_root == root or root in backup_root.parents:
+        raise RuntimeError("Backup must be outside the unpacked release")
     legacy = []
     state_root = Path(a.state_root).expanduser()
     for state_file in state_root.glob("*/*/state.json"):

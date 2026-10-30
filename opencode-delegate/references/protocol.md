@@ -23,15 +23,17 @@
 
 ## 三种版本
 
-产品版本为 2.0.1-rc.1；新状态 state_schema_version=2，与产品补丁号解耦；执行器业务结果 schema_version=1。CLI NDJSON 是独立的传输层，不能代替业务校验。
+产品版本为 2.0.1-rc.2；新状态 state_schema_version=2，与产品补丁号解耦；执行器业务结果 schema_version=1。CLI NDJSON 是独立的传输层，不能代替业务校验。
 
-执行器必须返回唯一 BEGIN_DELEGATE_RESULT/END_DELEGATE_RESULT 块，包含 schema_version、task_id、status、summary、claims、tests_run、risks。tests_run 必须为空。缺终态、错误会话、重复条目、非法关联或结果落盘失败，不能进入待验证成功状态。
+执行器必须返回唯一 BEGIN_DELEGATE_RESULT/END_DELEGATE_RESULT 块，包含 schema_version、task_id、status、summary、claims、tests_run、risks。tests_run 必须为空。最终业务结果只属于最后一条消息；混合/冲突身份、重放、未知事件、缺终态、错误会话、重复条目、非法关联或结果落盘失败，不能进入待验证成功状态。
 
 ## 持久化与升级
 
-baseline.json 固定初始源码；checkpoints/<sha256>.json 不可变。先写快照，再原子替换 state.json 指针，保留 state.previous.json。文件及父目录 fsync；未引用的孤立快照不影响旧完整代。status 与写入使用同一锁，不移除锁文件绕过竞争。
+baseline.json 固定初始源码；checkpoints/<sha256>.json 不可变。先写快照，再原子替换 state.json 指针，保留 state.previous.json。文件及父目录 fsync；未引用的孤立快照不影响旧完整代。写操作仍用独占锁；status 不取写锁，只读单次原子 state 和它引用的不可变快照，标注 generation 与“最后已提交状态”。可选扫描单独尝试锁，竞争时跳过，不移除锁文件。
 
-旧 2.0.0 状态仅支持只读 status。写操作须使用安装器备份的旧 Runner 完成或恢复，再创建新任务；未知状态 schema 拒绝，不静默迁移。安装器检测指定 state-root 中的旧活动任务，显式 --preserve-legacy-runner 才允许保留旧 Runner 后升级。自定义状态目录必须传 --state-root。
+新操作在副作用之前持久化 operation.id/phase/stage/start_sha256/errors。run 先提交 PREPARING 与尝试号，再创建尝试目录；失败不复用旧目录、不减次数。verify 先记录原阶段与起始快照；recover 按原阶段判断且不丢弃已发现违规。CLEANING 先绑定导出与快照；删除完成后提交失败可以重跑 cleanup --confirm 收尾。
+
+rc.1 静止状态可读取；旧中断状态缺少 operation.phase 时不自动恢复，不猜测、不静默补写；人工核对旧 Runner 记录和实际副作用后再规划。旧 2.0.0 状态仅支持只读 status。写操作须使用安装器备份的旧 Runner 完成或恢复，再创建新任务；未知状态 schema 拒绝，不静默迁移。安装器检测指定 state-root 中的旧活动任务，显式 --preserve-legacy-runner 才允许保留旧 Runner 后升级。自定义状态目录必须传 --state-root。
 
 磁盘损坏不自动回退并假装任务没执行。上一完整代只提供恢复证据；实际进程和工作区仍须核对。
 
@@ -39,7 +41,7 @@ baseline.json 固定初始源码；checkpoints/<sha256>.json 不可变。先写�
 
 固定检查由 Runner 记录退出码、超时、输出要求、日志哈希、关联验收项。验证修改源码进入 VERIFICATION_MUTATED_SOURCE；差异生成失败进入 EVIDENCE_ERROR，不生成虚假的空差异证明。
 
-Codex 裁决绑定 contract_sha256、snapshot_sha256、verification_sha256，覆盖所有验收项且不重复。证据为 file:relative/path、test:check_id 或 diff。失败测试可以支持 fail/blocked，pass 必须关联已通过测试；diff 必须生成完整。
+最终 review、memory、export 继续复查规则内容与新出现的环境规则，输出记录 instruction_manifest_sha256。Codex 裁决绑定 contract_sha256、snapshot_sha256、verification_sha256，覆盖所有验收项且不重复。证据为 file:relative/path、test:check_id 或 diff。失败测试可以支持 fail/blocked，pass 必须关联已通过测试；diff 必须生成完整。
 
 ACCEPTED 只接受隔离工作区。export 包含新增文件完整内容、修改内容、删除清单、基线及哈希，不自动应用。tracked.patch 本身仍不含未跟踪文件，不能单独当完整交付。
 
@@ -50,3 +52,5 @@ ACCEPTED 只接受隔离工作区。export 包含新增文件完整内容、修�
 status 默认不扫描源码，--check-worktree 才扫描。run/verify 安全边界仍扫描全部普通文件，包括忽略和未跟踪文件。scan_totals、total_execution_seconds、total_verification_seconds 是独立观测，不参与内容哈希。
 
 usage 缺失为 unknown、片段为 partial；不推算账单。工具无法得知主会话全部成本，端到端评测需另行采集双方用量。
+
+事件适配仍未获得真实版本认证。无 messageID 的合成/兼容事件单独标为 legacy-unidentified，不混用有身份事件；后续活动会丢弃旧候选结果，不能借用之前的 stop。

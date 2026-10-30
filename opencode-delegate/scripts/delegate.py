@@ -25,6 +25,7 @@ from typing import Any
 from delegate_core import (VERSION, STATE_SCHEMA_VERSION, SCAN_METRICS, AGENT, MAX_JSON, MAX_LOG, MAX_FILES, MAX_BYTES, PROTECTED_NAMES, PROTECTED_PARTS, SECRET_NAMES, BAD_STATES, PRELUDE, GuardError, require, now, canonical, digest, file_hash, read_json, read_text, atomic_json, clean_git_env, git)
 from path_policy import safe_path, matches, paths_overlap, secret_path, assert_clean_visibility, protected, validate_contract
 from state_store import locked, load, save
+from lifecycle import begin as begin_operation, start_snapshot as operation_snapshot
 from handoff import ambient_rule_paths, freeze_instructions, check_instructions, instruction_config_fingerprint, redact_excerpt, failure_packet
 from opencode_adapter import probe, permission_config, runtime_env, normalize_config, check_effective_config, parse_events
 from verification_support import verify_evidence, evidence_valid
@@ -270,7 +271,12 @@ def cmd_run(args) -> int:
         require(len(prompt.encode()) <= 49152, "Task packet exceeds 48 KiB; reduce handoff, not mandatory constraints")
         n = s["attempts"] + 1
         attempt = task / "attempts" / f"{n:03d}"
+        s.pop("protocol_error", None)
+        s.update(attempts=n, last_attempt=str(attempt.relative_to(task)), runtime=info,
+                 effective_config_sha256=effective_hash, verification=None)
+        begin_operation(task, s, before, "run", "PREPARING")
         attempt.mkdir(parents=True, mode=0o700)
+        atomic_json(attempt / "operation.json", s["operation"])
         atomic_json(attempt / "packet.json", packet)
         atomic_json(attempt / "requested-policy.json", config)
         argv = [info["binary"], "run", "--format", "json", "--agent", AGENT, "--model", c["model"]]
@@ -281,12 +287,12 @@ def cmd_run(args) -> int:
         if sid:
             argv += ["--session", sid]
         argv += [prompt]
-        s.pop("protocol_error", None)
-        s.update(status="RUNNING", attempts=n, last_attempt=str(attempt.relative_to(task)), runtime=info,
-                 effective_config_sha256=effective_hash, verification=None, process_pid=None)
+        s["status"] = "RUNNING"
+        s["operation"]["stage"] = "starting"
         save(task, s)
         def started(pid):
             s["process_pid"] = pid
+            s["operation"]["stage"] = "running"
             save(task, s)
         execution = execute(argv, wt, env, min(c["timeout_seconds"], max(1, int(remaining))), attempt / "events.ndjson", attempt / "stderr.log", started)
         # Store a prompt digest instead of duplicating the entire prompt in argv metadata.
@@ -323,6 +329,7 @@ def cmd_run(args) -> int:
             s["session_id"] = parsed["session_id"]
             s["status"] = "AWAITING_VERIFY" if parsed["result"]["status"] == "complete" else "BLOCKED"
         s["last_errors"] = errors
+        s["operation"].update(stage="uncertain" if s["status"] == "OUTCOME_UNKNOWN" else "finished", errors=errors)
         save(task, s, after if s["status"] != "OUTCOME_UNKNOWN" else None)
         print(json.dumps({"status": s["status"], "task_dir": str(task), "attempt": n,
                           "session_id": s["session_id"], "execution_exit_code": execution["exit_code"],
@@ -343,9 +350,9 @@ def cmd_verify(args) -> int:
         wt = Path(s["worktree"])
         stamp = str(time.time_ns())
         evidence = task / "verification" / stamp
+        s["verification"] = None
+        begin_operation(task, s, before, "verify", "VERIFYING")
         evidence.mkdir(parents=True, mode=0o700)
-        s["status"] = "VERIFYING"
-        save(task, s)
         verification_start = time.monotonic()
         results, errors = [], []
         evidence_errors = []
@@ -358,8 +365,14 @@ def cmd_verify(args) -> int:
             out, err = evidence / (check["id"] + ".out.log"), evidence / (check["id"] + ".err.log")
             env = clean_git_env()
             env.update(PYTHONDONTWRITEBYTECODE="1", OPENCODE_DELEGATE_ACTIVE="1")
+            # Record the specific test BEFORE spawn; stale PIDs from a previous
+            # check must not be interpreted as the current process identity.
+            s["process_pid"] = None
+            s["operation"].update(stage="starting", check_id=check["id"])
+            save(task, s)
             def started(pid):
                 s["process_pid"] = pid
+                s["operation"]["stage"] = "running"
                 save(task, s)
             result = execute(argv, cwd, env, check["timeout_seconds"], out, err, started)
             content = (out.read_bytes()[:MAX_LOG] + err.read_bytes()[:MAX_LOG]).decode(errors="replace")
@@ -374,6 +387,8 @@ def cmd_verify(args) -> int:
                 errors.append(str(e))
             if result["reason"] in ("timeout", "interrupted", "output_limit", "descendants_still_running"):
                 uncertain = True
+            s["operation"].update(errors=list(errors), stage="uncertain" if uncertain else "checking")
+            save(task, s)  # Never lose already observed source-mutation evidence.
             if errors or uncertain:
                 break
         after = previous
@@ -398,6 +413,7 @@ def cmd_verify(args) -> int:
         s["verification"] = {"path": str((evidence / "verification.json").relative_to(task)), "sha256": file_hash(evidence / "verification.json")}
         s["status"] = "OUTCOME_UNKNOWN" if uncertain else "VERIFICATION_MUTATED_SOURCE" if errors else "EVIDENCE_ERROR" if evidence_errors else "REVIEW_REQUIRED" if report["all_checks_passed"] else "NEEDS_FIX"
         s["total_verification_seconds"] = round(s.get("total_verification_seconds", 0) + time.monotonic() - verification_start, 3)
+        s["operation"].update(stage="uncertain" if uncertain else "finished", errors=errors)
         save(task, s, after if not uncertain else None)
         print(json.dumps({"status": s["status"], "verification": s["verification"], "note": "Passing commands are not semantic acceptance. Codex must review every criterion."}, indent=2))
         return 0 if s["status"] == "REVIEW_REQUIRED" else 5
@@ -408,6 +424,7 @@ def cmd_review(args) -> int:
     with locked(task):
         c, s, base, cp = load(task)
         require(s["status"] in ("REVIEW_REQUIRED", "NEEDS_FIX"), "Review requires completed independent verification", 3)
+        check_instructions(task, c, s)
         current = current_checked(task, s, cp)
         v = verify_evidence(task, s)
         r = read_json(Path(args.review))
@@ -429,7 +446,7 @@ def cmd_review(args) -> int:
             require(v["all_checks_passed"] and all(x["result"] == "pass" for x in r["criteria"]), "Cannot accept failed checks/criteria", 3)
             require(v["snapshot_sha256"] == current["sha256"], "Verification is stale", 3)
         path = task / "reviews" / (str(time.time_ns()) + ".json")
-        atomic_json(path, {**r, "reviewed_at": now(), "note": "Coordinator declaration; not cryptographic reviewer authentication."})
+        atomic_json(path, {**r, "reviewed_at": now(), "instruction_manifest_sha256": s["instruction_manifest_sha256"], "note": "Coordinator declaration; not cryptographic reviewer authentication."})
         s["status"] = {"accept": "ACCEPTED", "needs_fix": "NEEDS_FIX", "reject": "REJECTED"}[r["decision"]]
         s["review"] = {"path": str(path.relative_to(task)), "sha256": file_hash(path)}
         save(task, s)
@@ -441,19 +458,29 @@ def cmd_recover(args) -> int:
     task = Path(args.task).expanduser().resolve()
     with locked(task):
         c, s, base, cp = load(task)
-        require(s["status"] in ("RUNNING", "VERIFYING", "OUTCOME_UNKNOWN"), "Only interrupted/uncertain tasks can be recovered", 3)
+        require(s["status"] in ("PREPARING", "RUNNING", "VERIFYING", "OUTCOME_UNKNOWN"), "Only interrupted/uncertain tasks can be recovered; CLEANING uses cleanup --confirm", 3)
         require(args.confirmed_stopped, "Inspect CLI/server/session/descendants before --confirmed-stopped", 3)
         note = read_text(Path(args.note))
+        start = operation_snapshot(task, s)
+        phase = s["operation"]["phase"]
+        require(phase in ("run", "verify"), "Wrong recovery phase", 3)
         pid = s.get("process_pid")
         require(not pid or not group_alive(pid), "Recorded process group is still present; do not signal potentially reused PIDs blindly", 3)
         current = snapshot(Path(s["worktree"]))
-        errors = invariant_errors(c, base, cp, current, "run")
-        atomic_json(task / "recovery" / (str(time.time_ns()) + ".json"), {"time": now(), "note": note, "old_status": s["status"], "changes": differences(cp, current), "errors": errors, "snapshot": current["sha256"]})
-        s["status"] = "POLICY_VIOLATION" if errors else "RECOVERED"
+        errors = list(s["operation"].get("errors", []))
+        errors += invariant_errors(c, base, start, current, phase)
+        if s["status"] == "PREPARING" and current["sha256"] != start["sha256"]:
+            errors.append("Worktree changed before executor launch")
+        errors = sorted(set(errors))
+        atomic_json(task / "recovery" / (str(time.time_ns()) + ".json"), {"time": now(), "note": note,
+                    "old_status": s["status"], "operation": s["operation"], "changes": differences(start, current),
+                    "errors": errors, "snapshot": current["sha256"]})
+        s["status"] = ("VERIFICATION_MUTATED_SOURCE" if phase == "verify" else "POLICY_VIOLATION") if errors else "RECOVERED"
+        s["operation"].update(stage="reconciled", errors=errors)
         s["session_id"] = None
         s["verification"] = None
         save(task, s, current)
-        print(json.dumps({"status": s["status"], "next": "Fresh session with reviewed checkpoint required; previous result is not accepted."}))
+        print(json.dumps({"status": s["status"], "phase": phase, "next": "Fresh session with reviewed checkpoint required; previous result is not accepted."}))
         return 3 if errors else 0
 
 
@@ -462,6 +489,7 @@ def cmd_memory(args) -> int:
     with locked(task):
         c, s, base, cp = load(task)
         require(s["status"] == "ACCEPTED", "Only accepted tasks can propose verified knowledge", 3)
+        check_instructions(task, c, s)
         current_checked(task, s, cp)
         v = verify_evidence(task, s)
         require(file_hash(task / s["review"]["path"]) == s["review"]["sha256"], "Review evidence changed", 3)
@@ -471,24 +499,37 @@ def cmd_memory(args) -> int:
             require(isinstance(k[name], str) and bool(k[name].strip()), f"Knowledge {name} required")
         require(isinstance(k["evidence"], list) and k["evidence"] and all(isinstance(x, str) and evidence_valid(x, v, Path(s["worktree"])) for x in k["evidence"]), "Knowledge needs verified evidence")
         path = task / "knowledge-candidates" / (str(time.time_ns()) + ".json")
-        atomic_json(path, {**k, "status": "candidate_for_coordinator_promotion", "verified_at": now(), "project_id": c["project_id"], "environment": c["environment"], "task_id": c["task_id"], "base_commit": s["base_commit"], "snapshot_sha256": cp["sha256"], "review": s["review"]})
+        atomic_json(path, {**k, "status": "candidate_for_coordinator_promotion", "instruction_manifest_sha256": s["instruction_manifest_sha256"], "verified_at": now(), "project_id": c["project_id"], "environment": c["environment"], "task_id": c["task_id"], "base_commit": s["base_commit"], "snapshot_sha256": cp["sha256"], "review": s["review"]})
         print(json.dumps({"candidate": str(path), "shared_project_memory_modified": False}))
         return 0
 
 
 def cmd_status(args) -> int:
     task = Path(args.task).expanduser().resolve()
-    with locked(task):
-        c, s, base, cp = load(task, allow_legacy=True)
-        value = {k: v for k, v in s.items() if k != "context_sources"}
-        value["task_dir"] = str(task)
-        value["worktree_matches_checkpoint"] = None
-        value["legacy_read_only"] = s.get("state_schema_version", 1) == 1
-        value["coordinator_usage"] = {"tokens": None, "cost": None, "completeness": "unknown"}
-        if args.check_worktree and s["status"] not in ("RUNNING", "VERIFYING", "ARCHIVED"):
-            value["worktree_matches_checkpoint"] = snapshot(Path(s["worktree"]))["sha256"] == cp["sha256"]
-            value["status_scan"] = SCAN_METRICS[-1] if SCAN_METRICS else None
-        print(json.dumps(value, indent=2))
+    # One atomic state.json + immutable referenced checkpoint is a consistent
+    # committed generation, even while a writer holds the task lock.
+    c, s, base, cp = load(task, allow_legacy=True)
+    value = {k: v for k, v in s.items() if k != "context_sources"}
+    value.update(task_dir=str(task), worktree_matches_checkpoint=None,
+                 legacy_read_only=s.get("state_schema_version", 1) == 1,
+                 observation="last committed generation; not live process state",
+                 coordinator_usage={"tokens": None, "cost": None, "completeness": "unknown"})
+    if args.check_worktree:
+        try:
+            with locked(task):
+                c, fresh, base, cp = load(task, allow_legacy=True)
+                if fresh.get("generation") != s.get("generation"):
+                    value["scan_skipped"] = "state changed; query again"
+                elif fresh["status"] in ("PREPARING", "RUNNING", "VERIFYING", "OUTCOME_UNKNOWN", "CLEANING", "ARCHIVED"):
+                    value["scan_skipped"] = "operation not quiescent or worktree archived"
+                else:
+                    value["worktree_matches_checkpoint"] = snapshot(Path(s["worktree"]))["sha256"] == cp["sha256"]
+                    value["status_scan"] = SCAN_METRICS[-1] if SCAN_METRICS else None
+        except GuardError as exc:
+            if "Task is locked" not in str(exc):
+                raise
+            value["scan_skipped"] = "writer active; displaying committed state only"
+    print(json.dumps(value, indent=2))
     return 0
 
 
@@ -500,6 +541,7 @@ def cmd_export(args) -> int:
     with locked(task):
         c, s, base, cp = load(task)
         require(s["status"] in ("ACCEPTED", "REJECTED"), "Export requires a reviewed terminal task", 3)
+        check_instructions(task, c, s)
         current = current_checked(task, s, cp)
         verify_evidence(task, s)
         require(file_hash(task / s["review"]["path"]) == s["review"]["sha256"], "Review changed", 3)
@@ -508,7 +550,7 @@ def cmd_export(args) -> int:
         output.parent.mkdir(parents=True, exist_ok=True)
         changed = [p for p in differences(base, current) if not matches(p, c["verification_artifacts"])]
         manifest = {"schema_version": 1, "task_id": c["task_id"], "base_commit": s["base_commit"], "base_sha256": s["base_sha256"],
-                    "snapshot_sha256": cp["sha256"], "contract_sha256": s["contract_sha256"], "status": s["status"], "files": {}}
+                    "snapshot_sha256": cp["sha256"], "contract_sha256": s["contract_sha256"], "instruction_manifest_sha256": s["instruction_manifest_sha256"], "status": s["status"], "files": {}}
         fd, temporary = tempfile.mkstemp(prefix=".delegate-export-", dir=str(output.parent))
         try:
             os.fchmod(fd, 0o600)
@@ -543,23 +585,43 @@ def cmd_cleanup(args) -> int:
     task = Path(args.task).expanduser().resolve()
     with locked(task):
         c, s, base, cp = load(task)
-        require(s["status"] in ("ACCEPTED", "REJECTED"), "Only reviewed terminal tasks can be cleaned; uncertain tasks must be preserved", 3)
-        current_checked(task, s, cp)
+        require(s["status"] in ("ACCEPTED", "REJECTED", "CLEANING", "ARCHIVED"), "Only reviewed terminal tasks can be cleaned; uncertain tasks must be preserved", 3)
         verify_evidence(task, s)
         require(file_hash(task / s["review"]["path"]) == s["review"]["sha256"], "Review changed", 3)
         delivery = s.get("delivery")
         require(delivery and delivery["snapshot_sha256"] == cp["sha256"], "Export this exact snapshot before cleanup", 3)
         require(Path(delivery["path"]).is_file() and file_hash(Path(delivery["path"])) == delivery["sha256"], "Delivery archive missing or changed", 3)
+        wt = Path(s["worktree"])
+        if s["status"] in ("CLEANING", "ARCHIVED"):
+            start = operation_snapshot(task, s)
+            require(s["operation"]["phase"] == "cleanup" and start["sha256"] == cp["sha256"], "Invalid cleanup intent", 3)
+            require(s["operation"].get("delivery") == delivery, "Cleanup delivery binding changed", 3)
+        if s["status"] == "ARCHIVED":
+            require(not wt.exists() and not wt.is_symlink(), "Archived path reappeared; never delete it", 3)
+            print(json.dumps({"status": "ARCHIVED", "already_cleaned": True}))
+            return 0
         require(not s.get("process_pid") or not group_alive(s["process_pid"]), "Process group still present; cleanup denied", 3)
-        plan = {"remove_worktree": s["worktree"], "preserve_evidence": str(task), "export": delivery, "dry_run": not args.confirm}
+        exists = wt.exists() or wt.is_symlink()
+        if exists:
+            current_checked(task, s, cp)
+            check_instructions(task, c, s)
+        else:
+            require(s["status"] == "CLEANING", "Worktree absent without durable cleanup intent", 3)
+            # A partial removal that left Git registration is not silently adopted.
+            registered = git(Path(c["repo"]), "worktree", "list", "--porcelain", "-z").stdout.decode()
+            require(not any(line == "worktree " + str(wt) for line in registered.split("\0")),
+                    "Worktree absent but Git registration remains; inspect before completing cleanup", 3)
+        plan = {"remove_worktree": str(wt), "preserve_evidence": str(task), "export": delivery, "dry_run": not args.confirm}
         if args.confirm:
-            # Only this runner-created, exported worktree. Never reset/delete user's source.
-            git(Path(c["repo"]), "worktree", "remove", "--force", s["worktree"])
+            if s["status"] != "CLEANING":
+                begin_operation(task, s, cp, "cleanup", "CLEANING", {"delivery": dict(delivery)})
+            if exists:
+                git(Path(c["repo"]), "worktree", "remove", "--force", str(wt))
             s["status"] = "ARCHIVED"
+            s["operation"]["stage"] = "finished"
             save(task, s)
         print(json.dumps(plan, indent=2))
     return 0
-
 
 
 def cmd_failure(args) -> int:

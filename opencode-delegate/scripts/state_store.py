@@ -47,7 +47,7 @@ def load(task: Path, allow_legacy: bool = False) -> tuple[dict, dict, dict, dict
 def save(task: Path, state: dict, cp: dict | None = None) -> None:
     """Immutable snapshots + single atomic state commit; orphan snapshots are harmless."""
     candidate = dict(state)
-    candidate.update(updated_at=now(), last_writer_version=VERSION)
+    candidate.update(updated_at=now(), last_writer_version=VERSION, generation=candidate.get("generation", 0) + 1)
     require(candidate.get("state_schema_version") == STATE_SCHEMA_VERSION, "Refusing to rewrite legacy/unknown state")
     if cp is not None:
         address = cp["sha256"]
