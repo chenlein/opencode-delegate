@@ -2,9 +2,15 @@
 
 **Codex 负责规划与验收，OpenCode 执行一个有界任务。** 使用隔离 Git worktree、冻结任务契约、明确会话 ID 和独立测试证据，不把两个 GPT 会话当成共享记忆，也不把 CLI 退出 0 当成验收通过。
 
-当前版本 **2.0.1-rc.4：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
+当前版本 **2.0.1-rc.7：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
 
-**200 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+`rc.7` 补齐 V2 原生 session 的位置、模型与 Agent 绑定：续跑在预算预留前校验，完成后在结果绑定前再校验。真实零模型迁移探测已确认错配会阻断；安装后的新 Sol 任务通过独立验收。此前 rc.6 证据仍绑定原制品，不自动当作 rc.7 认证。详见 [后续验证](docs/ISSUE1_RC7_EVIDENCE.md)。
+
+`rc.6` 修正工作区绑定：同时设置子进程 cwd/PWD，并为上下文提供实际 worktree 路径。保护性拒绝不放宽；版本认证仍以真实受控用例为准。新增只读仓库测量入口 `tools/benchmark_repository.py`，复用原扫描器且保持 100000 文件/2 GiB 限制，不创建或修改目标仓库 worktree。
+
+`rc.5` 适配 OpenCode v2.2.3 的配置来源数组和最终 Agent 清单。权限块逐项保序核对，只允许其后增加拒绝规则；私有模式前后复查来源指纹。不修改用户认证/模型配置，不调用模型来做配置预检；真实任务与工具权限认证仍未完成。V1 配置路径和状态 schema 保持不变，旧任务配置指纹不自动迁移。
+
+**247 项离线测试通过，13 项事件回放通过；真实认证仍未全部完成。** v2.2.3/Sol 已完成受控读写、同会话续跑、压缩和超时恢复；权限引擎探测与实际工具执行的覆盖范围分别记录。三路线小修复、只读和受控验收失败后的增量恢复均有实际结果；完整大仓流程仍有缺口。详见 [本轮证据](docs/ISSUE1_RC7_EVIDENCE.md)、[前批实测](docs/ISSUE1_RC6_EVIDENCE.md)、[实际验证](docs/VALIDATION.md) 和 [整改状态](docs/REVIEW_STATUS.md)。
 
 ## 本轮可靠性修复
 
@@ -127,13 +133,14 @@ python3 "$RUNNER" cleanup --task "$TASK" --confirm # 必须明确授权
 export PYTHONDONTWRITEBYTECODE=1
 python3 -m unittest discover -s opencode-delegate/scripts -p 'test_*.py' -v
 python3 tools/test_install.py
+python3 tools/check_real_events.py
 python3 tools/build_release.py --check
 python3 tools/benchmark_snapshot.py --files 1000 --bytes 4096
 # 修改安装包文件后生成新 manifest，再重新检查。
 python3 tools/build_release.py
 ```
 
-当前 185 项 Runner 测试（既有 173 项，加 8 项交付整合边界测试和 4 项合并收尾回归）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
+当前 232 项 Runner 测试和 15 项安装测试通过；另有 13 项真实捕获/明确派生故障的事件回放。回放不是 13 次模型任务，mock 不证明真实 CLI 支持。本轮未检查 GitHub Actions，不将历史 CI 当作本次认证证据。真实事件语料有独立 SHA-256 清单，构建仅核对完整性，不暗中运行回放或模型测试。
 
 | 目录 | 作用 |
 |---|---|

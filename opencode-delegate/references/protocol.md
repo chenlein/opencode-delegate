@@ -1,5 +1,7 @@
 # 任务、状态与证据协议
 
+rc.7：V2 原生 session 的位置优先于 CLI 调用目录。续跑预留额度前和完成结果绑定前，用 standalone metadata 查询核对 ID、worktree、模型及 Agent，失败或漂移停止，不迁移/重建任务。只把已核对字段纳入 worker-result 的哈希，不保存原始 metadata。检查初始化产生的源码副作用仍进入原有快照门禁。状态 schema 不变，历史结果的运行时版本和文件哈希不能冒充新版认证。
+
 ## 契约
 
 契约 schema_version=2，创建后冻结。必须明确 project_id/task_id/environment、实际 Git 根目录、模型 provider/model、目标/非目标、修改范围、验收项与检查。不同环境不复用会话。
@@ -23,7 +25,9 @@
 
 ## 三种版本
 
-产品版本为 2.0.1-rc.4；新状态 state_schema_version=2，与产品补丁号解耦；执行器业务结果 schema_version=1。CLI NDJSON 是独立的传输层，不能代替业务校验。
+产品版本为 2.0.1-rc.6；新状态 state_schema_version=2，与产品补丁号解耦；执行器业务结果 schema_version=1。CLI NDJSON 是独立的传输层，不能代替业务校验。
+
+任务包增加 anchors.managed_worktree/source_repository，以及 context_index.worktree_path；均为附加字段，契约 schema 不变。实际运行同时设置 cwd 与 PWD，避免 v2.2.3 优先采用继承的旧 PWD。源仓库路径只作 provenance；文件访问必须定位到隔离 worktree。旧任务不自动迁移指纹或续跑，保留原 Runner 与证据。
 
 执行器必须返回唯一 BEGIN_DELEGATE_RESULT/END_DELEGATE_RESULT 块，包含 schema_version、task_id、status、summary、claims、tests_run、risks。tests_run 必须为空。最终业务结果只属于最后一条消息；混合/冲突身份、重放、未知事件、缺终态、错误会话、重复条目、非法关联或结果落盘失败，不能进入待验证成功状态。
 
