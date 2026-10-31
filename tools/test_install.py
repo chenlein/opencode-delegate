@@ -45,7 +45,8 @@ class InstallerTests(unittest.TestCase):
         shutil.copytree(ROOT, release, ignore=shutil.ignore_patterns('.git', '__pycache__', '.local-results', 'dist'))
         env = dict(self.env)
         env.pop('PYTHONDONTWRITEBYTECODE', None)
-        for tool in ('probe_session_permissions.py', 'probe_native_permissions.py'):
+        for tool in ('probe_session_permissions.py', 'probe_native_permissions.py',
+                     'benchmark_repository.py', 'benchmark_snapshot.py', 'build_release.py'):
             result = subprocess.run([sys.executable, str(release / 'tools' / tool), '--help'],
                                     env=env, capture_output=True, text=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stderr)

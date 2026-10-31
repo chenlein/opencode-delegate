@@ -53,5 +53,7 @@ jobs:
           python tools/check_real_events.py
       - name: Verify package manifest
         run: python tools/build_release.py --check
+      - name: Reviewed release documentation integrity
+        run: python tools/test_release_evidence.py
       - name: Installer dry run
         run: python install.py --dry-run --target "${{ runner.temp }}/skill-install/opencode-delegate"

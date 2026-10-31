@@ -7,6 +7,7 @@ import platform
 import subprocess
 import sys
 import tempfile
+sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'opencode-delegate/scripts'))
 import delegate as d
