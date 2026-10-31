@@ -4,7 +4,7 @@
 
 当前版本 **2.0.1-rc.4：受监督候选版，尚非稳定认证版**。源代码、README、回归测试和审查整改在本仓库维护。
 
-**196 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
+**200 项离线测试通过，不等于真实 OpenCode/GPT/macOS 已认证。** 当前精确 CLI 认证矩阵为空。详见 [实际验证](docs/VALIDATION.md)、[18 项整改状态](docs/REVIEW_STATUS.md) 、[本轮 A01–A10 修复](docs/ROUND2_FIXES.md) 、[修复后复审](docs/POST_FIX_REVIEW.md) 和 [真实认证方案](docs/LIVE_VALIDATION.md)。
 
 ## 本轮可靠性修复
 
@@ -17,6 +17,8 @@
 原始修复、19 条新增验收测试、复审限制见 [RECOVERY_BUDGET_FIXES.md](docs/RECOVERY_BUDGET_FIXES.md)。上一轮历史见 [POST_FIX_REVIEW.md](docs/POST_FIX_REVIEW.md)。
 
 本次在已发布的 `4797128` 上整合交付包，保留原有状态/预算/进程收尾接口，补齐 worker 完成证据绑定和恢复时日志哈希校验。新增 8 条测试，详见 [交付整合记录](docs/RC4_DELIVERY_INTEGRATION.md)。
+
+提交核对收尾以 `9b3e090` 为基线：保留已合入的运行时代码及全部测试，再将旧交付中的预算/进程边界用例适配到现有接口，新增 4 条回归。不是将 191 项旧包覆盖到 196 项远端，也不是再次改写状态机；本轮核对和测试证据见 [合并复核记录](docs/RC4_MERGE_CHECK.md)。
 
 横向比较已固定三个上游提交核对，见 [COMPARISON_RECHECK.md](docs/COMPARISON_RECHECK.md)。优先借鉴调用适配、经过审核的 profile/契约生成和简洁摘要；不引入第二套状态机，不照搬自动放权或退出码即验收。
 
@@ -131,7 +133,7 @@ python3 tools/benchmark_snapshot.py --files 1000 --bytes 4096
 python3 tools/build_release.py
 ```
 
-当前 181 项 Runner 测试（既有 173 项，加 8 项交付整合边界测试）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
+当前 185 项 Runner 测试（既有 173 项，加 8 项交付整合边界测试和 4 项合并收尾回归）和 15 项安装测试通过。mock 通过不证明真实 CLI 支持。CI 只做离线测试，不读取 API 密钥、不调用模型；远端是否通过以对应提交 Actions 结果为准。CI 保留精确提交的纯 tracked-source 归档 7 天，不含 `.git`、凭证或任务运行状态，供复核源码身份。
 
 | 目录 | 作用 |
 |---|---|

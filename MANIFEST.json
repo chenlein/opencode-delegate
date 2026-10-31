@@ -23,6 +23,7 @@
     "opencode-delegate/scripts/state_store.py": "f13c26d6a8318abc564a9ec737d7a0ac0236cfb0f58e5a0fa97d9311ee206763",
     "opencode-delegate/scripts/test_delegate.py": "cdd709a5fffe1bca0d00e666cce290bba6cb81c969ff859052d8901311cd1de9",
     "opencode-delegate/scripts/test_delivery_guards.py": "7ba01ac3150656a1af1de4ebdc63b462d2ea1ea6da74ca3a2c02bda1f2288cd6",
+    "opencode-delegate/scripts/test_delivery_reconciliation.py": "e4c363ce13984499d28a27aaab2b0417e79c87ae9ba53c210dc39df42f2c2173",
     "opencode-delegate/scripts/test_lifecycle_fixes.py": "6474dc60a5e3ea279aa8cfc1bacf59f80aad2ddc9252e466cef980bf39b5712f",
     "opencode-delegate/scripts/test_postfix_review.py": "0923935e67d3ea604395a0ecb5999a99c7b0c0cf7bb3fccc259d2c43dd431ce3",
     "opencode-delegate/scripts/test_recovery_budget.py": "3843405026043919c8883f93c2b9dfc580b6e1ad020452a5665f8f43130fefaf",
