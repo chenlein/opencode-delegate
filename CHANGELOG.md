@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1-rc.8 — 2026-10-31
+
+- V2 session 权限在 Agent 之后生效：续跑前及接受结果前拒绝任何 session allow/ask 或未知规则结构；只接受缺省、空列表及严格 deny 规则。不修改已有原生会话。
+- 绑定摘要增加 session 权限哈希，补充预算预留前阻断、完成结果拒绝和合法 deny 对照。
+- Linux x86_64 / OpenCode 2.2.5 的真实零模型 metadata/权限判定探测确认该覆盖关系与保护门禁；不等于真实工具执行、模型任务或稳定认证。Issue #1 继续按原关闭标准验收。
+
 ## 2.0.1-rc.7 — 2026-10-31
 
 - 修复续跑位置绑定缺口：v2.2.3 在指定 session 时使用 session 保存的位置，cwd/PWD 不能覆盖已移动的会话。V2 在预算预留前和接受完成结果前，用 5 秒封顶的只读原生 metadata 查询核对 session、worktree、模型与 Agent。查询失败/未知/漂移保守停止，不自动迁移或更换 session。

@@ -57,7 +57,8 @@ if len(args)==4 and args[:2]==['api','GET'] and args[-1]=='--standalone':
  directory=pathlib.Path.cwd()
  if scenario in ('session_moved','post_session_moved'): directory=directory.parent
  if scenario=='session_inspection_writes': pathlib.Path('session-inspection-side-effect.txt').write_text('unexpected')
- print(json.dumps({'data':{'id':args[2].rsplit('/',1)[-1],'agent':'codex_delegate_worker_v2','model':{'providerID':provider,'id':model,'variant':'default'},'location':{'directory':str(directory)}}}));sys.exit(0)
+ permissions=[{'action':'shell','resource':'*','effect':'allow'}] if scenario=='session_allow' else []
+ print(json.dumps({'data':{'id':args[2].rsplit('/',1)[-1],'agent':'codex_delegate_worker_v2','model':{'providerID':provider,'id':model,'variant':'default'},'location':{'directory':str(directory)},'permissions':permissions}}));sys.exit(0)
 if not args or args[0]!='run': sys.exit(2)
 if os.environ.get('MOCK_LOG'):
  pathlib.Path(os.environ['MOCK_LOG']).write_text(json.dumps({'args':args,'config':json.loads(os.environ['OPENCODE_CONFIG_CONTENT']),'nested':os.environ.get('OPENCODE_DELEGATE_ACTIVE')}))

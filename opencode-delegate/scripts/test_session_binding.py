@@ -38,6 +38,28 @@ class NativeBindingTests(unittest.TestCase):
         self.assertEqual(result['session_id'], 'ses_owned')
         self.assertNotIn('metadata', result)
 
+    def test_session_permissions_absent_empty_and_deny_only_are_safe(self):
+        self.check()  # Upstream optional field: absent means no session rules.
+        for rules in ([], [{'action': 'shell', 'resource': '*', 'effect': 'deny'}]):
+            value = copy.deepcopy(self.value); value['data']['permissions'] = rules
+            result = self.check(value)
+            self.assertIn('permissions_sha256', result)
+            self.assertNotIn('permissions', result)
+
+    def test_session_permissions_cannot_weaken_agent_policy(self):
+        cases = [None, {}, '', False,
+                 [{'action': 'shell', 'resource': '*', 'effect': 'allow'}],
+                 [{'action': '*', 'resource': '*', 'effect': 'ask'}],
+                 [{'action': 'read', 'resource': '.env', 'effect': 'allow'}],
+                 [{'action': 'edit', 'resource': '*', 'effect': 'allow'},
+                  {'action': 'shell', 'resource': '*', 'effect': 'deny'}],
+                 [{'action': 'shell', 'resource': '*', 'effect': 'deny', 'extra': True}],
+                 [{'action': ['shell'], 'resource': '*', 'effect': 'deny'}],
+                 [{'action': 'shell', 'effect': 'deny'}], [None]]
+        for rules in cases:
+            value = copy.deepcopy(self.value); value['data']['permissions'] = rules
+            with self.subTest(rules=rules), self.assertRaises(GuardError): self.check(value)
+
     def test_moved_or_unverifiable_location_is_rejected(self):
         for directory in (str(self.wt.parent), '.', str(self.wt / 'missing'), None):
             value = copy.deepcopy(self.value); value['data']['location']['directory'] = directory
@@ -98,6 +120,22 @@ class RunnerBindingTests(unittest.TestCase):
         self.assertEqual(self.state(), prior)
         self.assertEqual(Path(os.environ['MOCK_LOG']).read_bytes(), log)
         self.assertFalse((self.task / 'attempts/002').exists())
+
+    def test_session_allow_resume_is_blocked_without_budget_or_execution(self):
+        os.environ['MOCK_VERSION'] = '2.2.3'; self.init(); self.run_worker()
+        prior = self.state(); log = Path(os.environ['MOCK_LOG']).read_bytes()
+        feedback = self.root / 'feedback.txt'; feedback.write_text('Continue within policy.')
+        self.run_worker('session_allow', extra=('--feedback', str(feedback)), expect=3)
+        self.assertEqual(self.state(), prior)
+        self.assertEqual(Path(os.environ['MOCK_LOG']).read_bytes(), log)
+        self.assertFalse((self.task / 'attempts/002').exists())
+
+    def test_post_run_session_allow_cannot_bind_completed_result(self):
+        os.environ['MOCK_VERSION'] = '2.2.3'; self.init()
+        self.run_worker('session_allow', expect=4)
+        self.assertEqual(self.state()['status'], 'PROTOCOL_ERROR')
+        self.assertIsNone(self.state()['worker_completion'])
+        self.assertFalse((self.task / 'attempts/001/worker-result.json').exists())
 
     def test_post_run_wrong_location_cannot_bind_completed_result(self):
         os.environ['MOCK_VERSION'] = '2.2.3'; self.init()

@@ -133,10 +133,22 @@ def check_session_binding(info: dict, c: dict, session_id: str, wt: Path, env: d
         require(isinstance(model, dict) and model.get('providerID') == provider and model.get('id') == model_id
                 and model.get('variant') in (None, 'default'), 'Native session model changed', 3)
         require(value.get('agent') == AGENT, 'Native session agent changed', 3)
+        # V2 appends session rules AFTER the agent rules (last match wins).
+        # Only absent/empty or strictly additive denies preserve the frozen
+        # policy. Never clear a user's session rules to make a run pass.
+        permissions = value.get('permissions', [])
+        require(isinstance(permissions, list), 'Unrecognized native session permissions', 3)
+        for rule in permissions:
+            require(isinstance(rule, dict) and set(rule) == {'action', 'resource', 'effect'}
+                    and isinstance(rule['action'], str) and isinstance(rule['resource'], str)
+                    and rule['effect'] == 'deny',
+                    'Native session permissions may override the frozen policy; preserve task and replan', 3)
+
     except (ValueError, TypeError, KeyError, OSError) as exc:
         raise GuardError('Unrecognized native session metadata; no completed result accepted', 3) from exc
     return {'session_id': session_id, 'worktree': str(wt.resolve()), 'agent': AGENT,
-            'model': {'providerID': provider, 'id': model_id, 'variant': model.get('variant')}}
+            'model': {'providerID': provider, 'id': model_id, 'variant': model.get('variant')},
+            'permissions_sha256': digest(permissions)}
 
 
 def normalize_config(value: Any, ordered: bool = False) -> Any:
