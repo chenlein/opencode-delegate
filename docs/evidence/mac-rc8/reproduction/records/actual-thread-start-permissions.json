@@ -1,0 +1,68 @@
+{
+  "direct": {
+    "model": "gpt-6.1-sol",
+    "modelProvider": "openai",
+    "serviceTier": null,
+    "cwd": "${ACCEPTANCE_ROOT}/fixtures/direct",
+    "runtimeWorkspaceRoots": [
+      "${ACCEPTANCE_ROOT}/fixtures/direct"
+    ],
+    "instructionSources": [],
+    "approvalPolicy": "never",
+    "approvalsReviewer": "user",
+    "sandbox": {
+      "type": "workspaceWrite",
+      "writableRoots": [],
+      "networkAccess": false,
+      "excludeTmpdirEnvVar": false,
+      "excludeSlashTmp": false
+    },
+    "activePermissionProfile": null,
+    "reasoningEffort": "medium",
+    "original_record_sha256": "048974e0c4614595d5e5766eb4f78332ff7d60c4005e2567edf6027354e891dc"
+  },
+  "native": {
+    "model": "gpt-6.1-sol",
+    "modelProvider": "openai",
+    "serviceTier": null,
+    "cwd": "${ACCEPTANCE_ROOT}/fixtures/native",
+    "runtimeWorkspaceRoots": [
+      "${ACCEPTANCE_ROOT}/fixtures/native"
+    ],
+    "instructionSources": [],
+    "approvalPolicy": "never",
+    "approvalsReviewer": "user",
+    "sandbox": {
+      "type": "workspaceWrite",
+      "writableRoots": [],
+      "networkAccess": false,
+      "excludeTmpdirEnvVar": false,
+      "excludeSlashTmp": false
+    },
+    "activePermissionProfile": null,
+    "reasoningEffort": "medium",
+    "original_record_sha256": "96c40f6f6f6186f04394842616c6f728562dc10368a56c45654f662c5c0994cd"
+  },
+  "skill": {
+    "model": "gpt-6.1-sol",
+    "modelProvider": "openai",
+    "serviceTier": null,
+    "cwd": "${ACCEPTANCE_ROOT}/fixtures/skill",
+    "runtimeWorkspaceRoots": [
+      "${ACCEPTANCE_ROOT}/fixtures/skill"
+    ],
+    "instructionSources": [],
+    "approvalPolicy": "never",
+    "approvalsReviewer": "user",
+    "sandbox": {
+      "type": "workspaceWrite",
+      "writableRoots": [],
+      "networkAccess": false,
+      "excludeTmpdirEnvVar": false,
+      "excludeSlashTmp": false
+    },
+    "activePermissionProfile": null,
+    "reasoningEffort": "medium",
+    "original_record_sha256": "c59de75005dbb47df940bfe1132c9e7e5d6c10f1ea31c8d93ffb28197ae35d7e"
+  }
+}

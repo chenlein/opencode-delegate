@@ -1,0 +1,3 @@
+Frozen baseline 049e679ca22d794848c23a3ef0a15cfcb90cf848. Fixture rules: Synthetic acceptance fixture. Only src/arithmetic.py may change during authorized implementation. Read-only analysis must change no files. Do not edit checks, protected data, Git state, or rules. No network, credentials, global config, commits, or pushes. Do not create bytecode.
+
+Stage 1, read-only: inspect src/catalog.py, src/basket.py and src/arithmetic.py. Report the exact TRACE_MARKER with source paths and explain how basket.total combines prices and signed adjustment. Change no files and run no tests. Do not solve stage 2 yet.

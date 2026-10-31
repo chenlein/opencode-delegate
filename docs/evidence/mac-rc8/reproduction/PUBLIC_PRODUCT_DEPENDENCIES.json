@@ -1,0 +1,139 @@
+{
+  "repository": "https://github.com/chenlein/opencode-delegate",
+  "commit": "22595dcfcc0a1880102fcc3a0055caa2558cef2b",
+  "runtime_equals_commit": "2318d8ac92df8322537d520c1a9a133cf5a68432",
+  "required_checkout_parameter": "MAC_ACCEPTANCE_PRODUCT_CHECKOUT",
+  "files": [
+    {
+      "path": "opencode-delegate/SKILL.md",
+      "sha256": "b1f82a393e2c2d4933f3daade60d51fc688116cbad341617efefddc49b79c05e",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/SKILL.md"
+    },
+    {
+      "path": "opencode-delegate/assets/task.template.json",
+      "sha256": "d1b19007ef5cd2cc6ca2c6244818dea2f88723bbb3361970df2cb76fef4babff",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/assets/task.template.json"
+    },
+    {
+      "path": "opencode-delegate/references/protocol.md",
+      "sha256": "cb54cae0230040596be74597e25db7eebf45ca2bb01922697d66df2149879811",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/references/protocol.md"
+    },
+    {
+      "path": "opencode-delegate/references/security-recovery.md",
+      "sha256": "99b41699d0da8018e37cf06cdf2d435a111945c9cb7922ef678367b7a150d5d5",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/references/security-recovery.md"
+    },
+    {
+      "path": "opencode-delegate/scripts/completion_binding.py",
+      "sha256": "d628e437a642e337c9c2b9e1ac92095d453ac3fce94d5e97dc0db953fd534462",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/completion_binding.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/delegate.py",
+      "sha256": "7bce2fffddc8ebcabb69713528e1f7b9f9df8a162c99373f75f2d212aa3c2e60",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/delegate.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/delegate_core.py",
+      "sha256": "f95a6170934a75dbe058515d896877eb43e1443662b6cf1ec96e6efab0380fca",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/delegate_core.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/execution_budget.py",
+      "sha256": "71232e9b0df04b0972b1108087dc27f668a3ebafc7d900509cb682744fd41a3f",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/execution_budget.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/handoff.py",
+      "sha256": "db292dc0a19ff8fb892d341313af92403bed30c1acefaa18b311479d705506b8",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/handoff.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/lifecycle.py",
+      "sha256": "383ecf17c2b8977c4a791de63bc662ee617ae28061b33a840ede9bcd243057df",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/lifecycle.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/opencode_adapter.py",
+      "sha256": "e9531a81117d09c1e1a18fa39ba9ee2f65f3fd8abf53fbd16c4546516c7b2414",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/opencode_adapter.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/path_policy.py",
+      "sha256": "7b613368f8c503a11fce293a7d419572399bd7581116eeba1c403a91aca8192d",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/path_policy.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/process_control.py",
+      "sha256": "77393fa92d660744df41be383a6bcf6d3928fe3e1385a3170c4e5c12ab4018ef",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/process_control.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/state_store.py",
+      "sha256": "f13c26d6a8318abc564a9ec737d7a0ac0236cfb0f58e5a0fa97d9311ee206763",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/state_store.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_delegate.py",
+      "sha256": "34aec3956fdfe03eb101e110ccce175d29c12b309b059bfb7348d7b25195e6f5",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_delegate.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_delivery_guards.py",
+      "sha256": "7ba01ac3150656a1af1de4ebdc63b462d2ea1ea6da74ca3a2c02bda1f2288cd6",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_delivery_guards.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_delivery_reconciliation.py",
+      "sha256": "e4c363ce13984499d28a27aaab2b0417e79c87ae9ba53c210dc39df42f2c2173",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_delivery_reconciliation.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_lifecycle_fixes.py",
+      "sha256": "4e207ed96192824ef469087a0b326bc53c3fa5bd98e88637cfd2250e88c43639",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_lifecycle_fixes.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_postfix_review.py",
+      "sha256": "0923935e67d3ea604395a0ecb5999a99c7b0c0cf7bb3fccc259d2c43dd431ce3",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_postfix_review.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_recovery_budget.py",
+      "sha256": "3843405026043919c8883f93c2b9dfc580b6e1ad020452a5665f8f43130fefaf",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_recovery_budget.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_review_fixes.py",
+      "sha256": "5d83791ff4ae7e96f9f3fbe315dce916bf45c666aa706348bc5618067bbbe291",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_review_fixes.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_session_binding.py",
+      "sha256": "11281c490258fb3ba86b846c2617e0566750c8bcb45a42392899e9c0838b36c2",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_session_binding.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_v2_config.py",
+      "sha256": "2980bbc4e13e71fd4c614d286a615d4a2d51d04cddbfe0a03ad83f3d051a9efc",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_v2_config.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/test_workspace_binding.py",
+      "sha256": "47f7b14d1f794a48b53fbeeec8807ff01381b61e9651688a1af644cbb693d5d6",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/test_workspace_binding.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/v2_config.py",
+      "sha256": "471d1ec73036e9c6cdc63bafacbaa022b8391f5b5df11e7700e5b4057d2ce756",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/v2_config.py"
+    },
+    {
+      "path": "opencode-delegate/scripts/verification_support.py",
+      "sha256": "88781f2e9c2f758c233eb1af2dd6466a3d2a7267fa83344ee0cbcff649725d27",
+      "url": "https://github.com/chenlein/opencode-delegate/blob/22595dcfcc0a1880102fcc3a0055caa2558cef2b/opencode-delegate/scripts/verification_support.py"
+    }
+  ],
+  "note": "The public product code is a pinned external dependency, not silently rewritten or vendored into the owned-source supplement."
+}

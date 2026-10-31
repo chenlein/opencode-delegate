@@ -1,0 +1,520 @@
+{
+  "date": "2026-10-31",
+  "target": "chenlein/opencode-delegate Issue #1 F14/F15 supplemental acceptance",
+  "product_checkout_commit": "22595dcfcc0a1880102fcc3a0055caa2558cef2b",
+  "runtime_equals_commit": "2318d8ac92df8322537d520c1a9a133cf5a68432",
+  "runtime_comparison": "git diff --exit-code 2318d8ac92df8322537d520c1a9a133cf5a68432 22595dcfcc0a1880102fcc3a0055caa2558cef2b -- opencode-delegate returned 0",
+  "environment": {
+    "os": "Darwin",
+    "os_release": "27.0.0",
+    "macos": "27.0.1",
+    "architecture": "arm64",
+    "python": "3.9.6",
+    "git": "git version 2.54.0 (Apple Git-157)",
+    "product_commit": "22595dcfcc0a1880102fcc3a0055caa2558cef2b",
+    "runtime_tree": "b305b404454de6fcc61ae5027f5eba6ce2ba1e8a",
+    "codex_version": "codex-cli 0.166.0-alpha.5.1",
+    "opencode": {
+      "binary_sha256": "0262eaa54be5d18110ff0bfaf0413debb61cb0ec23716f09e97b3ae69f3e1fac",
+      "version": "opencode v2.2.3",
+      "major": 2,
+      "run_help_sha256": "2232aa4c581275174cab8c946375ce839af95189baa73470fa6323e8eda99196",
+      "supports_variant": false,
+      "supports_standalone": true,
+      "adapter": "opencode-v2-experimental",
+      "certification": "unverified",
+      "live_permissions_check_required": true
+    },
+    "source": {
+      "source_commit": "049e679ca22d794848c23a3ef0a15cfcb90cf848",
+      "marker": "READONLY-d555910bdc424affaed9ddef",
+      "files": {
+        ".gitignore": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b",
+        "AGENTS.md": "52d57e9e37d983b2393f76c7f99855b7ef6d2fd330233d7a4061066191e88f5c",
+        "README.md": "f0d715c05e85529bbda8287a600741120a5dce0f9d69cfb220dd7d6208793afe",
+        "checks/acceptance.py": "1c05e02c1c235e45e1690028a1f1c7f37867968c9bf30ff3b67b99a0eab9c8a5",
+        "checks/gate.py": "8b522afe6af22026323fcd31cd4583e7492786a921f4a60786b60ce25c6759b0",
+        "protected/receipt.txt": "62aea04ebed20c8dc5df77749adfc5e5e53a8201e151936dfda420b00b0c60b5",
+        "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "src/arithmetic.py": "14dec089c56196cf2123b8aa499a7753997d6ffb1151b6fac175d316c8ce6114",
+        "src/basket.py": "c67f59dacfaa0eddfc5fe06388e62dbc624b30cd37c3464a93ff09afc4a6d83c",
+        "src/catalog.py": "d7273c49921810a26def33e6ca0f56e9a65b753519b4dbf26fd6e39a5ed06582"
+      },
+      "allowed_paths": [
+        "src/arithmetic.py"
+      ],
+      "assertions": {
+        "arithmetic": 4,
+        "basket_integration": 3
+      },
+      "gate": "One injected transient verifier failure; not executor-created defect"
+    },
+    "auth": {
+      "codex": "Existing local ChatGPT login reused by official CLI; no credential copied or new authentication",
+      "opencode": "Existing local OpenCode credential store reused by OpenCode only; no credential copied or inspected"
+    },
+    "models": {
+      "codex_requested": "gpt-6.1-sol",
+      "codex_effort_requested": "medium",
+      "opencode_requested": "openai/gpt-6.1-sol",
+      "opencode_variant": "default",
+      "opencode_actual_reasoning_effort": "UNKNOWN",
+      "provider_model_snapshots": "UNKNOWN"
+    },
+    "codex_launcher_sha256": "50ab38ba21d0d9f8346f32f41848382f15b556190f3c7a07e885a4fb73e379c8",
+    "codex_binary_sha256": "58a91f6ea19bea477ae3a2ec48d619f0039afe75d3476260747e11d201fa7cea"
+  },
+  "routes": [
+    {
+      "route": "direct",
+      "status": "PASS",
+      "source_commit": "049e679ca22d794848c23a3ef0a15cfcb90cf848",
+      "same_frozen_source_and_assertions": true,
+      "read_only_verified": true,
+      "protected_file_hashes_match": true,
+      "changed_paths": [
+        "src/arithmetic.py"
+      ],
+      "first_edit_preserved": true,
+      "first_edit_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "final_edit_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "final_source": "def add(a, b):\n    \"\"\"Return the numeric sum used by basket adjustments.\"\"\"\n    return a + b\n",
+      "requested_model": "gpt-6.1-sol",
+      "coordinator_or_direct_effort": "medium",
+      "provider_model_snapshot": "UNKNOWN",
+      "start_utc": "2026-10-31T16:21:55Z",
+      "end_utc": "2026-10-31T16:22:24Z",
+      "end_to_end_wall_seconds": 29.517802667,
+      "clock_boundary": "Before app-server launch/thread setup through independent final verification, review and owned process cleanup",
+      "stage_wall_seconds": {
+        "readonly": 15.413303457999998,
+        "fix": 6.433414165999999,
+        "resume": 4.928207707999999
+      },
+      "codex_native_cumulative_usage_by_role": {
+        "direct-executor": {
+          "totalTokens": 76025,
+          "inputTokens": 75392,
+          "cachedInputTokens": 71552,
+          "cacheWriteInputTokens": 0,
+          "outputTokens": 633,
+          "reasoningOutputTokens": 0
+        }
+      },
+      "same_coordinator_thread_for_three_stages": true,
+      "global_configuration_unchanged": true,
+      "process_group_cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "first_verification": [
+        {
+          "id": "business",
+          "exit_code": 0,
+          "passed": true,
+          "stdout": "ASSERTIONS_OK: four arithmetic and three integration assertions\n",
+          "stderr": ""
+        },
+        {
+          "id": "gate",
+          "exit_code": 5,
+          "passed": false,
+          "stdout": "CONTROLLED_TRANSIENT_FAILURE: business assertions are evaluated separately; preserve the first edit\n",
+          "stderr": ""
+        }
+      ],
+      "final_verification": [
+        {
+          "id": "business",
+          "exit_code": 0,
+          "passed": true,
+          "stdout": "ASSERTIONS_OK: four arithmetic and three integration assertions\n",
+          "stderr": ""
+        },
+        {
+          "id": "gate",
+          "exit_code": 0,
+          "passed": true,
+          "stdout": "CONTROLLED_GATE_OK\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "route": "native",
+      "status": "PASS",
+      "source_commit": "049e679ca22d794848c23a3ef0a15cfcb90cf848",
+      "same_frozen_source_and_assertions": true,
+      "read_only_verified": true,
+      "protected_file_hashes_match": true,
+      "changed_paths": [
+        "src/arithmetic.py"
+      ],
+      "first_edit_preserved": true,
+      "first_edit_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "final_edit_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "final_source": "def add(a, b):\n    \"\"\"Return the numeric sum used by basket adjustments.\"\"\"\n    return a + b\n",
+      "requested_model": "gpt-6.1-sol",
+      "coordinator_or_direct_effort": "medium",
+      "provider_model_snapshot": "UNKNOWN",
+      "start_utc": "2026-10-31T16:23:51Z",
+      "end_utc": "2026-10-31T16:24:38Z",
+      "end_to_end_wall_seconds": 46.263538709,
+      "clock_boundary": "Before app-server launch/thread setup through independent final verification, review and owned process cleanup",
+      "stage_wall_seconds": {
+        "readonly": 21.664888,
+        "fix": 11.577791958000002,
+        "resume": 12.799664208000003
+      },
+      "codex_native_cumulative_usage_by_role": {
+        "coordinator": {
+          "totalTokens": 116998,
+          "inputTokens": 115946,
+          "cachedInputTokens": 107648,
+          "cacheWriteInputTokens": 0,
+          "outputTokens": 1052,
+          "reasoningOutputTokens": 0
+        },
+        "native-child": {
+          "totalTokens": 62321,
+          "inputTokens": 61732,
+          "cachedInputTokens": 48768,
+          "cacheWriteInputTokens": 0,
+          "outputTokens": 589,
+          "reasoningOutputTokens": 40
+        }
+      },
+      "same_coordinator_thread_for_three_stages": true,
+      "global_configuration_unchanged": true,
+      "process_group_cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "exactly_one_native_child_three_turns": true,
+      "native_child_resolved_model_and_effort": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "medium"
+      },
+      "first_verification": [
+        {
+          "id": "business",
+          "exit_code": 0,
+          "passed": true,
+          "stdout": "ASSERTIONS_OK: four arithmetic and three integration assertions\n",
+          "stderr": ""
+        },
+        {
+          "id": "gate",
+          "exit_code": 5,
+          "passed": false,
+          "stdout": "CONTROLLED_TRANSIENT_FAILURE: business assertions are evaluated separately; preserve the first edit\n",
+          "stderr": ""
+        }
+      ],
+      "final_verification": [
+        {
+          "id": "business",
+          "exit_code": 0,
+          "passed": true,
+          "stdout": "ASSERTIONS_OK: four arithmetic and three integration assertions\n",
+          "stderr": ""
+        },
+        {
+          "id": "gate",
+          "exit_code": 0,
+          "passed": true,
+          "stdout": "CONTROLLED_GATE_OK\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "route": "skill",
+      "status": "PASS",
+      "source_commit": "049e679ca22d794848c23a3ef0a15cfcb90cf848",
+      "same_frozen_source_and_assertions": true,
+      "read_only_verified": true,
+      "protected_file_hashes_match": true,
+      "changed_paths": [
+        "src/arithmetic.py"
+      ],
+      "first_edit_preserved": true,
+      "first_edit_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "final_edit_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "final_source": "def add(a, b):\n    \"\"\"Return the numeric sum used by basket adjustments.\"\"\"\n    return a + b\n",
+      "requested_model": "gpt-6.1-sol",
+      "coordinator_or_direct_effort": "medium",
+      "provider_model_snapshot": "UNKNOWN",
+      "start_utc": "2026-10-31T16:25:20Z",
+      "end_utc": "2026-10-31T16:27:26Z",
+      "end_to_end_wall_seconds": 125.144776541,
+      "clock_boundary": "Before app-server launch/thread setup through independent final verification, review and owned process cleanup",
+      "stage_wall_seconds": {
+        "readonly": 56.118223458,
+        "fix": 25.901721000000002,
+        "resume": 43.037857
+      },
+      "codex_native_cumulative_usage_by_role": {
+        "coordinator": {
+          "totalTokens": 624245,
+          "inputTokens": 622165,
+          "cachedInputTokens": 566272,
+          "cacheWriteInputTokens": 0,
+          "outputTokens": 2080,
+          "reasoningOutputTokens": 0
+        }
+      },
+      "same_coordinator_thread_for_three_stages": true,
+      "global_configuration_unchanged": true,
+      "process_group_cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "first_verification": [
+        {
+          "id": "business",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "id": "gate",
+          "exit_code": 5,
+          "passed": false
+        }
+      ],
+      "final_verification": [
+        {
+          "id": "business",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "id": "gate",
+          "exit_code": 0,
+          "passed": true
+        }
+      ],
+      "native_runner_statuses": {
+        "readonly": "ACCEPTED",
+        "fix": "ACCEPTED"
+      },
+      "opencode_model_binding": {
+        "providerID": "openai",
+        "id": "gpt-6.1-sol",
+        "variant": "default",
+        "effective_reasoning_effort": "UNKNOWN"
+      },
+      "opencode_final_session_cumulative_usage": [
+        {
+          "case": "readonly",
+          "exit_code": 0,
+          "response_sha256": "a81950a5c26a10eb7513280bf045d730c0dcaa2da056ea01307d6fb5b353ea2f",
+          "metadata_fields": [
+            "agent",
+            "cost",
+            "id",
+            "location",
+            "model",
+            "outcome",
+            "projectID",
+            "time",
+            "title",
+            "tokens"
+          ],
+          "usage_fields": {
+            "tokens": {
+              "input": 9,
+              "output": 478,
+              "reasoning": 0,
+              "cache": {
+                "read": 3170,
+                "write": 6094
+              }
+            },
+            "cost": 0.014962550000000002
+          },
+          "model": {
+            "id": "gpt-6.1-sol",
+            "providerID": "openai",
+            "variant": "default"
+          }
+        },
+        {
+          "case": "fix",
+          "exit_code": 0,
+          "response_sha256": "09f4aaea4a674f748b9cbb19456e8967b828d8c64ec144ef56e8df318d05a65f",
+          "metadata_fields": [
+            "agent",
+            "cost",
+            "id",
+            "location",
+            "model",
+            "outcome",
+            "projectID",
+            "time",
+            "title",
+            "tokens"
+          ],
+          "usage_fields": {
+            "tokens": {
+              "input": 18,
+              "output": 596,
+              "reasoning": 0,
+              "cache": {
+                "read": 17655,
+                "write": 9150
+              }
+            },
+            "cost": 0.024584050000000003
+          },
+          "model": {
+            "id": "gpt-6.1-sol",
+            "providerID": "openai",
+            "variant": "default"
+          }
+        }
+      ],
+      "opencode_totals_not_invoice": {
+        "tokens": {
+          "input": 27,
+          "output": 1074,
+          "reasoning": 0,
+          "cache": {
+            "read": 20825,
+            "write": 15244
+          }
+        },
+        "native_cost_field_sum": 0.0395466
+      },
+      "same_opencode_fix_session_for_incremental_feedback": true
+    }
+  ],
+  "preserved_startup_and_transport_failures": [
+    {
+      "id": "direct-backfill-failure",
+      "status": "BLOCKED_NOT_COUNTED_AS_SUCCESS",
+      "reason": "Bounded app-server wait expired",
+      "end_to_end_wall_seconds": 30.213788292,
+      "source_unchanged": true,
+      "global_configuration_unchanged": true,
+      "local_process_cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "provider_usage": "UNKNOWN",
+      "provider_remote_outcome": "No model turn was dispatched; internal backfill behavior was not inspected",
+      "report_sha256": "9f7f7c6cedb870e84290ed7da7bfe19abfab69714e6b2ba427db0de3c0a74978",
+      "stderr_sha256": "b48ce24c3e1140dc47b0ac47d8eedd84c95b6296621f45bd5b7a050d5c9ddb8f"
+    },
+    {
+      "id": "direct-initialize-failure",
+      "status": "BLOCKED_NOT_COUNTED_AS_SUCCESS",
+      "reason": "Bounded app-server wait expired",
+      "end_to_end_wall_seconds": 30.013330167000003,
+      "source_unchanged": true,
+      "global_configuration_unchanged": true,
+      "local_process_cleanup": {
+        "pid": 48832,
+        "confirmed_command_match": true,
+        "quiescent_immediate": false,
+        "quiescent_recheck": true
+      },
+      "provider_usage": "UNKNOWN",
+      "provider_remote_outcome": "No model turn was dispatched; internal backfill behavior was not inspected",
+      "report_sha256": "70c75ff6c6c1ba501c3191f7e8d1437fc2a00482cc1a09bde60214b966359f0b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "direct-network-failure",
+      "status": "BLOCKED_NOT_COUNTED_AS_SUCCESS",
+      "reason": "Bounded app-server wait expired",
+      "end_to_end_wall_seconds": 80.139128959,
+      "source_unchanged": true,
+      "global_configuration_unchanged": true,
+      "local_process_cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "provider_usage": "UNKNOWN",
+      "provider_remote_outcome": "UNKNOWN",
+      "report_sha256": "5849243c53982ce3f0b1238cf3440b00882edce38e39686f0f6aa918e7b26b9a",
+      "stderr_sha256": "ec92a562036764a1fc673677d2321496c659b773c6cfe2344b6a80591f61f83c"
+    },
+    {
+      "id": "direct-stale-isolated-db-failure",
+      "status": "BLOCKED_NOT_COUNTED_AS_SUCCESS",
+      "reason": "Bounded app-server wait expired",
+      "end_to_end_wall_seconds": 30.151056084,
+      "source_unchanged": true,
+      "global_configuration_unchanged": true,
+      "local_process_cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "provider_usage": "UNKNOWN",
+      "provider_remote_outcome": "No model turn was dispatched; internal backfill behavior was not inspected",
+      "report_sha256": "80c8993b53951d88be46fc77c5ba4661ef234b80fb98154a1728685b566cbc68",
+      "stderr_sha256": "a0ce47e836fbadfbb8695967517e00c1880b0e11f10dc625da8a42e38df4db51"
+    }
+  ],
+  "baseline_verifier_negative_control": {
+    "exit_code": 1,
+    "fails_original_source": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "b022d2c6d1d00e2f3beb5c27c7d0db389b5856937707aaecdb746e060d7e4e05"
+  },
+  "controlled_feedback": "All three first implementations passed four arithmetic plus three integration assertions. The fixed verifier deliberately failed its independent gate once with exit 5; the same registered session continued and preserved the first edit. This does not measure repair of worker-created code errors.",
+  "budget": {
+    "logical_limit": 20,
+    "logical_used_or_conservatively_reserved": 20,
+    "root_budget_pre_reserved": 20,
+    "provider_request_count": "UNKNOWN",
+    "coordinator_session": 1,
+    "failed_pre_model_startups": 3,
+    "failed_transport_model_turn": 1,
+    "successful_direct_turns": 3,
+    "native_coordinator_turns": 3,
+    "native_child_turns": 3,
+    "skill_coordinator_turns": 3,
+    "opencode_worker_turns": 3
+  },
+  "final_cleanup": {
+    "checked_at_utc": "2026-10-31T16:32:37Z",
+    "all_owned_groups_quiescent": true,
+    "global_configuration_unchanged_from_first_start": true,
+    "temporary_local_login_reference_removed": true
+  },
+  "owned_process_groups_checked": 21,
+  "product_source_changed": false,
+  "existing_user_project_used": false,
+  "issue_or_pr_updated": false,
+  "push_or_merge_performed": false,
+  "commands": "COMMANDS.txt",
+  "raw_log_publication": "No raw session, credential, proxy configuration, personal absolute path or private memory is included. Only owned synthetic outputs are projected and hashes retained.",
+  "auth_scope": "A temporary reference to the documented pre-existing local Codex login was used with a fresh runtime home; no credential bytes were copied or inspected, no new credentials were provisioned, and the reference was removed. OpenCode used its own existing local store. Global configuration hashes stayed unchanged.",
+  "sandbox_scope": "All Codex direct/coordinator/native-child runs retained workspace-write sandboxing and no new approval path. The bounded host adapter invoked the unchanged Runner/OpenCode under the authorized Mac account. OpenCode permissions and worktrees are not an OS sandbox. No yolo, danger-full-access, network forwarding or global configuration write was used.",
+  "limitations": [
+    "This is one synthetic basket fixture and one run per route, not a statistical benchmark or universal compatibility certification.",
+    "The eight behavior-decision fixture categories from prior rc.6 evidence were not rerun in this batch after startup failures consumed budget. Keep that prior evidence under its original version identity.",
+    "The new batch directly covers explicit Skill trigger, frozen contract, read-only evidence, bounded edit, registered incremental handoff, controlled failure, independent verification/review and one malformed-review rejection/correction. It does not add a new timeout-recovery experiment; existing rc.8 cloud evidence retains that scope.",
+    "Codex gpt-6.1-sol medium is confirmed in native metadata. OpenCode binds openai/gpt-6.1-sol/default; its effective reasoning effort and provider model snapshots are UNKNOWN, so the three routes are not fully identical in model/runtime conditions.",
+    "The common monotonic route clock starts before app-server launch and ends after final independent checks/review and local cleanup. Shared fixture preparation and the outer coordination session are outside those clocks; failed attempts are listed separately and are not silently excluded from the overall assessment.",
+    "Skill timing includes reading its documentation, initializing two managed tasks and the bounded adapter reply overhead; direct/native use their already-frozen fixture clones. Do not infer general speed or cost advantages from these measurements.",
+    "Codex final per-thread native cumulative usage is counted once per role. OpenCode event observations are partial; the final native per-Session cumulative metadata is authoritative for the two owned Sessions and is counted once per Session, including the resumed fix Session.",
+    "Outer Mac coordination usage, the parent dot coordinator usage, failed transport provider usage, provider request counts, actual bills and complete economic cost are UNKNOWN. Native cost fields are observations, not invoices. No token estimate from characters or savings claim is made.",
+    "Three pre-model app-server starts failed while initializing/waiting for state backfill. No model turn was dispatched in those starts; internal backfill behavior was not inspected. Successful runs used a fresh runtime home and fresh state directory with memories, ambient project docs, plugins and host skill discovery disabled.",
+    "An optional post-cleanup read of our temporary SQLite database failed to open it; it was not needed for acceptance and was not retried. Cleanup and configuration checks had already completed successfully."
+  ]
+}

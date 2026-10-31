@@ -10,7 +10,7 @@
 
 `rc.5` 适配 OpenCode v2.2.3 的配置来源数组和最终 Agent 清单。权限块逐项保序核对，只允许其后增加拒绝规则；私有模式前后复查来源指纹。不修改用户认证/模型配置，不调用模型来做配置预检；真实任务与工具权限认证仍未完成。V1 配置路径和状态 schema 保持不变，旧任务配置指纹不自动迁移。
 
-**rc.8 已完成真实 Linux/OpenCode 2.2.5 读写、拒绝、规则压缩与大仓流程；三路线对照仍受环境阻塞。** 当前回归为 236 Runner、16 安装及 6 语料完整性测试，26 项事件回放；详见 [rc.8 证据及未关闭项](docs/ISSUE1_RC8_EVIDENCE.md)。以下 v2.2.3/Sol 是历史版本证据： v2.2.3/Sol 已完成受控读写、同会话续跑、压缩和超时恢复；权限引擎探测与实际工具执行的覆盖范围分别记录。三路线小修复、只读和受控验收失败后的增量恢复均有实际结果；完整大仓流程仍有缺口。详见 [本轮证据](docs/ISSUE1_RC7_EVIDENCE.md)、[前批实测](docs/ISSUE1_RC6_EVIDENCE.md)、[实际验证](docs/VALIDATION.md) 和 [整改状态](docs/REVIEW_STATUS.md)。
+**rc.8 已补齐 Linux/OpenCode 2.2.5 实测与 Mac/OpenCode 2.2.3 三路线验收。** 逐项结果、原失败及限定兼容性见 [验收裁定](docs/ISSUE1_ACCEPTANCE_DECISION.md)；不自动发布稳定版，不宣称成本优势。 当前回归为 236 Runner、16 安装及 6 语料完整性测试，26 项事件回放；详见 [rc.8 证据及未关闭项](docs/ISSUE1_RC8_EVIDENCE.md)。以下 v2.2.3/Sol 是历史版本证据： v2.2.3/Sol 已完成受控读写、同会话续跑、压缩和超时恢复；权限引擎探测与实际工具执行的覆盖范围分别记录。三路线小修复、只读和受控验收失败后的增量恢复均有实际结果；完整大仓流程仍有缺口。详见 [本轮证据](docs/ISSUE1_RC7_EVIDENCE.md)、[前批实测](docs/ISSUE1_RC6_EVIDENCE.md)、[实际验证](docs/VALIDATION.md) 和 [整改状态](docs/REVIEW_STATUS.md)。
 
 ## 本轮可靠性修复
 

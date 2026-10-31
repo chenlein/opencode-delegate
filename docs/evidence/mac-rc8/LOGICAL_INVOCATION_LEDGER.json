@@ -1,0 +1,122 @@
+{
+  "limit": 20,
+  "coordination_session": 1,
+  "entries": [
+    {
+      "ordinal": 2,
+      "kind": "failed-startup",
+      "label": "direct-app-server-initialize-timeout",
+      "model_request_started": "UNKNOWN; no initialize response or turn/start dispatched"
+    },
+    {
+      "ordinal": 3,
+      "kind": "failed-startup",
+      "label": "direct-initialize-failure",
+      "reserved_at_utc": "2026-10-31T16:15:32Z"
+    },
+    {
+      "ordinal": 4,
+      "kind": "failed-startup",
+      "label": "direct-initialize-failure",
+      "reserved_at_utc": "2026-10-31T16:18:51Z"
+    },
+    {
+      "ordinal": 5,
+      "kind": "codex-direct",
+      "label": "direct-readonly",
+      "reserved_at_utc": "2026-10-31T16:19:24Z"
+    },
+    {
+      "ordinal": 6,
+      "kind": "codex-direct",
+      "label": "direct-readonly",
+      "reserved_at_utc": "2026-10-31T16:21:57Z"
+    },
+    {
+      "ordinal": 7,
+      "kind": "codex-direct",
+      "label": "direct-fix",
+      "reserved_at_utc": "2026-10-31T16:22:13Z"
+    },
+    {
+      "ordinal": 8,
+      "kind": "codex-direct",
+      "label": "direct-resume",
+      "reserved_at_utc": "2026-10-31T16:22:19Z"
+    },
+    {
+      "ordinal": 9,
+      "kind": "codex-coordinator",
+      "label": "native-readonly",
+      "reserved_at_utc": "2026-10-31T16:23:52Z"
+    },
+    {
+      "ordinal": 10,
+      "kind": "codex-native-child-reservation",
+      "label": "native-readonly-one-child-turn",
+      "reserved_at_utc": "2026-10-31T16:23:52Z"
+    },
+    {
+      "ordinal": 11,
+      "kind": "codex-coordinator",
+      "label": "native-fix",
+      "reserved_at_utc": "2026-10-31T16:24:13Z"
+    },
+    {
+      "ordinal": 12,
+      "kind": "codex-native-child-reservation",
+      "label": "native-fix-one-child-turn",
+      "reserved_at_utc": "2026-10-31T16:24:13Z"
+    },
+    {
+      "ordinal": 13,
+      "kind": "codex-coordinator",
+      "label": "native-resume",
+      "reserved_at_utc": "2026-10-31T16:24:25Z"
+    },
+    {
+      "ordinal": 14,
+      "kind": "codex-native-child-reservation",
+      "label": "native-resume-one-child-turn",
+      "reserved_at_utc": "2026-10-31T16:24:25Z"
+    },
+    {
+      "ordinal": 15,
+      "kind": "codex-coordinator",
+      "label": "skill-readonly",
+      "reserved_at_utc": "2026-10-31T16:25:21Z"
+    },
+    {
+      "ordinal": 16,
+      "kind": "opencode-worker",
+      "label": "readonly-run",
+      "reserved_at_utc": "2026-10-31T16:25:35Z"
+    },
+    {
+      "ordinal": 17,
+      "kind": "codex-coordinator",
+      "label": "skill-fix",
+      "reserved_at_utc": "2026-10-31T16:26:17Z"
+    },
+    {
+      "ordinal": 18,
+      "kind": "opencode-worker",
+      "label": "fix-run",
+      "reserved_at_utc": "2026-10-31T16:26:25Z"
+    },
+    {
+      "ordinal": 19,
+      "kind": "codex-coordinator",
+      "label": "skill-resume",
+      "reserved_at_utc": "2026-10-31T16:26:43Z"
+    },
+    {
+      "ordinal": 20,
+      "kind": "opencode-worker",
+      "label": "fix-run",
+      "reserved_at_utc": "2026-10-31T16:26:50Z"
+    }
+  ],
+  "provider_request_count": "UNKNOWN",
+  "note": "Logical model execution/continuation/child reservations; failures count. Not tokens or provider request count."
+}

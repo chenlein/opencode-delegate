@@ -1,0 +1,1 @@
+Synthetic acceptance fixture. Only src/arithmetic.py may change during authorized implementation. Read-only analysis must change no files. Do not edit checks, protected data, Git state, or rules. No network, credentials, global config, commits, or pushes. Do not create bytecode.

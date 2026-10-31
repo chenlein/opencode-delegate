@@ -1,0 +1,219 @@
+{
+  "activity": [
+    {
+      "type": "subAgentActivity",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "id": "call_a64abb1aad3045ac8e2f221ec483489b",
+      "kind": "started",
+      "agentThreadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "agentPath": "/root/fixture_inspection",
+      "startedAtMs": 1793463841581,
+      "completedAtMs": 1793463841582
+    },
+    {
+      "type": "subAgentActivity",
+      "model": null,
+      "reasoningEffort": null,
+      "id": "subagent-completed-01a192c6-732d-7243-9c94-7981cc8a683c",
+      "kind": "completed",
+      "agentThreadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "agentPath": "/root/fixture_inspection",
+      "startedAtMs": 1793463850675,
+      "completedAtMs": 1793463850675
+    },
+    {
+      "type": "subAgentActivity",
+      "model": null,
+      "reasoningEffort": null,
+      "id": "call_01edc9fbf3c445fba6b202fbcd298536",
+      "kind": "interacted",
+      "agentThreadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "agentPath": "/root/fixture_inspection",
+      "startedAtMs": 1793463856930,
+      "completedAtMs": 1793463856930
+    },
+    {
+      "type": "subAgentActivity",
+      "model": null,
+      "reasoningEffort": null,
+      "id": "subagent-completed-01a192c6-af22-7ab0-ba68-9a845e3b9f83",
+      "kind": "completed",
+      "agentThreadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "agentPath": "/root/fixture_inspection",
+      "startedAtMs": 1793463862803,
+      "completedAtMs": 1793463862803
+    },
+    {
+      "type": "subAgentActivity",
+      "model": null,
+      "reasoningEffort": null,
+      "id": "call_106056e9c1804f87a11a543c0fb473a3",
+      "kind": "interacted",
+      "agentThreadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "agentPath": "/root/fixture_inspection",
+      "startedAtMs": 1793463870697,
+      "completedAtMs": 1793463870698
+    },
+    {
+      "type": "subAgentActivity",
+      "model": null,
+      "reasoningEffort": null,
+      "id": "subagent-completed-01a192c6-e4e9-7f83-bb4c-48953fe44565",
+      "kind": "completed",
+      "agentThreadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "agentPath": "/root/fixture_inspection",
+      "startedAtMs": 1793463873425,
+      "completedAtMs": 1793463873425
+    }
+  ],
+  "observed_child_turns": [
+    {
+      "threadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "turn": {
+        "id": "01a192c6-732d-7243-9c94-7981cc8a683c",
+        "rootTurnId": "01a192c6-4dd3-78f0-a979-53b44385cc54",
+        "items": [],
+        "itemsView": "notLoaded",
+        "status": "inProgress",
+        "error": null,
+        "startedAt": 1793463841,
+        "completedAt": null,
+        "durationMs": null
+      }
+    },
+    {
+      "threadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "turn": {
+        "id": "01a192c6-af22-7ab0-ba68-9a845e3b9f83",
+        "rootTurnId": "01a192c6-a281-78f2-96c6-d0a371a8b2e8",
+        "items": [],
+        "itemsView": "notLoaded",
+        "status": "inProgress",
+        "error": null,
+        "startedAt": 1793463856,
+        "completedAt": null,
+        "durationMs": null
+      }
+    },
+    {
+      "threadId": "01a192c6-7326-7ca3-9b38-69e18061c4ac",
+      "turn": {
+        "id": "01a192c6-e4e9-7f83-bb4c-48953fe44565",
+        "rootTurnId": "01a192c6-d00b-72d1-9385-682038f00745",
+        "items": [],
+        "itemsView": "notLoaded",
+        "status": "inProgress",
+        "error": null,
+        "startedAt": 1793463870,
+        "completedAt": null,
+        "durationMs": null
+      }
+    }
+  ],
+  "observed_child_messages": [
+    {
+      "type": "agentMessage",
+      "id": "msg_0110da38a412c3c2016ae616263924819aa4f83a9062bfb1e7",
+      "text": "I’ll read the three specified source files and report the marker and total calculation without changing files or running tests.\n",
+      "phase": "commentary",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null,
+      "startedAtMs": 1793463847443,
+      "completedAtMs": 1793463847443
+    },
+    {
+      "type": "agentMessage",
+      "id": "msg_0110da38a412c3c2016ae61628ceac819abe7cd0bfa1fa9b61",
+      "text": "`TRACE_MARKER = 'READONLY-d555910bdc424affaed9ddef'` appears in [src/catalog.py](${ACCEPTANCE_ROOT}/fixtures/native/src/catalog.py:1).\n\n[basket.total](${ACCEPTANCE_ROOT}/fixtures/native/src/basket.py:4) sums each catalog price × quantity, then calls `add(subtotal, adjustment)`. Currently, [arithmetic.add](${ACCEPTANCE_ROOT}/fixtures/native/src/arithmetic.py:1) returns `a - b`, so positive adjustments decrease the total and negative adjustments increase it.\n\nNo files changed; no tests run. Ready for the next stage.",
+      "phase": "final_answer",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null,
+      "startedAtMs": 1793463848916,
+      "completedAtMs": 1793463850519
+    },
+    {
+      "type": "agentMessage",
+      "id": "msg_0110da38a412c3c2016ae6163376bc819a8d7fad4c64980232",
+      "text": "I’ll change `add` to return the numeric sum, preserving its signature. I won’t run tests.\n",
+      "phase": "commentary",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null,
+      "startedAtMs": 1793463859565,
+      "completedAtMs": 1793463860192
+    },
+    {
+      "type": "agentMessage",
+      "id": "msg_0110da38a412c3c2016ae61635ac94819aad51bf2843a967cd",
+      "text": "Updated [src/arithmetic.py](${ACCEPTANCE_ROOT}/fixtures/native/src/arithmetic.py:3) to return `a + b`, preserving the API.\n\nNo tests run. No other files or Git state changed. Ready for stage 3.",
+      "phase": "final_answer",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null,
+      "startedAtMs": 1793463861785,
+      "completedAtMs": 1793463862775
+    },
+    {
+      "type": "agentMessage",
+      "id": "msg_0110da38a412c3c2016ae616407a78819a9024922db92eb461",
+      "text": "All seven business assertions passed. The gate’s exit 5 (`CONTROLLED_TRANSIENT_FAILURE`) is the expected one-time failure, so no code change is warranted.\n\nImplementation preserved unchanged; no tests run. Ready for a full rerun of the same fixed checks.",
+      "phase": "final_answer",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null,
+      "startedAtMs": 1793463872622,
+      "completedAtMs": 1793463873388
+    }
+  ],
+  "observed_collab_tool_items": [
+    {
+      "type": "collabAgentToolCall",
+      "id": "call_26a23c8b75464defbde6029bab23bc5a",
+      "tool": "wait",
+      "status": "completed",
+      "senderThreadId": "01a192c6-4dc7-7023-b912-da24ea0e302d",
+      "receiverThreadIds": [],
+      "prompt": null,
+      "model": null,
+      "reasoningEffort": null,
+      "agentsStates": {},
+      "startedAtMs": 1793463843004,
+      "completedAtMs": 1793463850676
+    },
+    {
+      "type": "collabAgentToolCall",
+      "id": "call_3c70b07ce07f40bbb3d5e1910cfae344",
+      "tool": "wait",
+      "status": "completed",
+      "senderThreadId": "01a192c6-4dc7-7023-b912-da24ea0e302d",
+      "receiverThreadIds": [],
+      "prompt": null,
+      "model": null,
+      "reasoningEffort": null,
+      "agentsStates": {},
+      "startedAtMs": 1793463858786,
+      "completedAtMs": 1793463862803
+    },
+    {
+      "type": "collabAgentToolCall",
+      "id": "call_2984a909ce7c4d1fb517f3f2abac0d5d",
+      "tool": "wait",
+      "status": "completed",
+      "senderThreadId": "01a192c6-4dc7-7023-b912-da24ea0e302d",
+      "receiverThreadIds": [],
+      "prompt": null,
+      "model": null,
+      "reasoningEffort": null,
+      "agentsStates": {},
+      "startedAtMs": 1793463873398,
+      "completedAtMs": 1793463873426
+    }
+  ],
+  "forwarded_child_prompt_body": "UNKNOWN: this notification stream exposes child activity/model/effort and three child turns, but not the actual spawn/follow-up argument bodies.",
+  "fork_context_flag_actually_used": "UNKNOWN: no-fork context was requested in the captured root prompt; the native activity records do not expose the effective fork flag.",
+  "independence_scope": "The three route parent threads were fresh and separate; no output from one route was copied into another route input.",
+  "unused_final_source_branch": "The final harness has a conditional thread/resume subscription for collab tool spawnAgent. It was added after the direct run and was not activated in any successful route; native activity was delivered as subAgentActivity plus wait."
+}
