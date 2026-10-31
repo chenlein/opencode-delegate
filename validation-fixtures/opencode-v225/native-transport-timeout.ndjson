@@ -1,0 +1,7 @@
+{"type": "step_start", "timestamp": 1793457169299, "sessionID": "ses_v225_8_1", "part": {"id": "prt_v225_8_2", "sessionID": "ses_v225_8_1", "messageID": "msg_v225_8_3", "type": "step-start"}}
+{"type": "step_start", "timestamp": 1793457171314, "sessionID": "ses_v225_8_1", "part": {"id": "prt_v225_8_4", "sessionID": "ses_v225_8_1", "messageID": "msg_v225_8_3", "type": "step-start"}}
+{"type": "step_start", "timestamp": 1793457175103, "sessionID": "ses_v225_8_1", "part": {"id": "prt_v225_8_5", "sessionID": "ses_v225_8_1", "messageID": "msg_v225_8_3", "type": "step-start"}}
+{"type": "step_start", "timestamp": 1793457183195, "sessionID": "ses_v225_8_1", "part": {"id": "prt_v225_8_6", "sessionID": "ses_v225_8_1", "messageID": "msg_v225_8_3", "type": "step-start"}}
+{"type": "step_start", "timestamp": 1793457192624, "sessionID": "ses_v225_8_1", "part": {"id": "prt_v225_8_7", "sessionID": "ses_v225_8_1", "messageID": "msg_v225_8_3", "type": "step-start"}}
+{"type": "step_start", "timestamp": 1793457203886, "sessionID": "ses_v225_8_1", "part": {"id": "prt_v225_8_8", "sessionID": "ses_v225_8_1", "messageID": "msg_v225_8_3", "type": "step-start"}}
+{"type": "error", "timestamp": 1793457213140, "sessionID": "ses_v225_8_1", "error": {"type": "unknown", "message": "Transport: ECONNRESET: The socket connection was closed unexpectedly. For more information, pass `verbose: true` in the second argument to fetch()"}}

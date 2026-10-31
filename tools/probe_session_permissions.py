@@ -7,6 +7,7 @@ explicit binary; never installs software, changes existing sessions, or calls ru
 import argparse
 import os,sys,json,subprocess,tempfile
 from pathlib import Path
+sys.dont_write_bytecode = True  # Do not contaminate an unpacked release during diagnostics.
 R=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(R/'opencode-delegate/scripts'))
 import opencode_adapter as a

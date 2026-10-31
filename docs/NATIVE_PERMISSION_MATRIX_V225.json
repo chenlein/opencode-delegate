@@ -1,0 +1,135 @@
+{
+  "model_calls": 0,
+  "scope": "one isolated loopback server; native permission decisions, not tool execution",
+  "cli_version": "opencode v2.2.5",
+  "binary_sha256": "8d060e1d2fbb9bb44cf09ae6ed1f3f6a7cff070b5227e2f90970132b23a92050",
+  "custom_agent_ready": true,
+  "matrix": [
+    {
+      "action": "read",
+      "resource": "allowed.txt",
+      "expected": "allow",
+      "actual": "allow"
+    },
+    {
+      "action": "glob",
+      "resource": "*",
+      "expected": "allow",
+      "actual": "allow"
+    },
+    {
+      "action": "edit",
+      "resource": "allowed.txt",
+      "expected": "allow",
+      "actual": "allow"
+    },
+    {
+      "action": "edit",
+      "resource": "protected.txt",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "other.txt",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "read",
+      "resource": ".env",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "read",
+      "resource": ".git/config",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "*",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "subagent",
+      "resource": "*",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "<outside-worktree>",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "webfetch",
+      "resource": "https://example.invalid",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "websearch",
+      "resource": "*",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "skill",
+      "resource": "*",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "question",
+      "resource": "*",
+      "expected": "deny",
+      "actual": "deny"
+    },
+    {
+      "action": "execute",
+      "resource": "*",
+      "expected": "deny",
+      "actual": "deny"
+    }
+  ],
+  "passed": true,
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "reasoning": 0,
+    "cache": {
+      "read": 0,
+      "write": 0
+    }
+  },
+  "cost": 0,
+  "native_move": {
+    "before_binding": "accepted",
+    "same_session_id": true,
+    "target_location_independently_observed": true,
+    "original_worktree_still_exists": true,
+    "after_binding": "rejected",
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "cost": 0
+  },
+  "cleanup": {
+    "signals": [
+      "SIGTERM"
+    ],
+    "errors": [],
+    "process_group_quiescent": true,
+    "leader_reaped": true
+  }
+}
