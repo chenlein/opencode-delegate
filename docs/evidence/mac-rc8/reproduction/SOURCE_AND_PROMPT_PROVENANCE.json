@@ -1,0 +1,139 @@
+{
+  "sources": [
+    {
+      "file": "prepare.py",
+      "original_sha256": "e96d8107850a8125c364389dae19548d3c63d7343ccea12c6a38a53dc7e8b475",
+      "captured_redacted_sha256": "e96d8107850a8125c364389dae19548d3c63d7343ccea12c6a38a53dc7e8b475",
+      "parameterized_sha256": "644e998a6d93ca6e35bf02a806144e6d78573f6012a9fa8ce7165cedd5fd1894",
+      "changes": "Path configuration only; publish.py also imports os for the path parameter. Test, dispatch, protocol, checking, timing and aggregation bodies are retained."
+    },
+    {
+      "file": "harness.py",
+      "original_sha256": "7dfd9f6226f262c218d0c0bf2b7718783ef92b94f574a159aeb63f4fb944c8b6",
+      "captured_redacted_sha256": "558d01ccd9a918ddbb3c74a72ba8c4cf62e08c71c59a899fdf9d5affb92957ac",
+      "parameterized_sha256": "1b164caa7328488dab56b53f71bb7ff4db7bfc664241760138a526d068e7c15a",
+      "changes": "Path configuration only; publish.py also imports os for the path parameter. Test, dispatch, protocol, checking, timing and aggregation bodies are retained."
+    },
+    {
+      "file": "publish.py",
+      "original_sha256": "6c283ef3292450bf60b1ab87f604bd3c038c7685e0f695b2d33f4f6aeccbf3f9",
+      "captured_redacted_sha256": "6c283ef3292450bf60b1ab87f604bd3c038c7685e0f695b2d33f4f6aeccbf3f9",
+      "parameterized_sha256": "70fcd8b0322b50cfe559f04678138bbdb0c8139fad49436c783781549519b4c3",
+      "changes": "Path configuration only; publish.py also imports os for the path parameter. Test, dispatch, protocol, checking, timing and aggregation bodies are retained."
+    }
+  ],
+  "prompts": [
+    {
+      "file": "prompts/direct-readonly.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "f86dd2143ae8b9ef1765046ce41c251eec6a7a84447c3fb2e8b6e53073555699",
+      "original_text_sha256": "318cd45302a49c401b805912055b7d4e961daaf5a13a7362fab7e043e0969ab5",
+      "parameterized_text_sha256": "318cd45302a49c401b805912055b7d4e961daaf5a13a7362fab7e043e0969ab5",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/direct-fix.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "df2e81a9d2acf7985d28d6f23969571673247ece4e15027319805c199a59b7d9",
+      "original_text_sha256": "55c0dc56e2e81d6935318a51cd7ff6e84fda708b7e0572e1d59a024ea0694eb5",
+      "parameterized_text_sha256": "55c0dc56e2e81d6935318a51cd7ff6e84fda708b7e0572e1d59a024ea0694eb5",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/direct-resume.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "0ea0cc318d040e7433ac46d8688e3240e0fe3ba1b7068366ce8008cab0185d73",
+      "original_text_sha256": "89edeea1c2a8f9dccf18c49c4fc60932f083ba18b5f5caef711c014730ee8595",
+      "parameterized_text_sha256": "89edeea1c2a8f9dccf18c49c4fc60932f083ba18b5f5caef711c014730ee8595",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/native-readonly.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "ff2a555a105574be92c799ff89bd56c382afce72c5184d4651961690307ff766",
+      "original_text_sha256": "624782638afe5b654b33fa6778ea8142a7a64becb210477a3ab9a650e2a63db2",
+      "parameterized_text_sha256": "624782638afe5b654b33fa6778ea8142a7a64becb210477a3ab9a650e2a63db2",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/native-fix.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "8896aa309b55eba64ff4f3608c51ea836675f5d9bd1289a5d96293525cbc5434",
+      "original_text_sha256": "bf0c799034e0dc2791320a150f79ccaa7167624f98001b789900204d8dcfc2b7",
+      "parameterized_text_sha256": "bf0c799034e0dc2791320a150f79ccaa7167624f98001b789900204d8dcfc2b7",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/native-resume.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "a1023cf02b0819784e5194d225d0de9586ea3511fd07892d26240383685fc94d",
+      "original_text_sha256": "283c6b26b5084a00196116199aa4795ea308ace3e3ce3e48d731283963f1b434",
+      "parameterized_text_sha256": "283c6b26b5084a00196116199aa4795ea308ace3e3ce3e48d731283963f1b434",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/skill-readonly.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "da1ef7f96a95aaf7cdb42942f59cce008144ab5f187109b8de902066905bc165",
+      "original_text_sha256": "5824d7c7f3e462c28bba420d72183df96864522acb20d2bb36f2c811c3e58f45",
+      "parameterized_text_sha256": "ce316ace3575fd7db4d0916d34bc4daecc0ec517b1c1a2fd836d6755736bad8b",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/skill-fix.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "7d142956ae9d3d63f118038ad22ceb14a6406a39b40c5c12c48edd32f2c7dfb1",
+      "original_text_sha256": "33ba59bd4f99d807f145463efe5e9728158d17a3e08abb4e17e7e6673e103c9d",
+      "parameterized_text_sha256": "33ba59bd4f99d807f145463efe5e9728158d17a3e08abb4e17e7e6673e103c9d",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/skill-resume.txt",
+      "capture_type": "saved_coordinator_turn_input",
+      "original_record_sha256": "5d211feb18283ff7995f0b274163087b2ab8c840e9b0ecb690cb9d3d15b26313",
+      "original_text_sha256": "4995ee5cb0e10631106a620b0e58693763e281983569f6a1bc619482ec023b78",
+      "parameterized_text_sha256": "4995ee5cb0e10631106a620b0e58693763e281983569f6a1bc619482ec023b78",
+      "changes": "Path tokens only; wording, punctuation and whitespace preserved."
+    },
+    {
+      "file": "prompts/opencode-readonly-001.txt",
+      "capture_type": "reconstructed_from_saved_packet_and_pinned_runner_PRELUDE_and_serialization",
+      "saved_packet_original_sha256": "82c251233ef8d1c1fb9b74b22d4a0c19af1084fb764843ade777746bbbc6daad",
+      "packet_canonical_sha256_matches_execution_record": true,
+      "reconstructed_unredacted_prompt_sha256": "e21e818f5844ab715bfc94595f10b8f79e45fac16d9afd62854ea0f9842fc1c3",
+      "parameterized_text_sha256": "dbb8f5e330c4166a5bf925e4d3a5e0c33809579eb538d77091e12b042abf21d1",
+      "note": "The full prompt string was not separately captured; the Runner template plus saved packet reconstruct it. This is not relabeled as a raw prompt capture."
+    },
+    {
+      "file": "prompts/opencode-fix-001.txt",
+      "capture_type": "reconstructed_from_saved_packet_and_pinned_runner_PRELUDE_and_serialization",
+      "saved_packet_original_sha256": "560110bdc7bf5f6d52a46f0eb74981e73e45048b0f4377fef1c403efdd708bde",
+      "packet_canonical_sha256_matches_execution_record": true,
+      "reconstructed_unredacted_prompt_sha256": "4efd0bb406e9f206e61ffbba841c6a0709a25e6f0f9efa1bfd869d1e6bb060b5",
+      "parameterized_text_sha256": "6b614b3ebf987ca2e4018a7a330f466ce68a798b072c56bc73b1fa8507edf24b",
+      "note": "The full prompt string was not separately captured; the Runner template plus saved packet reconstruct it. This is not relabeled as a raw prompt capture."
+    },
+    {
+      "file": "prompts/opencode-fix-002.txt",
+      "capture_type": "reconstructed_from_saved_packet_and_pinned_runner_PRELUDE_and_serialization",
+      "saved_packet_original_sha256": "acdec38330045d3ae2dd72dc271c3893caead3fae22358fa76bfd90e1dc98f76",
+      "packet_canonical_sha256_matches_execution_record": true,
+      "reconstructed_unredacted_prompt_sha256": "49f6dd6269216536255eab4d962605dace85b758ce945f577f6f6f50f697f84a",
+      "parameterized_text_sha256": "16d900a980ad0ed986fd0afab6d70ba6cd45d6fc282362d04c3db9797b280019",
+      "note": "The full prompt string was not separately captured; the Runner template plus saved packet reconstruct it. This is not relabeled as a raw prompt capture."
+    }
+  ],
+  "historical_source_capture_limit": "The final owned harness file is captured. A child-subscription branch was added after direct PASS; it was unused in all successful routes. Full historical source snapshots for the initial failed startups were not saved. Their saved argv/error/cleanup records remain the evidence; no historical source hash is invented.",
+  "path_tokens": [
+    "${ACCEPTANCE_ROOT}",
+    "${PRODUCT_CHECKOUT}",
+    "${CODEX_BINARY}",
+    "${OPENCODE_BINARY}",
+    "${PYTHON}",
+    "${TMPDIR}",
+    "${USER_HOME}"
+  ],
+  "materialized_helper": "helpers/collect_metadata_usage.materialized.py was copied from the already-executed inline command and wrapped in __main__ for inspection. It was not executed again; no original on-disk helper existed at measurement time.",
+  "benchmark_results_modified_in_supplement": false,
+  "models_or_subagents_run_in_supplement": 0
+}

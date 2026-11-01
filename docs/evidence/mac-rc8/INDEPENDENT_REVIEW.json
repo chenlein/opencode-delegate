@@ -1,0 +1,47 @@
+{
+  "reviewed_at_utc": "2026-10-31T16:29:59Z",
+  "routes": {
+    "direct": {
+      "status": "PASS",
+      "head_equals_frozen_commit": true,
+      "staged_diff_empty": true,
+      "changed_paths": [
+        "src/arithmetic.py"
+      ],
+      "all_protected_file_hashes_match": true,
+      "semantic_review": "add now returns the arithmetic sum without changing its signature or basket call flow. Four arithmetic and three integration assertions remain frozen and pass. Initial verifier gate failure is intentional and retained; no claim that continuation fixed a worker code defect.",
+      "first_edit_preserved": true,
+      "final_source_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "read_only_output_independently_checked": true,
+      "reviewer": "Mac acceptance coordination session, independent of all three execution routes"
+    },
+    "native": {
+      "status": "PASS",
+      "head_equals_frozen_commit": true,
+      "staged_diff_empty": true,
+      "changed_paths": [
+        "src/arithmetic.py"
+      ],
+      "all_protected_file_hashes_match": true,
+      "semantic_review": "add now returns the arithmetic sum without changing its signature or basket call flow. Four arithmetic and three integration assertions remain frozen and pass. Initial verifier gate failure is intentional and retained; no claim that continuation fixed a worker code defect.",
+      "first_edit_preserved": true,
+      "final_source_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "read_only_output_independently_checked": true,
+      "reviewer": "Mac acceptance coordination session, independent of all three execution routes"
+    },
+    "skill": {
+      "status": "PASS",
+      "head_equals_frozen_commit": true,
+      "staged_diff_empty": true,
+      "changed_paths": [
+        "src/arithmetic.py"
+      ],
+      "all_protected_file_hashes_match": true,
+      "semantic_review": "add now returns the arithmetic sum without changing its signature or basket call flow. Four arithmetic and three integration assertions remain frozen and pass. Initial verifier gate failure is intentional and retained; no claim that continuation fixed a worker code defect.",
+      "first_edit_preserved": true,
+      "final_source_sha256": "f14e46ca45e69f38b085568396457b02a3daef8d03abdaec724b2fd408c623f3",
+      "read_only_output_independently_checked": true,
+      "reviewer": "Mac acceptance coordination session, independent of all three execution routes"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "check_type": "static source and archive integrity only; not a model or behavior test",
+  "models_started": 0,
+  "subagents_started": 0,
+  "services_started": 0,
+  "harness_imported_or_executed": false,
+  "all_harness_function_and_class_ASTs_identical_after_reversing_explicit_path_references": true,
+  "prepare_and_publish_function_ASTs_identical": true,
+  "nine_saved_coordinator_prompts_exact_except_path_tokens": true,
+  "three_OpenCode_prompts_reconstructed_from_saved_packets_and_pinned_template": true,
+  "source_original_hashes_unchanged_during_supplement": true,
+  "raw_private_sessions_or_authentication_references_included": false
+}

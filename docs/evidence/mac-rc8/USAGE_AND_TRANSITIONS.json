@@ -1,0 +1,989 @@
+{
+  "direct": {
+    "turns_by_role": {
+      "direct-executor": 3
+    },
+    "usage_notifications": [
+      {
+        "role": "direct-executor",
+        "usage": {
+          "total": {
+            "totalTokens": 11929,
+            "inputTokens": 11793,
+            "cachedInputTokens": 9600,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 136,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 11929,
+            "inputTokens": 11793,
+            "cachedInputTokens": 9600,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 136,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "direct-executor",
+        "usage": {
+          "total": {
+            "totalTokens": 24136,
+            "inputTokens": 23947,
+            "cachedInputTokens": 21376,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 189,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12207,
+            "inputTokens": 12154,
+            "cachedInputTokens": 11776,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 53,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "direct-executor",
+        "usage": {
+          "total": {
+            "totalTokens": 36862,
+            "inputTokens": 36466,
+            "cachedInputTokens": 33408,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 396,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12726,
+            "inputTokens": 12519,
+            "cachedInputTokens": 12032,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 207,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "direct-executor",
+        "usage": {
+          "total": {
+            "totalTokens": 49798,
+            "inputTokens": 49297,
+            "cachedInputTokens": 45952,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 501,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12936,
+            "inputTokens": 12831,
+            "cachedInputTokens": 12544,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 105,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "direct-executor",
+        "usage": {
+          "total": {
+            "totalTokens": 62828,
+            "inputTokens": 62257,
+            "cachedInputTokens": 58752,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 571,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13030,
+            "inputTokens": 12960,
+            "cachedInputTokens": 12800,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 70,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "direct-executor",
+        "usage": {
+          "total": {
+            "totalTokens": 76025,
+            "inputTokens": 75392,
+            "cachedInputTokens": 71552,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 633,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13197,
+            "inputTokens": 13135,
+            "cachedInputTokens": 12800,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 62,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      }
+    ]
+  },
+  "native": {
+    "turns_by_role": {
+      "coordinator": 3,
+      "native-child": 3
+    },
+    "usage_notifications": [
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 12156,
+            "inputTokens": 11870,
+            "cachedInputTokens": 9600,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 286,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12156,
+            "inputTokens": 11870,
+            "cachedInputTokens": 9600,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 286,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "native-child",
+        "usage": {
+          "total": {
+            "totalTokens": 11831,
+            "inputTokens": 11656,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 175,
+            "reasoningOutputTokens": 40
+          },
+          "last": {
+            "totalTokens": 11831,
+            "inputTokens": 11656,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 175,
+            "reasoningOutputTokens": 40
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "native-child",
+        "usage": {
+          "total": {
+            "totalTokens": 24155,
+            "inputTokens": 23796,
+            "cachedInputTokens": 11648,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 359,
+            "reasoningOutputTokens": 40
+          },
+          "last": {
+            "totalTokens": 12324,
+            "inputTokens": 12140,
+            "cachedInputTokens": 11648,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 184,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 24356,
+            "inputTokens": 24049,
+            "cachedInputTokens": 21632,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 307,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12200,
+            "inputTokens": 12179,
+            "cachedInputTokens": 12032,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 21,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 36990,
+            "inputTokens": 36492,
+            "cachedInputTokens": 33664,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 498,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12634,
+            "inputTokens": 12443,
+            "cachedInputTokens": 12032,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 191,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 49956,
+            "inputTokens": 49272,
+            "cachedInputTokens": 43264,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 684,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 12966,
+            "inputTokens": 12780,
+            "cachedInputTokens": 9600,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 186,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "native-child",
+        "usage": {
+          "total": {
+            "totalTokens": 36745,
+            "inputTokens": 36284,
+            "cachedInputTokens": 23808,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 461,
+            "reasoningOutputTokens": 40
+          },
+          "last": {
+            "totalTokens": 12590,
+            "inputTokens": 12488,
+            "cachedInputTokens": 12160,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 102,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "native-child",
+        "usage": {
+          "total": {
+            "totalTokens": 49430,
+            "inputTokens": 48898,
+            "cachedInputTokens": 36224,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 532,
+            "reasoningOutputTokens": 40
+          },
+          "last": {
+            "totalTokens": 12685,
+            "inputTokens": 12614,
+            "cachedInputTokens": 12416,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 71,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 62956,
+            "inputTokens": 62251,
+            "cachedInputTokens": 56064,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 705,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13000,
+            "inputTokens": 12979,
+            "cachedInputTokens": 12800,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 21,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 76177,
+            "inputTokens": 75381,
+            "cachedInputTokens": 68480,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 796,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13221,
+            "inputTokens": 13130,
+            "cachedInputTokens": 12416,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 91,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 89702,
+            "inputTokens": 88733,
+            "cachedInputTokens": 81536,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 969,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13525,
+            "inputTokens": 13352,
+            "cachedInputTokens": 13056,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 173,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "native-child",
+        "usage": {
+          "total": {
+            "totalTokens": 62321,
+            "inputTokens": 61732,
+            "cachedInputTokens": 48768,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 589,
+            "reasoningOutputTokens": 40
+          },
+          "last": {
+            "totalTokens": 12891,
+            "inputTokens": 12834,
+            "cachedInputTokens": 12544,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 57,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 103261,
+            "inputTokens": 102271,
+            "cachedInputTokens": 94848,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 990,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13559,
+            "inputTokens": 13538,
+            "cachedInputTokens": 13312,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 21,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 116998,
+            "inputTokens": 115946,
+            "cachedInputTokens": 107648,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1052,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 13737,
+            "inputTokens": 13675,
+            "cachedInputTokens": 12800,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 62,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      }
+    ],
+    "native_child_activity": [
+      {
+        "type": "subAgentActivity",
+        "model": "gpt-6.1-sol",
+        "reasoningEffort": "medium",
+        "kind": "started",
+        "startedAtMs": 1793463841581,
+        "completedAtMs": 1793463841582
+      },
+      {
+        "type": "subAgentActivity",
+        "model": null,
+        "reasoningEffort": null,
+        "kind": "completed",
+        "startedAtMs": 1793463850675,
+        "completedAtMs": 1793463850675
+      },
+      {
+        "type": "subAgentActivity",
+        "model": null,
+        "reasoningEffort": null,
+        "kind": "interacted",
+        "startedAtMs": 1793463856930,
+        "completedAtMs": 1793463856930
+      },
+      {
+        "type": "subAgentActivity",
+        "model": null,
+        "reasoningEffort": null,
+        "kind": "completed",
+        "startedAtMs": 1793463862803,
+        "completedAtMs": 1793463862803
+      },
+      {
+        "type": "subAgentActivity",
+        "model": null,
+        "reasoningEffort": null,
+        "kind": "interacted",
+        "startedAtMs": 1793463870697,
+        "completedAtMs": 1793463870698
+      },
+      {
+        "type": "subAgentActivity",
+        "model": null,
+        "reasoningEffort": null,
+        "kind": "completed",
+        "startedAtMs": 1793463873425,
+        "completedAtMs": 1793463873425
+      }
+    ]
+  },
+  "skill": {
+    "turns_by_role": {
+      "coordinator": 3
+    },
+    "usage_notifications": [
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 14263,
+            "inputTokens": 14053,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 210,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 14263,
+            "inputTokens": 14053,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 210,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 34803,
+            "inputTokens": 34537,
+            "cachedInputTokens": 14080,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 266,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 20540,
+            "inputTokens": 20484,
+            "cachedInputTokens": 14080,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 56,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 56869,
+            "inputTokens": 56578,
+            "cachedInputTokens": 34432,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 291,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 22066,
+            "inputTokens": 22041,
+            "cachedInputTokens": 20352,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 25,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 80920,
+            "inputTokens": 80589,
+            "cachedInputTokens": 56320,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 331,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 24051,
+            "inputTokens": 24011,
+            "cachedInputTokens": 21888,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 40,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 108835,
+            "inputTokens": 108283,
+            "cachedInputTokens": 80256,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 552,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 27915,
+            "inputTokens": 27694,
+            "cachedInputTokens": 23936,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 221,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 138934,
+            "inputTokens": 138325,
+            "cachedInputTokens": 108032,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 609,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 30099,
+            "inputTokens": 30042,
+            "cachedInputTokens": 27776,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 57,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 169471,
+            "inputTokens": 168649,
+            "cachedInputTokens": 137984,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 822,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 30537,
+            "inputTokens": 30324,
+            "cachedInputTokens": 29952,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 213,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 202356,
+            "inputTokens": 201394,
+            "cachedInputTokens": 168320,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 962,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 32885,
+            "inputTokens": 32745,
+            "cachedInputTokens": 30336,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 140,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 235378,
+            "inputTokens": 234349,
+            "cachedInputTokens": 201088,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1029,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 33022,
+            "inputTokens": 32955,
+            "cachedInputTokens": 32768,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 67,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 269036,
+            "inputTokens": 267956,
+            "cachedInputTokens": 233984,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1080,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 33658,
+            "inputTokens": 33607,
+            "cachedInputTokens": 32896,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 51,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 304357,
+            "inputTokens": 303252,
+            "cachedInputTokens": 267520,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1105,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 35321,
+            "inputTokens": 35296,
+            "cachedInputTokens": 33536,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 25,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 341643,
+            "inputTokens": 340498,
+            "cachedInputTokens": 302720,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1145,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 37286,
+            "inputTokens": 37246,
+            "cachedInputTokens": 35200,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 40,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 383486,
+            "inputTokens": 382236,
+            "cachedInputTokens": 339840,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1250,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 41843,
+            "inputTokens": 41738,
+            "cachedInputTokens": 37120,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 105,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 425542,
+            "inputTokens": 424222,
+            "cachedInputTokens": 381568,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1320,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 42056,
+            "inputTokens": 41986,
+            "cachedInputTokens": 41728,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 70,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 470297,
+            "inputTokens": 468872,
+            "cachedInputTokens": 423424,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1425,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 44755,
+            "inputTokens": 44650,
+            "cachedInputTokens": 41856,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 105,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 517642,
+            "inputTokens": 516192,
+            "cachedInputTokens": 467968,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1450,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 47345,
+            "inputTokens": 47320,
+            "cachedInputTokens": 44544,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 25,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 569066,
+            "inputTokens": 567131,
+            "cachedInputTokens": 515072,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1935,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 51424,
+            "inputTokens": 50939,
+            "cachedInputTokens": 47104,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 485,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      },
+      {
+        "role": "coordinator",
+        "usage": {
+          "total": {
+            "totalTokens": 624245,
+            "inputTokens": 622165,
+            "cachedInputTokens": 566272,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 2080,
+            "reasoningOutputTokens": 0
+          },
+          "last": {
+            "totalTokens": 55179,
+            "inputTokens": 55034,
+            "cachedInputTokens": 51200,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 145,
+            "reasoningOutputTokens": 0
+          },
+          "modelContextWindow": 475000
+        }
+      }
+    ],
+    "runner_call_results": [
+      {
+        "action": "run",
+        "case": "fix",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "AWAITING_VERIFY"
+      },
+      {
+        "action": "verify",
+        "case": "fix",
+        "exit_code": 5,
+        "stderr": "",
+        "status_after": "NEEDS_FIX"
+      },
+      {
+        "action": "run",
+        "case": "fix",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "AWAITING_VERIFY"
+      },
+      {
+        "action": "verify",
+        "case": "fix",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "REVIEW_REQUIRED"
+      },
+      {
+        "action": "review",
+        "case": "fix",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "ACCEPTED"
+      },
+      {
+        "action": "init",
+        "case": "readonly",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "READY"
+      },
+      {
+        "action": "run",
+        "case": "readonly",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "AWAITING_VERIFY"
+      },
+      {
+        "action": "verify",
+        "case": "readonly",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "REVIEW_REQUIRED"
+      },
+      {
+        "action": "review",
+        "case": "readonly",
+        "exit_code": 2,
+        "stderr": "{\"error\": \"Invalid review criterion\", \"exit_code\": 2}\n",
+        "status_after": "REVIEW_REQUIRED"
+      },
+      {
+        "action": "review",
+        "case": "readonly",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "ACCEPTED"
+      },
+      {
+        "action": "init",
+        "case": "fix",
+        "exit_code": 0,
+        "stderr": "",
+        "status_after": "READY"
+      }
+    ]
+  }
+}

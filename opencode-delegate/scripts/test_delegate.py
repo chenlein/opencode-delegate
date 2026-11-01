@@ -26,7 +26,7 @@ if args==['--version']:
  print(os.environ.get('MOCK_VERSION','1.2.0')); sys.exit(0)
 if args==['run','--help']:
  print('--format --agent --model --session --variant --standalone' if scenario!='no_capability' else '--agent');sys.exit(0)
-if args==['debug','config']:
+if args==['debug','config'] or args in (['debug','config','--standalone'], ['debug','agents','--standalone']):
  config=json.loads(os.environ.get('OPENCODE_CONFIG_CONTENT','{}'))
  if scenario=='bad_config': config={}
  if scenario=='bad_formatter': config['formatter']=True
@@ -34,7 +34,31 @@ if args==['debug','config']:
   agent=config['agent']['codex_delegate_worker_v2']
   agent['permission']['edit']=dict(reversed(list(agent['permission']['edit'].items())))
  if scenario=='config_writes': pathlib.Path('config-side-effect.txt').write_text('bad')
+ if '--standalone' in args:
+  name='codex_delegate_worker_v2'
+  agent=config.get('agents',{}).get(name)
+  if args[1]=='config':
+   if agent:
+    provider,model=agent['model'].split('/',1)
+    agent['model']={'providerID':provider,'model':model}
+   print(json.dumps([{'type':'document','info':config}]))
+  else:
+   resolved=dict(agent) if agent else {}
+   if agent:
+    provider,model=agent['model'].split('/',1)
+    resolved.update(id=name,name=name,hidden=False,model={'providerID':provider,'id':model},request={'settings':{},'headers':{},'body':{}},permissions=config['permissions']+agent['permissions'])
+   print(json.dumps([resolved] if agent else []))
+  sys.exit(0)
  print(json.dumps(config));sys.exit(0)
+if len(args)==4 and args[:2]==['api','GET'] and args[-1]=='--standalone':
+ config=json.loads(os.environ['OPENCODE_CONFIG_CONTENT'])
+ agent=config['agents']['codex_delegate_worker_v2']
+ provider,model=agent['model'].split('/',1)
+ directory=pathlib.Path.cwd()
+ if scenario in ('session_moved','post_session_moved'): directory=directory.parent
+ if scenario=='session_inspection_writes': pathlib.Path('session-inspection-side-effect.txt').write_text('unexpected')
+ permissions=[{'action':'shell','resource':'*','effect':'allow'}] if scenario=='session_allow' else []
+ print(json.dumps({'data':{'id':args[2].rsplit('/',1)[-1],'agent':'codex_delegate_worker_v2','model':{'providerID':provider,'id':model,'variant':'default'},'location':{'directory':str(directory)},'permissions':permissions}}));sys.exit(0)
 if not args or args[0]!='run': sys.exit(2)
 if os.environ.get('MOCK_LOG'):
  pathlib.Path(os.environ['MOCK_LOG']).write_text(json.dumps({'args':args,'config':json.loads(os.environ['OPENCODE_CONFIG_CONTENT']),'nested':os.environ.get('OPENCODE_DELEGATE_ACTIVE')}))

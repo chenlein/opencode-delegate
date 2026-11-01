@@ -9,7 +9,7 @@ import re
 import shutil
 import subprocess
 from typing import Any
-from delegate_core import (GuardError, require, file_hash, digest, AGENT, PRELUDE, MAX_LOG, PROTECTED_NAMES, PROTECTED_PARTS, SECRET_NAMES)
+from delegate_core import (GuardError, require, file_hash, digest, AGENT, PRELUDE, MAX_JSON, MAX_LOG, PROTECTED_NAMES, PROTECTED_PARTS, SECRET_NAMES)
 from handoff import instruction_config_fingerprint
 
 
@@ -83,14 +83,72 @@ def permission_config(c: dict, major: int, worktree: Path) -> tuple[dict, str, s
     return {"agents": {AGENT: agent}, "permissions": rules, "formatter": False}, "agents", "permissions"
 
 
-def runtime_env(config: dict) -> dict[str, str]:
+def runtime_env(config: dict, worktree: Path) -> dict[str, str]:
+    require(worktree.is_dir() and not worktree.is_symlink(), 'Missing/unsafe execution worktree', 3)
     env = {k: v for k, v in os.environ.items() if not k.startswith("OPENCODE_") and not k.startswith("GIT_")}
+    # v2.2.3 run() prefers process.env.PWD over process.cwd(). Popen(cwd=...)
+    # alone therefore leaves a caller's repository as the Session Location.
+    env['PWD'] = str(worktree.resolve())
     env.update({"OPENCODE_CONFIG_CONTENT": json.dumps(config), "OPENCODE_PURE": "1",
                 "OPENCODE_DISABLE_AUTOUPDATE": "1", "OPENCODE_DISABLE_DEFAULT_PLUGINS": "1",
                 "OPENCODE_DISABLE_LSP_DOWNLOAD": "1", "OPENCODE_DISABLE_EXTERNAL_SKILLS": "1",
                 "OPENCODE_DISABLE_CLAUDE_CODE": "1", "OPENCODE_DELEGATE_ACTIVE": "1",
                 "PYTHONDONTWRITEBYTECODE": "1"})
     return env
+
+
+def check_session_binding(info: dict, c: dict, session_id: str, wt: Path, env: dict) -> dict | None:
+    """V2 explicit sessions override caller directory; inspect before and after run.
+
+    This is a bounded metadata query, never a prompt/model request. V1 remains
+    unverified and keeps its existing command surface.
+    """
+    if info['major'] != 2:
+        return None
+    require(isinstance(session_id, str) and re.fullmatch(r'ses_[A-Za-z0-9_-]+', session_id) is not None,
+            'Invalid native session ID; no execution', 3)
+    try:
+        response = subprocess.run([info['binary'], 'api', 'GET', '/api/session/' + session_id, '--standalone'],
+                                  cwd=str(wt), env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise GuardError('Cannot inspect native session binding; no completed result accepted', 3) from exc
+    require(response.returncode == 0 and len(response.stdout) <= MAX_JSON,
+            'Cannot inspect native session binding; no completed result accepted', 3)
+    from v2_config import decode_json
+    try:
+        payload = decode_json(response.stdout)
+        require(isinstance(payload, dict) and isinstance(payload.get('data'), dict),
+                'Unrecognized native session metadata', 3)
+        value = payload['data']
+        require(value.get('id') == session_id, 'Native session identity changed', 3)
+        location = value.get('location')
+        require(isinstance(location, dict) and isinstance(location.get('directory'), str),
+                'Native session has no verifiable worktree location', 3)
+        actual = Path(location['directory'])
+        require(actual.is_absolute() and actual.is_dir() and not actual.is_symlink()
+                and actual.resolve(strict=True) == wt.resolve(strict=True),
+                'Native session moved outside the frozen worktree; preserve task and replan', 3)
+        provider, model_id = c['model'].split('/', 1)
+        model = value.get('model')
+        require(isinstance(model, dict) and model.get('providerID') == provider and model.get('id') == model_id
+                and model.get('variant') in (None, 'default'), 'Native session model changed', 3)
+        require(value.get('agent') == AGENT, 'Native session agent changed', 3)
+        # V2 appends session rules AFTER the agent rules (last match wins).
+        # Only absent/empty or strictly additive denies preserve the frozen
+        # policy. Never clear a user's session rules to make a run pass.
+        permissions = value.get('permissions', [])
+        require(isinstance(permissions, list), 'Unrecognized native session permissions', 3)
+        for rule in permissions:
+            require(isinstance(rule, dict) and set(rule) == {'action', 'resource', 'effect'}
+                    and isinstance(rule['action'], str) and isinstance(rule['resource'], str)
+                    and rule['effect'] == 'deny',
+                    'Native session permissions may override the frozen policy; preserve task and replan', 3)
+
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        raise GuardError('Unrecognized native session metadata; no completed result accepted', 3) from exc
+    return {'session_id': session_id, 'worktree': str(wt.resolve()), 'agent': AGENT,
+            'model': {'providerID': provider, 'id': model_id, 'variant': model.get('variant')},
+            'permissions_sha256': digest(permissions)}
 
 
 def normalize_config(value: Any, ordered: bool = False) -> Any:
@@ -105,6 +163,22 @@ def normalize_config(value: Any, ordered: bool = False) -> Any:
 
 def check_effective_config(info: dict, config: dict, agent_key: str, perm_key: str, wt: Path, env: dict) -> str:
     # Never persist debug config: it may contain provider secrets.
+    if agent_key == 'agents':
+        from v2_config import decode_json, source_snapshot, resolved_agent
+        def inspect(kind):
+            result = subprocess.run([info['binary'], 'debug', kind, '--standalone'], cwd=str(wt), env=env,
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=25)
+            require(result.returncode == 0, 'Cannot inspect private V2 ' + kind + '; no execution', 3)
+            require(len(result.stdout) <= MAX_LOG, 'V2 inspection too large', 3)
+            try:
+                return decode_json(result.stdout)
+            except (ValueError, UnicodeError) as e:
+                raise GuardError('Unrecognized V2 inspection JSON; no execution', 3) from e
+        before = source_snapshot(inspect('config'), config, wt)
+        agent = resolved_agent(inspect('agents'), config)
+        after = source_snapshot(inspect('config'), config, wt)
+        require(before == after, 'V2 configuration changed during inspection; no execution', 3)
+        return digest({'schema': 'v223-sources-agent-1', 'sources': before, 'agent': agent})
     p = subprocess.run([info["binary"], "debug", "config"], cwd=str(wt), env=env,
                        stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=25)
     require(p.returncode == 0, "Cannot inspect effective OpenCode configuration; no execution", 3)

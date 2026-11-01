@@ -216,8 +216,8 @@ class LifecycleTests(unittest.TestCase):
             holder[pk] = [{k: item[k] for k in sorted(item)} for item in holder[pk]]
         fingerprints = []
         for value in (cfg, changed):
-            proc = subprocess.CompletedProcess([], 0, json.dumps(value).encode(), b'')
-            with patch.object(adapter.subprocess, 'run', return_value=proc):
+            from test_v2_config import v2_replies
+            with patch.object(adapter.subprocess, 'run', side_effect=v2_replies(value)):
                 fingerprints.append(adapter.check_effective_config({'binary': str(self.binary)}, cfg, ak, pk, wt, {}))
         self.assertEqual(*fingerprints)
 
@@ -225,8 +225,8 @@ class LifecycleTests(unittest.TestCase):
         self.init(); c, _, _, _ = d.load(self.task); wt = self.task / 'worktree'
         cfg, ak, pk = adapter.permission_config(c, 2, wt)
         changed = copy.deepcopy(cfg); changed[ak][d.AGENT][pk].reverse()
-        proc = subprocess.CompletedProcess([], 0, json.dumps(changed).encode(), b'')
-        with patch.object(adapter.subprocess, 'run', return_value=proc), self.assertRaises(d.GuardError):
+        from test_v2_config import v2_replies
+        with patch.object(adapter.subprocess, 'run', side_effect=v2_replies(changed)), self.assertRaises(d.GuardError):
             adapter.check_effective_config({'binary': str(self.binary)}, cfg, ak, pk, wt, {})
 
     def events(self, seq):

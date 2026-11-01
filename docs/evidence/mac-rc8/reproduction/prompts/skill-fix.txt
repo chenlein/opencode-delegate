@@ -1,0 +1,1 @@
+Stage 2: inspect frozen fix contract, initialize it, run exactly once. Do not edit source yourself. Inspect the worker output and run the frozen independent verifier. This may return NEEDS_FIX; preserve and report all results, do not start a second run in this turn and do not accept on worker claims alone.

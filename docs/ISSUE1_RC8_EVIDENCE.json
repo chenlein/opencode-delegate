@@ -1,0 +1,853 @@
+{
+  "date": "2026-10-31",
+  "product_commit": "2318d8ac92df8322537d520c1a9a133cf5a68432",
+  "runtime_tree": "28c0a149804f4d164212192c556c69eca3d4c1de",
+  "os": "Linux",
+  "architecture": "x86_64",
+  "python": "3.12.14",
+  "git": "git version 2.52.0",
+  "opencode_version": "2.2.5",
+  "opencode_binary_sha256": "8d060e1d2fbb9bb44cf09ae6ed1f3f6a7cff070b5227e2f90970132b23a92050",
+  "requested_model": "openai/gpt-6.1-sol",
+  "provider_model_snapshot": "UNKNOWN",
+  "cases": [
+    {
+      "case": "readonly-01",
+      "status": "EXECUTION_FAILED",
+      "requested_model": "openai/gpt-5.1-codex-mini",
+      "attempts": 1,
+      "execution_budget_seconds": 1.367,
+      "scan_totals": {
+        "calls": 4,
+        "files": 12,
+        "bytes": 744,
+        "seconds": 0.022995
+      },
+      "created_at": "2026-10-31T14:31:49.095810+00:00",
+      "last_updated_at": "2026-10-31T14:31:54.586149+00:00",
+      "state_sha256": "db44a5c92da9a9aabc3a95440be45877486a5964b15b9d73be28498419e876d2",
+      "attempt_evidence": [
+        {
+          "exit_code": 1,
+          "reason": null,
+          "elapsed_seconds": 1.367,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "a523edad3661d5272cddd8d91e40d18b5d45fa71a307325e12961ea861609c0f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001"
+        }
+      ]
+    },
+    {
+      "case": "readonly-sol",
+      "status": "ACCEPTED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 2,
+      "execution_budget_seconds": 58.907000000000004,
+      "scan_totals": {
+        "calls": 11,
+        "files": 33,
+        "bytes": 2046,
+        "seconds": 0.078064
+      },
+      "created_at": "2026-10-31T14:32:44.973831+00:00",
+      "last_updated_at": "2026-10-31T14:35:37.876131+00:00",
+      "state_sha256": "9718f42cd8e1411510b6b0206a80ef3568914b2a649c5d8d599be49424f3253a",
+      "attempt_evidence": [
+        {
+          "exit_code": 130,
+          "reason": "timeout",
+          "elapsed_seconds": 45.136,
+          "cleanup": {
+            "signals": [
+              "SIGTERM"
+            ],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "437cddb4338815f63b7fac43e8d06c1bbd9805b351c8c4490ebd552d2974f712",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001"
+        },
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 13.771,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "615cb8ebf265516b1fa50f320946485c32684b4a87f0da27c9ced02e5825d825",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "002",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_19262c748001AA01bGxZUd8oG4",
+              "tokens": {
+                "input": 3,
+                "output": 51,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 2297
+                }
+              },
+              "cost": 0.0062585
+            },
+            {
+              "id": "prt_19262c755001IMsEvcjSXWTUQy_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 98,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2297,
+                  "write": 120
+                }
+              },
+              "cost": 0.0015157
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ]
+    },
+    {
+      "case": "bounded-fix-sol",
+      "status": "ACCEPTED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 1,
+      "execution_budget_seconds": 15.028,
+      "scan_totals": {
+        "calls": 7,
+        "files": 21,
+        "bytes": 1302,
+        "seconds": 0.045302
+      },
+      "created_at": "2026-10-31T14:35:38.017571+00:00",
+      "last_updated_at": "2026-10-31T14:38:10.953748+00:00",
+      "state_sha256": "1987db2ff609dffd661e29745d5bb2b7421b2812a73c5abe4b19cdeeef270b44",
+      "attempt_evidence": [
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 15.028,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "589c1dea810c4f5aaa220930485ef8aa08423c7f56944aec12a029db304b5697",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_1926371d4001MW0i83i9tosxig",
+              "tokens": {
+                "input": 3,
+                "output": 55,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 2315
+                }
+              },
+              "cost": 0.0063435
+            },
+            {
+              "id": "prt_192637845001JdTUKAXeIbpkwR",
+              "tokens": {
+                "input": 3,
+                "output": 93,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2315,
+                  "write": 128
+                }
+              },
+              "cost": 0.0014875
+            },
+            {
+              "id": "prt_192637857001Rh4qYkgZewEa4B_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 97,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2443,
+                  "write": 115
+                }
+              },
+              "cost": 0.0015078
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ]
+    },
+    {
+      "case": "transient-recovery-sol",
+      "status": "ACCEPTED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 2,
+      "execution_budget_seconds": 18.448,
+      "scan_totals": {
+        "calls": 12,
+        "files": 43,
+        "bytes": 2232,
+        "seconds": 0.077246
+      },
+      "created_at": "2026-10-31T14:39:30.368959+00:00",
+      "last_updated_at": "2026-10-31T14:42:10.975099+00:00",
+      "state_sha256": "272af548d8e50ca7eaba702b720bc831224268bc9dd35821baf052f8cc31a12e",
+      "attempt_evidence": [
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 10.008,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "31c120a748acc2bae2a189fffdffaa908c10634b03caa668c20a39ff8eadff4b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_19266eadc0012By3q3eUGFa2CW",
+              "tokens": {
+                "input": 3,
+                "output": 55,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 2361
+                }
+              },
+              "cost": 0.0064585
+            },
+            {
+              "id": "prt_19266f0db001PUcXQ7HXnfn9g7",
+              "tokens": {
+                "input": 3,
+                "output": 85,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2361,
+                  "write": 128
+                }
+              },
+              "cost": 0.0014121
+            },
+            {
+              "id": "prt_19266f0e9001z5UuIcCFirhqd0_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 97,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2489,
+                  "write": 107
+                }
+              },
+              "cost": 0.0014924
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        },
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 8.44,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "9b3ae56ea0366f9807daac71464b9a4f542008dac3a5ef4f478ae291bcf83af6",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "002",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_19267c4990010cs6o5xrYqLl1k_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 113,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2596,
+                  "write": 1592
+                }
+              },
+              "cost": 0.0053756
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ]
+    },
+    {
+      "case": "external-read-denial",
+      "status": "BLOCKED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 1,
+      "execution_budget_seconds": 10.115,
+      "scan_totals": {
+        "calls": 4,
+        "files": 12,
+        "bytes": 744,
+        "seconds": 0.025738
+      },
+      "created_at": "2026-10-31T14:41:51.410459+00:00",
+      "last_updated_at": "2026-10-31T14:42:05.482670+00:00",
+      "state_sha256": "333f36dd8014e84d26aab30f1c58a4d932be43f5e8c6a764e9013266bbd328a4",
+      "attempt_evidence": [
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 10.115,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "84349ea12276323f77db9d6fd259cfd00b1aa1018123d0c8bc457bea8c089820",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001",
+          "worker_status": "blocked",
+          "usage_observations": [
+            {
+              "id": "prt_192691186001Kqvrccn3DegFdc",
+              "tokens": {
+                "input": 3,
+                "output": 33,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 2303
+                }
+              },
+              "cost": 0.0060935
+            },
+            {
+              "id": "prt_1926911970015YsDjpHEb2MYGr_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 105,
+                "reasoning": 57,
+                "cache": {
+                  "read": 2303,
+                  "write": 64
+                }
+              },
+              "cost": 0.0020163
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ]
+    },
+    {
+      "case": "protected-edit-denial",
+      "status": "BLOCKED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 1,
+      "execution_budget_seconds": 12.074,
+      "scan_totals": {
+        "calls": 4,
+        "files": 12,
+        "bytes": 744,
+        "seconds": 0.025957
+      },
+      "created_at": "2026-10-31T15:23:17.613780+00:00",
+      "last_updated_at": "2026-10-31T15:23:33.967652+00:00",
+      "state_sha256": "3199b4da289fffdb66f53d6c4bd2a3bbb7a82090cdeabc5207244790d8b2b3b0",
+      "attempt_evidence": [
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 12.074,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "8ad63036de24fbe647326982a0532156e4db4328b45d1592c2ea8796683d8af8",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001",
+          "worker_status": "blocked",
+          "usage_observations": [
+            {
+              "id": "prt_1928f0b1d001tqac3SMPNnS0Gd",
+              "tokens": {
+                "input": 3,
+                "output": 56,
+                "reasoning": 21,
+                "cache": {
+                  "read": 0,
+                  "write": 2351
+                }
+              },
+              "cost": 0.0066535
+            },
+            {
+              "id": "prt_1928f0fea001oIrU0UlsR7iZ0m",
+              "tokens": {
+                "input": 3,
+                "output": 91,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2351,
+                  "write": 151
+                }
+              },
+              "cost": 0.0015286
+            },
+            {
+              "id": "prt_1928f0ff3001SX5RngfjksYejQ_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 115,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2502,
+                  "write": 121
+                }
+              },
+              "cost": 0.0017087
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ]
+    },
+    {
+      "case": "rules-sol",
+      "status": "ACCEPTED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 2,
+      "execution_budget_seconds": 42.111,
+      "scan_totals": {
+        "calls": 12,
+        "files": 48,
+        "bytes": 3252,
+        "seconds": 0.091977
+      },
+      "created_at": "2026-10-31T14:42:58.688697+00:00",
+      "last_updated_at": "2026-10-31T14:46:28.575580+00:00",
+      "state_sha256": "c7df11aa74f104fd467a05418d57bec59eba04718e8e04f0f461e83e72994d16",
+      "attempt_evidence": [
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 8.802,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "38fd6b09653ae0d3d02d19eac918795c12e192dca5cbbe13960fba856ac16812",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_1926a18a0001W6Q6QprzCSSkI0",
+              "tokens": {
+                "input": 3,
+                "output": 163,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 2918
+                }
+              },
+              "cost": 0.008931
+            },
+            {
+              "id": "prt_1926a18aa001Tni5gZXnR0yHfM_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 114,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2918,
+                  "write": 314
+                }
+              },
+              "cost": 0.0022228
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        },
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 33.309,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "81a7482d03dec586503eca2e76e84e33f28881b766a11b518b076077878d35b1",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "002",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_1926bc6e6001yJKtMMwlKYB2l7",
+              "tokens": {
+                "input": 3,
+                "output": 112,
+                "reasoning": 0,
+                "cache": {
+                  "read": 1323,
+                  "write": 1905
+                }
+              },
+              "cost": 0.0060208
+            },
+            {
+              "id": "prt_1926bc6f000169jE9Rvx7kJW2e_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 117,
+                "reasoning": 0,
+                "cache": {
+                  "read": 3228,
+                  "write": 252
+                }
+              },
+              "cost": 0.0021288
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ]
+    },
+    {
+      "case": "typescript-large-readonly",
+      "status": "ACCEPTED",
+      "requested_model": "openai/gpt-6.1-sol",
+      "attempts": 1,
+      "execution_budget_seconds": 8.51,
+      "scan_totals": {
+        "calls": 14,
+        "files": 954830,
+        "bytes": 3079532860,
+        "seconds": 68.538058
+      },
+      "created_at": "2026-10-31T14:45:39.424697+00:00",
+      "last_updated_at": "2026-10-31T14:49:15.467658+00:00",
+      "state_sha256": "2793ed4f944bd8e04eb3064be852eb22d90bdc2c36ce20b02fbf99fb28fbb42e",
+      "attempt_evidence": [
+        {
+          "exit_code": 0,
+          "reason": null,
+          "elapsed_seconds": 8.51,
+          "cleanup": {
+            "signals": [],
+            "errors": [],
+            "process_group_quiescent": true,
+            "leader_reaped": true
+          },
+          "process_group_quiescent": true,
+          "stdout_sha256": "86102f904d279fa88863b88d96066adcc62ececccf09f39075cdedaf2b0647ef",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "attempt": "001",
+          "worker_status": "complete",
+          "usage_observations": [
+            {
+              "id": "prt_1926d1fa00015w7HInVEfw1Sve",
+              "tokens": {
+                "input": 3,
+                "output": 62,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 2471
+                }
+              },
+              "cost": 0.0068035
+            },
+            {
+              "id": "prt_1926d1fac001NmFgkvNdqG0Rhd_step-finish",
+              "tokens": {
+                "input": 3,
+                "output": 111,
+                "reasoning": 0,
+                "cache": {
+                  "read": 2471,
+                  "write": 3050
+                }
+              },
+              "cost": 0.0089881
+            }
+          ],
+          "usage_completeness": "partial",
+          "native_model_binding": {
+            "providerID": "openai",
+            "id": "gpt-6.1-sol",
+            "variant": "default"
+          }
+        }
+      ],
+      "source": {
+        "repository": "https://github.com/microsoft/TypeScript",
+        "commit": "6161772c1370bdd4a82f808e6823bd755eb1870d",
+        "files": 68201,
+        "bytes": 219367414,
+        "excluded_source_files": 0
+      },
+      "resource_measurement": {
+        "phase": "repeat_verify_after_synthetic_ignored_artifacts",
+        "wall_seconds": 16.014,
+        "peak_child_rss_kib": 253300,
+        "scan_delta": {
+          "calls": 3,
+          "files": 204609,
+          "bytes": 661248141,
+          "seconds": 14.201692999999999
+        },
+        "synthetic_artifacts_not_real_build": true
+      }
+    }
+  ],
+  "cost_scope": "Native observations only. Provider catalog cost is not an invoice; dot coordinator usage is unavailable. No savings claim.",
+  "compaction": {
+    "rows": [
+      {
+        "id": "msg_1926b3a74001L2Hlv21CGFQa90",
+        "type": "compaction",
+        "status": "completed",
+        "reason": "manual",
+        "summary_has_all_canaries": true,
+        "model": {
+          "id": "gpt-6.1-sol",
+          "providerID": "openai",
+          "variant": "default"
+        },
+        "time": {
+          "created": 1793457869198
+        }
+      }
+    ],
+    "raw_response_sha256": "f5f66bce0b1b7b6035e2da4e2f7144f8d8f2cdd999a1a014932978bab4da9a4d"
+  },
+  "codex_diagnostics": [
+    {
+      "exit_code": 1,
+      "reason": "descendants_still_running",
+      "elapsed_seconds": 6.902,
+      "cleanup": {
+        "signals": [
+          "SIGTERM"
+        ],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "case": "codex-direct-readonly",
+      "usage": [],
+      "events_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "exit_code": -15,
+      "reason": "timeout",
+      "elapsed_seconds": 45.042,
+      "cleanup": {
+        "signals": [
+          "SIGTERM"
+        ],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "case": "codex-host-readonly",
+      "usage": [],
+      "events_sha256": "50324c0cc31fc0201cf71e968eacbf9a4b5251b79083635b789f2401112cfcee"
+    },
+    {
+      "exit_code": -15,
+      "reason": "timeout",
+      "elapsed_seconds": 45.026,
+      "cleanup": {
+        "signals": [
+          "SIGTERM"
+        ],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "case": "codex-host-readonly-proxy",
+      "usage": [],
+      "events_sha256": "2c024acacb9bb3f4e2a72c115cb81ddc6ff77ef52cc9f22e385052b4f6f247aa"
+    },
+    {
+      "exit_code": -15,
+      "reason": "timeout",
+      "elapsed_seconds": 45.051,
+      "cleanup": {
+        "signals": [
+          "SIGTERM"
+        ],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "case": "codex-inline-probe",
+      "usage": [],
+      "events_sha256": "55fd02e8937ff108823c180dfd98dc3643816a16081faf5d32be6a4d4a437955"
+    },
+    {
+      "exit_code": 0,
+      "reason": "descendants_still_running",
+      "elapsed_seconds": 11.69,
+      "cleanup": {
+        "signals": [
+          "SIGTERM"
+        ],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "case": "codex-inline-http-probe",
+      "usage": [
+        {
+          "input_tokens": 10939,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 10936,
+          "output_tokens": 5,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "events_sha256": "e31d90bf38076601f9e416eac4b4d33ed9699b3e61b04f46ff650398f5a10889"
+    },
+    {
+      "exit_code": 0,
+      "reason": null,
+      "elapsed_seconds": 23.0,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "case": "codex-http-direct-fix",
+      "usage": [
+        {
+          "input_tokens": 22730,
+          "cached_input_tokens": 11269,
+          "cache_write_input_tokens": 11455,
+          "output_tokens": 121,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "events_sha256": "a494a5931c7fe1fc763b56194802ce263a59dc2854c64927c11df7f657e8d926"
+    }
+  ],
+  "invocation_budget": {
+    "limit": 100,
+    "reserved": 18,
+    "includes_failed_startups_and_compaction_admission": true,
+    "not_equal_to_provider_request_count": true
+  },
+  "native_resume_guard": {
+    "native_session_metadata_used": true,
+    "override": "shell allow",
+    "runner_exit": 3,
+    "before_attempt_reservation": true,
+    "runner_state_unchanged": true,
+    "new_attempt_created": false,
+    "permissions_restored_to_empty": true,
+    "model_calls": 0,
+    "state_sha256": "333f36dd8014e84d26aab30f1c58a4d932be43f5e8c6a764e9013266bbd328a4"
+  },
+  "native_session_move": {
+    "before_binding": "accepted",
+    "same_session_id": true,
+    "target_location_independently_observed": true,
+    "original_worktree_still_exists": true,
+    "after_binding": "rejected",
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "cost": 0
+  }
+}

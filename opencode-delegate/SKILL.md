@@ -5,7 +5,7 @@ description: Delegate one bounded repository task from Codex to local OpenCode w
 
 # OpenCode Delegate
 
-Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.4；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
+Codex 负责目标、授权和验收，OpenCode 执行一个有界任务。版本 2.0.1-rc.8；Python 3.9+、Git、macOS/Linux。候选版：没有完成真实联调认证的 OpenCode 版本。
 
 ## 选择与边界
 
@@ -31,6 +31,12 @@ python3 "$RUNNER" run --task "$TASK" --acknowledge-local-execution \
 ```
 
 授权标志只能表达已经获得的授权。精确版本试用标志不代表认证；无法确认有效权限时停止，不改成宽松模式消除错误。
+
+V2 配置预检读取配置来源与原生最终 Agent，不把来源数组当有效配置。两种探测都使用与执行相同的 `--standalone` 语义和环境，前后核对来源/文件指纹；它们不是同一个常驻服务实例，也不构成实际工具权限认证。来源中的 formatter 冲突、未知引用或模型 variant 仍阻断，原始配置不落盘。配置指纹变化的旧任务保留旧 Runner，不自动重建基线。
+
+执行环境的 PWD 与子进程 cwd 都绑定隔离 worktree；上下文的 worktree_path 是读写定位。source_repository 和规则 source 字段仅供来源核对，不得当作文件访问目标。外部目录拒绝规则保持不变。
+
+V2 指定 session 会优先使用原生会话保存的位置。续跑在尝试/预算预留前读取原生 metadata，结束后接受结果前再次核对 session ID、worktree、模型和 Agent；未知结构、查询失败或位置漂移均阻断，不自动移动任务。查询不调用模型，原始 metadata 不落盘；结果只保存经核对的绑定。V1 不新增未经认证的 API 依赖。
 
 ## 上下文与续跑
 

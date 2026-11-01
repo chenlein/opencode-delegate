@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "cli_version": "opencode v2.2.3",
+  "binary_sha256": "0262eaa54be5d18110ff0bfaf0413debb61cb0ec23716f09e97b3ae69f3e1fac",
+  "requested_model": "openai/gpt-6.1-sol",
+  "sanitization": "Only required transport/business fields retained; private paths and transport identifiers aliased; provider metadata and reasoning content excluded. No new model business text is invented.",
+  "native_sources": [
+    {
+      "name": "native-readonly",
+      "original_sha256": "de26054694b0a9db77f9359bfff8574ed3ef9bc21d1fab7ade39a5ffd0d50bb5",
+      "product_version": "rc.6",
+      "event_count": 6,
+      "sanitized_event_count": 6,
+      "original_session_sha256": "71735b84d78a996abf67519579aadd7437922c7a8ab430475e3386db21eb03d0"
+    },
+    {
+      "name": "native-edit",
+      "original_sha256": "dd89e8d75a22d1fa52cf42ec678642a1196c494378d5bf96b671e7007c8f1f28",
+      "product_version": "rc.6",
+      "event_count": 12,
+      "sanitized_event_count": 12,
+      "original_session_sha256": "95ad89cb790c26dabe1c360396d5a90a8d8dfe92d199844fb2c1e04dac6eb1d2"
+    },
+    {
+      "name": "native-post-compaction",
+      "original_sha256": "f83ec53f2ffcbb3778bb944a30307290a5fa7817733f75a468d76dd6d5a6ba77",
+      "product_version": "rc.6",
+      "event_count": 6,
+      "sanitized_event_count": 6,
+      "original_session_sha256": "b70f2aafff821eebf4164fd8077f49650ba94d9782fe28218fbfe9a2fe273b63"
+    },
+    {
+      "name": "native-timeout-error",
+      "original_sha256": "2e897c7023f74147d36d21a62ddc0ea5904db3f652ec48c844db57356bbd1922",
+      "product_version": "rc.6",
+      "event_count": 7,
+      "sanitized_event_count": 7,
+      "original_session_sha256": "2ffdf36daf42305f5a6f12cde34082b2f11e84401f398f4bea813ee379b8409e"
+    },
+    {
+      "name": "native-tool-denial",
+      "original_sha256": "96708da69fb68bf0c8b1870d67a9d442a31a82aa5ab0d3a8c5f95568a35a408b",
+      "product_version": "rc.5",
+      "event_count": 6,
+      "sanitized_event_count": 6,
+      "original_session_sha256": "befaf658fc8d0c3e791d59ebd50799e58dd55c8d5a8ba72575ba1220cc4df2a9"
+    }
+  ],
+  "sha256": {
+    "native-readonly.ndjson": "5c9b7e57fe3045442e8047a86123528252ebc7dcc1b8cab40fe52675c1ea0175",
+    "native-edit.ndjson": "0d2f018f282ef649d9a539c7d1a09d168f5bd122402f2ef2efaac58049667bdd",
+    "native-post-compaction.ndjson": "64a37a2c5e714ecd7aee1234b9b1dd464671fdedc1e59b95d57b55ae20a42edc",
+    "native-timeout-error.ndjson": "56a48b7fda56c88f4263bcfe345590cfcf5024dcdb0be32f925cfb5a104f2387",
+    "native-tool-denial.ndjson": "791b035f14d0d4f2e37391c3ccf3c7f3899f49ca1c1001d32bd8cc33e32410ca",
+    "cumulative-text-update.ndjson": "7819826b96051ae2d93ca3b27f6bb836d3415bdbaaee791e752067cfb70f6818",
+    "duplicate-same-part-idempotent.ndjson": "40e710ca8e727e8e0a1db3632a352265a6281e217877ee79916dc63e8dd1798f",
+    "duplicate-business-result-new-part.ndjson": "54ceaa2bbd993645853579f7f50bf768efabbf6de30ab829086cedcf786df4ab",
+    "activity-after-terminal.ndjson": "19c43bca147971498c9cbaa9e9abfcdd62d6b24ee8d17fb1a0650340bc4d2ed4",
+    "missing-terminal-stop.ndjson": "7cfc4afcccb7f80f03544a17172abf100dd1e991a3dfb9fdcbf59fe04631b901",
+    "truncated-json-tail.ndjson": "8c4f916e6c4a5aa3d1e9c6e14b225c43184cdf909c41185ee00e7a30c23d13fe"
+  },
+  "tests": [
+    {
+      "name": "native-readonly",
+      "file": "native-readonly.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "native_capture",
+      "expected": "complete"
+    },
+    {
+      "name": "native-edit",
+      "file": "native-edit.ndjson",
+      "task_id": "bounded-edit",
+      "session_id": "ses_fixture_2_1",
+      "origin": "native_capture",
+      "expected": "complete"
+    },
+    {
+      "name": "native-post-compaction",
+      "file": "native-post-compaction.ndjson",
+      "task_id": "same-session",
+      "session_id": "ses_fixture_3_1",
+      "origin": "native_capture",
+      "expected": "complete"
+    },
+    {
+      "name": "native-timeout-error",
+      "file": "native-timeout-error.ndjson",
+      "task_id": "controlled-stall",
+      "session_id": "ses_fixture_4_1",
+      "origin": "native_capture",
+      "expected": "reject"
+    },
+    {
+      "name": "native-tool-denial",
+      "file": "native-tool-denial.ndjson",
+      "task_id": "readonly-sol-001",
+      "session_id": "ses_fixture_5_1",
+      "origin": "native_capture",
+      "expected": "blocked"
+    },
+    {
+      "name": "cumulative-text-update",
+      "file": "cumulative-text-update.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_fault_injection_from_native_readonly",
+      "expected": "complete"
+    },
+    {
+      "name": "duplicate-same-part-idempotent",
+      "file": "duplicate-same-part-idempotent.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_fault_injection_from_native_readonly",
+      "expected": "complete"
+    },
+    {
+      "name": "duplicate-business-result-new-part",
+      "file": "duplicate-business-result-new-part.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_fault_injection_from_native_readonly",
+      "expected": "reject"
+    },
+    {
+      "name": "activity-after-terminal",
+      "file": "activity-after-terminal.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_fault_injection_from_native_readonly",
+      "expected": "reject"
+    },
+    {
+      "name": "missing-terminal-stop",
+      "file": "missing-terminal-stop.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_fault_injection_from_native_readonly",
+      "expected": "reject"
+    },
+    {
+      "name": "truncated-json-tail",
+      "file": "truncated-json-tail.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_byte_truncation_from_native_readonly",
+      "expected": "reject"
+    },
+    {
+      "name": "wrong-session-binding",
+      "file": "native-readonly.ndjson",
+      "task_id": "read-only",
+      "session_id": "ses_fixture_1_1",
+      "expected_session": "ses_wrong_fixture",
+      "origin": "explicit_binding_negative_on_native_capture",
+      "expected": "reject"
+    },
+    {
+      "name": "wrong-task-binding",
+      "file": "native-readonly.ndjson",
+      "task_id": "different-task",
+      "session_id": "ses_fixture_1_1",
+      "origin": "explicit_binding_negative_on_native_capture",
+      "expected": "reject"
+    }
+  ],
+  "parser_at_capture_sha256": "46c0d49f5fa90ae85dcbff9e9c30c76eab87cea6bc4e0c7774a752b7f9a62eaa",
+  "rc5_parser_body_reused_unchanged": true
+}

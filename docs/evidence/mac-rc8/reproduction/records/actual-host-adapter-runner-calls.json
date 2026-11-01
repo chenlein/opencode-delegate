@@ -1,0 +1,387 @@
+[
+  {
+    "action": "init",
+    "case": "readonly",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "init",
+        "--contract",
+        "${ACCEPTANCE_ROOT}/contract-readonly.json",
+        "--state-root",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state"
+      ],
+      "started_at": "2026-10-31T16:25:32.532730+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 54681,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.181,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "7c97ab433370edf5293a37041e027e1b04a9e20ee4964827f38ea2372916d5c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"task_dir\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly\",\n  \"worktree\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly/worktree\",\n  \"base_commit\": \"049e679ca22d794848c23a3ef0a15cfcb90cf848\",\n  \"status\": \"READY\"\n}\n",
+    "stderr": "",
+    "status_after": "READY",
+    "original_record_sha256": "f3892844de607076999f20ebc0cc3cd1c35edfab49714966d812b2051991d5ad"
+  },
+  {
+    "action": "run",
+    "case": "readonly",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "run",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly",
+        "--opencode",
+        "${OPENCODE_BINARY}",
+        "--acknowledge-local-execution",
+        "--experimental-cli-version",
+        "opencode v2.2.3"
+      ],
+      "started_at": "2026-10-31T16:25:35.201173+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 54730,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 14.925,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "2815c7c0bb03921c3687e6f4ebc93ac340bb85a1ba0f65b5f48092f2f9bfc89e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"AWAITING_VERIFY\",\n  \"task_dir\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly\",\n  \"attempt\": 1,\n  \"session_id\": \"ses_e6d3815feffevWREE54Lh7XOpz\",\n  \"execution_exit_code\": 0,\n  \"next\": \"Run independent verify; no acceptance yet\"\n}\n",
+    "stderr": "",
+    "status_after": "AWAITING_VERIFY",
+    "original_record_sha256": "9bf6626121619b0a4ec819c61e6b524d7e081e31528365e928077cc009b1d9d8"
+  },
+  {
+    "action": "verify",
+    "case": "readonly",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "verify",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly",
+        "--authorize-tests"
+      ],
+      "started_at": "2026-10-31T16:25:52.623921+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 54905,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.175,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "f52443e9b8d1f37bbf0902e7405f2a5ce502dce0e842ec648dd5dc45ef90403a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"REVIEW_REQUIRED\",\n  \"verification\": {\n    \"path\": \"verification/1793463952736935000/verification.json\",\n    \"sha256\": \"3a844388d61a41302156d97723de48251168ddd698349b84f0be0b87bb891eb2\"\n  },\n  \"note\": \"Passing commands are not semantic acceptance. Codex must review every criterion.\"\n}\n",
+    "stderr": "",
+    "status_after": "REVIEW_REQUIRED",
+    "original_record_sha256": "0cb48e1a699ff9ce8d7576948238971be772164276d4e14ace17112511cf2aaa"
+  },
+  {
+    "action": "review",
+    "case": "readonly",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "review",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly",
+        "--review",
+        "${ACCEPTANCE_ROOT}/private/skill/review-6.json"
+      ],
+      "started_at": "2026-10-31T16:26:01.189990+00:00",
+      "exit_code": 2,
+      "reason": null,
+      "pid": 54963,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.125,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b2f285e6585dcdff8e3e49bea90007abbd5ceb1f7c272edcb83fd294c47e8e20"
+    },
+    "stdout": "",
+    "stderr": "{\"error\": \"Invalid review criterion\", \"exit_code\": 2}\n",
+    "status_after": "REVIEW_REQUIRED",
+    "original_record_sha256": "2695a1507059186bfd38910ba9ca043416a5acb7d169e3f7065d71c785ee6263"
+  },
+  {
+    "action": "review",
+    "case": "readonly",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "review",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/readonly",
+        "--review",
+        "${ACCEPTANCE_ROOT}/private/skill/review-7.json"
+      ],
+      "started_at": "2026-10-31T16:26:09.807405+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 55030,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.125,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "e378a381f3ab07851d88b024fb176e2db04716bdea365828f9c6311f9fc58d67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"ACCEPTED\",\n  \"review\": {\n    \"path\": \"reviews/1793463969913960000.json\",\n    \"sha256\": \"df54a607cd6dcdc9bc8e18dfe19ef1a96e50402de13ebac12985b78100bc5c3f\"\n  },\n  \"source_worktree_automatically_merged\": false\n}\n",
+    "stderr": "",
+    "status_after": "ACCEPTED",
+    "original_record_sha256": "7542f819481890eb7f97402c43ac032cd920fd66f21a1e2ec8bb152d1e47637e"
+  },
+  {
+    "action": "init",
+    "case": "fix",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "init",
+        "--contract",
+        "${ACCEPTANCE_ROOT}/contract-fix.json",
+        "--state-root",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state",
+        "--authorize-implementation"
+      ],
+      "started_at": "2026-10-31T16:26:24.236743+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 55172,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.177,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "a156a8a85e36416770d9e8cb51410a6ceb62302ef34dce2aae8ff6fca1d3d986",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"task_dir\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix\",\n  \"worktree\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix/worktree\",\n  \"base_commit\": \"049e679ca22d794848c23a3ef0a15cfcb90cf848\",\n  \"status\": \"READY\"\n}\n",
+    "stderr": "",
+    "status_after": "READY",
+    "original_record_sha256": "f4a691edb05480e22286bce3ab4dc1f1ced704d985c595a82dc50cec3f3875b2"
+  },
+  {
+    "action": "run",
+    "case": "fix",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "run",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix",
+        "--opencode",
+        "${OPENCODE_BINARY}",
+        "--acknowledge-local-execution",
+        "--experimental-cli-version",
+        "opencode v2.2.3",
+        "--authorize-implementation"
+      ],
+      "started_at": "2026-10-31T16:26:25.961736+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 55188,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 10.293,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "23baf51a4770a4f69871ec25deb0dba8748fa2308ab975f50d63be15cdf62040",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"AWAITING_VERIFY\",\n  \"task_dir\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix\",\n  \"attempt\": 1,\n  \"session_id\": \"ses_e6d37513dffefcHRknIWXv6176\",\n  \"execution_exit_code\": 0,\n  \"next\": \"Run independent verify; no acceptance yet\"\n}\n",
+    "stderr": "",
+    "status_after": "AWAITING_VERIFY",
+    "original_record_sha256": "b7daf388c28346b288bd66753f4ed1430ac21e3515d11ee9c13f77176f3a76b5"
+  },
+  {
+    "action": "verify",
+    "case": "fix",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "verify",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix",
+        "--authorize-tests"
+      ],
+      "started_at": "2026-10-31T16:26:38.574099+00:00",
+      "exit_code": 5,
+      "reason": null,
+      "pid": 55335,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.364,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "ddf45439b8aa87d183859c3550b3d8082cd65d3160be3df06558ab2d0e3033f6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"NEEDS_FIX\",\n  \"verification\": {\n    \"path\": \"verification/1793463998687893000/verification.json\",\n    \"sha256\": \"1d3782764ac34608cba8e6190523b800aa2c478c0f4203ddbbb45750d3b1e0e1\"\n  },\n  \"note\": \"Passing commands are not semantic acceptance. Codex must review every criterion.\"\n}\n",
+    "stderr": "",
+    "status_after": "NEEDS_FIX",
+    "original_record_sha256": "10aaeeae4f12b354f54d0e3d9831a60c1a2c97b53b38fde241b208f196cff842"
+  },
+  {
+    "action": "run",
+    "case": "fix",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "run",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix",
+        "--opencode",
+        "${OPENCODE_BINARY}",
+        "--acknowledge-local-execution",
+        "--experimental-cli-version",
+        "opencode v2.2.3",
+        "--authorize-implementation",
+        "--feedback",
+        "${ACCEPTANCE_ROOT}/private/skill/feedback-14.md"
+      ],
+      "started_at": "2026-10-31T16:26:50.933866+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 55476,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 16.21,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "c3153f2d3a31a1c1ef2c35e10b79c6434a9ebf11e64ea5ce459fb2922ce993f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"AWAITING_VERIFY\",\n  \"task_dir\": \"${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix\",\n  \"attempt\": 2,\n  \"session_id\": \"ses_e6d37513dffefcHRknIWXv6176\",\n  \"execution_exit_code\": 0,\n  \"next\": \"Run independent verify; no acceptance yet\"\n}\n",
+    "stderr": "",
+    "status_after": "AWAITING_VERIFY",
+    "original_record_sha256": "db0fcf06f44231e5f3db69190fbe78e4a75497b67019f5d62bca361167e7f313"
+  },
+  {
+    "action": "verify",
+    "case": "fix",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "verify",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix",
+        "--authorize-tests"
+      ],
+      "started_at": "2026-10-31T16:27:08.882091+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 55637,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.358,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "8b59e3897fbd9785c295e67a2c141b4c6f97fc13b1159a1502eee6a90b884599",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"REVIEW_REQUIRED\",\n  \"verification\": {\n    \"path\": \"verification/1793464028977343000/verification.json\",\n    \"sha256\": \"68a327a878c4d793f7e1129728e1c11357a06e5b10c1ec3b563179202e10c6db\"\n  },\n  \"note\": \"Passing commands are not semantic acceptance. Codex must review every criterion.\"\n}\n",
+    "stderr": "",
+    "status_after": "REVIEW_REQUIRED",
+    "original_record_sha256": "1775c8bab9ce94803ebb97b17879d7a3b6707943c8f719f9c292adb4cc76a0d3"
+  },
+  {
+    "action": "review",
+    "case": "fix",
+    "execution": {
+      "argv": [
+        "${PYTHON}",
+        "${PRODUCT_CHECKOUT}/opencode-delegate/scripts/delegate.py",
+        "review",
+        "--task",
+        "${ACCEPTANCE_ROOT}/private/skill/runner-state/mac-three-route-418c30543d/fix",
+        "--review",
+        "${ACCEPTANCE_ROOT}/private/skill/review-16.json"
+      ],
+      "started_at": "2026-10-31T16:27:20.111180+00:00",
+      "exit_code": 0,
+      "reason": null,
+      "pid": 55725,
+      "cleanup": {
+        "signals": [],
+        "errors": [],
+        "process_group_quiescent": true,
+        "leader_reaped": true
+      },
+      "elapsed_seconds": 0.124,
+      "process_group_quiescent": true,
+      "log_evidence": "final",
+      "stdout_sha256": "aeca59fe37a2542f0fb432d8f8fb4da23ca029b70dcc483144be3430f4953eb7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": "{\n  \"status\": \"ACCEPTED\",\n  \"review\": {\n    \"path\": \"reviews/1793464040216458000.json\",\n    \"sha256\": \"9c2a2e76eeee9e930df9bba7f1330f26da84968094ed350da18e4c3b23d11a4c\"\n  },\n  \"source_worktree_automatically_merged\": false\n}\n",
+    "stderr": "",
+    "status_after": "ACCEPTED",
+    "original_record_sha256": "ae73959ec0bb210ed94ca33263cb5b851c195752630e99a2dd9f18d8c25d466f"
+  }
+]

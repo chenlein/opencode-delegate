@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "cli_version": "opencode v2.2.5",
+  "binary_sha256": "8d060e1d2fbb9bb44cf09ae6ed1f3f6a7cff070b5227e2f90970132b23a92050",
+  "requested_model": "openai/gpt-6.1-sol",
+  "product_commit": "2318d8ac92df8322537d520c1a9a133cf5a68432",
+  "sanitization": "Transport IDs aliased consistently; private validation paths replaced; provider metadata, tool outputs and reasoning content omitted. No new business claims invented. Derived fault cases are explicitly labeled.",
+  "native_sources": [
+    {
+      "name": "native-readonly",
+      "original_sha256": "615cb8ebf265516b1fa50f320946485c32684b4a87f0da27c9ced02e5825d825",
+      "event_count": 6,
+      "sanitized_event_count": 6,
+      "original_session_sha256": "b5d086bc5c259d3cbe9267867291a9eb9b8730f1d289235d46c72cccccaa5488"
+    },
+    {
+      "name": "native-edit",
+      "original_sha256": "589c1dea810c4f5aaa220930485ef8aa08423c7f56944aec12a029db304b5697",
+      "event_count": 9,
+      "sanitized_event_count": 9,
+      "original_session_sha256": "bcd7561b9708d1d86ccb477a6ead5b87239adb2ad19f7ebce2dcd0739cce56c5"
+    },
+    {
+      "name": "native-same-session-recovery",
+      "original_sha256": "9b3ae56ea0366f9807daac71464b9a4f542008dac3a5ef4f478ae291bcf83af6",
+      "event_count": 3,
+      "sanitized_event_count": 3,
+      "original_session_sha256": "d8c34f46fb4f18fcf2c3436382aab2d4545166c04e6c870c9253ae9d901fc5a7"
+    },
+    {
+      "name": "native-tool-denial",
+      "original_sha256": "84349ea12276323f77db9d6fd259cfd00b1aa1018123d0c8bc457bea8c089820",
+      "event_count": 6,
+      "sanitized_event_count": 6,
+      "original_session_sha256": "31a64d99ef833dfb2ab53a661fe160a724dcdece055c743755a2955c85f385f4"
+    },
+    {
+      "name": "native-protected-edit-denial",
+      "original_sha256": "8ad63036de24fbe647326982a0532156e4db4328b45d1592c2ea8796683d8af8",
+      "event_count": 9,
+      "sanitized_event_count": 9,
+      "original_session_sha256": "aea1b69b3af0ee360b969985a2f82eeaa5c03842d0409f7bfbebd40784ccc67c"
+    },
+    {
+      "name": "native-post-compaction",
+      "original_sha256": "81a7482d03dec586503eca2e76e84e33f28881b766a11b518b076077878d35b1",
+      "event_count": 7,
+      "sanitized_event_count": 7,
+      "original_session_sha256": "03997086be0250d9bcf64e382aae086755e87782e10d45aea5e42e411846262c"
+    },
+    {
+      "name": "native-large-readonly",
+      "original_sha256": "86102f904d279fa88863b88d96066adcc62ececccf09f39075cdedaf2b0647ef",
+      "event_count": 6,
+      "sanitized_event_count": 6,
+      "original_session_sha256": "57d114bbfa8fdc82337eb50186bf4fef274ddc469774b941c4a90778e3ec775e"
+    },
+    {
+      "name": "native-transport-timeout",
+      "original_sha256": "437cddb4338815f63b7fac43e8d06c1bbd9805b351c8c4490ebd552d2974f712",
+      "event_count": 7,
+      "sanitized_event_count": 7,
+      "original_session_sha256": "133d62bffd6658fbe6818fd4fbfe61c5c0986189e723e3414ea1e5fe8ea06c65"
+    }
+  ],
+  "sha256": {
+    "native-readonly.ndjson": "a1448e5a177b06d6b3de6338abc5a6def4aa2e8463f68f47456aa7af56785d3f",
+    "native-edit.ndjson": "016ca03c7d8002e05d0d6c92b3d24a93c2e8fd3be373760aa107ec4db97dc0b9",
+    "native-same-session-recovery.ndjson": "3c9ce43b3132e94882e77eda682faf6d80ebf2d16255cd694bc03ebc77583fae",
+    "native-tool-denial.ndjson": "0d4ba5898b12714549464fc0b8e5e306ce6bb3e3c409bcacb0d260e346e316f1",
+    "native-protected-edit-denial.ndjson": "8afef7800f2fa8c3e07cf3116691ec33a8c14bd0bbc907ba7939f1c3c148b80f",
+    "native-post-compaction.ndjson": "eda855a9ea03b48a31528979ee14fce0a55bcb3bb73e66075f50fef13f99158a",
+    "native-large-readonly.ndjson": "b3af2a23100ae55d1a59cc3614284b813f509adc0c8a010221f0062718075c5a",
+    "native-transport-timeout.ndjson": "f19643152aaf82bc38663caee9424f42f5499ac746239d6629d1ee7f18236a97",
+    "duplicate-same-part.ndjson": "26d9517f927279c3d200d4d86b2f78dc0d710a407f5ec63a9251699f2e0718e4",
+    "cumulative-text-update.ndjson": "0753f3b6edb11608f701477c62140346437d4c0128a157d71d859650e7ca1f2b",
+    "missing-terminal.ndjson": "c27a8957fe958d432625d11314194e35b780d4a7a0dc9431da28cd1005cbdb44",
+    "conflicting-session.ndjson": "17913df34976410ed1fa2143a772811f437334a98772616f7014d91e82b5b078",
+    "truncated-json.ndjson": "4e3372fc8ff4db3688ec1acb2723a116bb7eb829ce3130ca7fd32b8e6ddb0864"
+  },
+  "tests": [
+    {
+      "name": "native-readonly",
+      "file": "native-readonly.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_1_1",
+      "expected": "complete",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-edit",
+      "file": "native-edit.ndjson",
+      "task_id": "bounded-fix-sol",
+      "session_id": "ses_v225_2_1",
+      "expected": "complete",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-same-session-recovery",
+      "file": "native-same-session-recovery.ndjson",
+      "task_id": "transient-recovery-sol",
+      "session_id": "ses_v225_3_1",
+      "expected": "complete",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-tool-denial",
+      "file": "native-tool-denial.ndjson",
+      "task_id": "external-read-denial",
+      "session_id": "ses_v225_4_1",
+      "expected": "blocked",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-protected-edit-denial",
+      "file": "native-protected-edit-denial.ndjson",
+      "task_id": "protected-edit-denial",
+      "session_id": "ses_v225_5_1",
+      "expected": "blocked",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-post-compaction",
+      "file": "native-post-compaction.ndjson",
+      "task_id": "rules-sol",
+      "session_id": "ses_v225_6_1",
+      "expected": "complete",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-large-readonly",
+      "file": "native-large-readonly.ndjson",
+      "task_id": "typescript-large-readonly",
+      "session_id": "ses_v225_7_1",
+      "expected": "complete",
+      "origin": "native_capture"
+    },
+    {
+      "name": "native-transport-timeout",
+      "file": "native-transport-timeout.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_8_1",
+      "expected": "reject",
+      "origin": "native_capture"
+    },
+    {
+      "name": "duplicate-same-part",
+      "file": "duplicate-same-part.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_1_1",
+      "expected": "complete",
+      "origin": "explicit_fault_injection_from_native_readonly"
+    },
+    {
+      "name": "cumulative-text-update",
+      "file": "cumulative-text-update.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_1_1",
+      "expected": "complete",
+      "origin": "explicit_fault_injection_from_native_readonly"
+    },
+    {
+      "name": "missing-terminal",
+      "file": "missing-terminal.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_1_1",
+      "expected": "reject",
+      "origin": "explicit_truncation_from_native_readonly"
+    },
+    {
+      "name": "conflicting-session",
+      "file": "conflicting-session.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_1_1",
+      "expected": "reject",
+      "origin": "explicit_fault_injection_from_native_readonly"
+    },
+    {
+      "name": "truncated-json",
+      "file": "truncated-json.ndjson",
+      "task_id": "readonly-sol",
+      "session_id": "ses_v225_1_1",
+      "expected": "reject",
+      "origin": "explicit_byte_truncation_from_native_readonly"
+    }
+  ]
+}

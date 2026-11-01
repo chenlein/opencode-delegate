@@ -1,0 +1,73 @@
+{
+  "scope": "native metadata and permission evaluator only; no tool execution or model request",
+  "model_calls": 0,
+  "cases": [
+    {
+      "case": "absent",
+      "native_shell_decision": "deny",
+      "guard": "accepted",
+      "permissions_unchanged": true,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "cost": 0
+    },
+    {
+      "case": "empty",
+      "native_shell_decision": "deny",
+      "guard": "accepted",
+      "permissions_unchanged": true,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "cost": 0
+    },
+    {
+      "case": "deny",
+      "native_shell_decision": "deny",
+      "guard": "accepted",
+      "permissions_unchanged": true,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "cost": 0
+    },
+    {
+      "case": "allow",
+      "native_shell_decision": "allow",
+      "guard": "rejected",
+      "permissions_unchanged": true,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "cost": 0
+    }
+  ],
+  "version": "opencode v2.2.5",
+  "binary_sha256": "8d060e1d2fbb9bb44cf09ae6ed1f3f6a7cff070b5227e2f90970132b23a92050",
+  "config_fingerprint": "26d9fe5d4984768f84eb03e9ac9508e945ae5c3a425aeaa8efbddda507b1e6da"
+}

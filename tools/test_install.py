@@ -40,6 +40,18 @@ class InstallerTests(unittest.TestCase):
         p.write_text(json.dumps({'runner_version':'2.0.0', 'status':'OUTCOME_UNKNOWN'}))
         return p
 
+    def test_diagnostic_help_does_not_contaminate_release(self):
+        release = self.home / 'diagnostic-release'
+        shutil.copytree(ROOT, release, ignore=shutil.ignore_patterns('.git', '__pycache__', '.local-results', 'dist'))
+        env = dict(self.env)
+        env.pop('PYTHONDONTWRITEBYTECODE', None)
+        for tool in ('probe_session_permissions.py', 'probe_native_permissions.py',
+                     'benchmark_repository.py', 'benchmark_snapshot.py', 'build_release.py'):
+            result = subprocess.run([sys.executable, str(release / 'tools' / tool), '--help'],
+                                    env=env, capture_output=True, text=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(list((release / 'opencode-delegate').rglob('*.pyc')))
+
     def test_dry_run_is_non_mutating(self):
         result = self.run_install('--dry-run')
         self.assertEqual(result.returncode, 0, result.stderr)

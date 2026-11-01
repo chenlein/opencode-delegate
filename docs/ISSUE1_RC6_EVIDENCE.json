@@ -1,0 +1,409 @@
+{
+  "status": "PARTIAL_RELEASE_GATE_OPEN",
+  "date": "2026-10-31",
+  "version": "2.0.1-rc.6",
+  "source_base_commit": "728c08b0db4cdc1662addd0d022df115598cf36b",
+  "source_revision": "local uncommitted patch, identified by installed file manifest; not a published commit",
+  "environment": {
+    "os": "macOS 27.0.1",
+    "architecture": "arm64",
+    "python": "3.9.6",
+    "git": "git version 2.54.0 (Apple Git-157)",
+    "opencode_version": "opencode v2.2.3",
+    "opencode_binary_sha256": "0262eaa54be5d18110ff0bfaf0413debb61cb0ec23716f09e97b3ae69f3e1fac",
+    "requested_and_native_worker_model": "openai/gpt-6.1-sol",
+    "native_worker_variant": "default",
+    "codex_model": "gpt-6.1-sol",
+    "codex_app_cli": "0.166.0-alpha.5.1",
+    "codex_reasoning_effort": "medium for comparison/behavior actors; xhigh for main coordinator; OpenCode default effort not independently resolved"
+  },
+  "installed_manifest_sha256": "ed051945fba020726596561a4771407361cddfaffe74a482df54639b2c6e30a7",
+  "offline": {
+    "runner_passed": 220,
+    "installer_passed": 15,
+    "event_replay_passed": 13,
+    "native_capture_replay_cases": 5,
+    "explicitly_derived_replay_cases": 8,
+    "build_check_passed": true,
+    "installed_skill_files_match": 31
+  },
+  "live": {
+    "read_only": "ACCEPTED",
+    "single_file_edit": "ACCEPTED",
+    "same_session_runs": 3,
+    "native_compaction": "completed; post-compaction rules and semantic output independently accepted",
+    "timeout_recovery": "actual CLI interrupted after real tool event; OUTCOME_UNKNOWN -> confirmed-stop RECOVERED -> distinct fresh session ACCEPTED; charged time retained",
+    "permission_engine": {
+      "cases": 14,
+      "matched": 14,
+      "positive_controls": [
+        "read",
+        "glob"
+      ],
+      "scope": "Actual Permission.ask/evaluate service used by tool permission gates; no Shell/network/subagent body was dispatched. This is engine enforcement coverage, not a claim that every forbidden tool was model-invoked."
+    },
+    "actual_forbidden_tool_observation": "earlier supervised pilot observed external-directory/read denial; not every denied tool body was model-invoked"
+  },
+  "comparison": {
+    "case": "normalization-fix",
+    "same_baseline_and_frozen_acceptance": true,
+    "independent_sessions": true,
+    "routes": [
+      {
+        "route": "codex-app-direct",
+        "case": "normalization-fix",
+        "baseline_commit": "1ce7727e8dd5f3faedd35cadaa8fd239fd097427",
+        "result": "PASS_FUNCTIONAL",
+        "server_duration_ms": 17525,
+        "usage": {
+          "input_tokens": 98224,
+          "cached_input_tokens": 78208,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 330,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 98554
+        }
+      },
+      {
+        "route": "codex-native-child",
+        "case": "normalization-fix",
+        "baseline_commit": "1ce7727e8dd5f3faedd35cadaa8fd239fd097427",
+        "result": "PASS_FUNCTIONAL_ONLY",
+        "server_duration_ms": 13294,
+        "usage": {
+          "input_tokens": 99109,
+          "cached_input_tokens": 65536,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 252,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 99361
+        }
+      },
+      {
+        "route": "opencode-delegate",
+        "case": "normalization-fix",
+        "baseline_commit": "1ce7727e8dd5f3faedd35cadaa8fd239fd097427",
+        "result": "PASS",
+        "runner_seconds": 14.484
+      }
+    ],
+    "limit": "one sample per successful route; readonly and controlled-failure matched route triples still absent, no savings claim"
+  },
+  "behavior": [
+    {
+      "case": 1,
+      "decision": "direct_fix",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [
+        "README.txt"
+      ],
+      "duration_ms": 34128,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 174604,
+        "cached_input_tokens": 169472,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 945,
+        "reasoning_output_tokens": 10,
+        "total_tokens": 175549
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow"
+    },
+    {
+      "case": 2,
+      "decision": "blocked_external_instruction_scope",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 59315,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 308898,
+        "cached_input_tokens": 277760,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1866,
+        "reasoning_output_tokens": 70,
+        "total_tokens": 310764
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow",
+      "first_result": "protective global-rule-scope block in evaluation harness",
+      "supplemental_result": "READY after independent review and init in a new private replica",
+      "supplemental_duration_ms": 36999
+    },
+    {
+      "case": 3,
+      "decision": "PREPARED_STOP_BEFORE_RUN",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 60825,
+      "within_60s": false,
+      "usage": {
+        "input_tokens": 316736,
+        "cached_input_tokens": 302720,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1867,
+        "reasoning_output_tokens": 33,
+        "total_tokens": 318603
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow",
+      "limitation": "Functional READY preparation; 60825 ms exceeds authorized 60000 ms, so not a time-compliant pass"
+    },
+    {
+      "case": 4,
+      "decision": "UNVERIFIED_EVIDENCE_REQUIRED",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 38985,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 177947,
+        "cached_input_tokens": 170496,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1202,
+        "reasoning_output_tokens": 74,
+        "total_tokens": 179149
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow"
+    },
+    {
+      "case": 5,
+      "decision": "PREPARED_INCREMENTAL_HANDOFF_ONLY",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 50212,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 183734,
+        "cached_input_tokens": 147968,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1758,
+        "reasoning_output_tokens": 78,
+        "total_tokens": 185492
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow"
+    },
+    {
+      "case": 6,
+      "decision": "BLOCK_BLIND_RETRY_PRESERVE_UNKNOWN",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 50689,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 219976,
+        "cached_input_tokens": 212736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1791,
+        "reasoning_output_tokens": 55,
+        "total_tokens": 221767
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow"
+    },
+    {
+      "case": 7,
+      "decision": "不转发完整聊天或密码字段；只生成最小脱敏交接说明。",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 47931,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 179870,
+        "cached_input_tokens": 172800,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1280,
+        "reasoning_output_tokens": 78,
+        "total_tokens": 181150
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow"
+    },
+    {
+      "case": 8,
+      "decision": "decline_unverified_fact_promotion",
+      "source_and_frozen_files_checked": true,
+      "changed_files": [],
+      "duration_ms": 36018,
+      "within_60s": true,
+      "usage": {
+        "input_tokens": 214065,
+        "cached_input_tokens": 207232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1103,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 215168
+      },
+      "worker_calls_in_behavior_trial": 0,
+      "coverage": "coordinator decision/preparation, not a worker workflow"
+    }
+  ],
+  "real_repository_profile": {
+    "kind": "offline_owned_replica_of_real_components",
+    "source_component_identity": {
+      "internal": {
+        "files": 1559,
+        "bytes": 18034723,
+        "manifest_sha256": "7fa475c35e47d875e8f660a9c476fa09816b2019e77154b446f1c805b538488b"
+      },
+      "web": {
+        "files": 4734,
+        "bytes": 191514854,
+        "manifest_sha256": "4adce9b76d8209e11ca653c396d8490daa473500fb5f90581f589203de583879"
+      }
+    },
+    "replica_matches_source": true,
+    "source_components_stable": true,
+    "source_git_identity_unchanged": true,
+    "source_dirty_entries_preserved": 586,
+    "whole_dmp_supported": false,
+    "model_invoked": false,
+    "real_source_sent_to_model": false,
+    "managed_snapshots": 6,
+    "stages": [
+      {
+        "stage": "managed-baseline",
+        "seconds": 0.451592,
+        "metric": {
+          "files": 6296,
+          "bytes": 209549774,
+          "elapsed_seconds": 0.451574
+        }
+      },
+      {
+        "stage": "before-tracked-source-invariance",
+        "seconds": 0.392696,
+        "metric": {
+          "files": 6296,
+          "bytes": 209549774,
+          "elapsed_seconds": 0.392681
+        }
+      },
+      {
+        "stage": "after-tracked-source-invariance",
+        "seconds": 0.382334,
+        "metric": {
+          "files": 6296,
+          "bytes": 209549774,
+          "elapsed_seconds": 0.382316
+        }
+      },
+      {
+        "stage": "before-index-invariance",
+        "seconds": 0.422316,
+        "metric": {
+          "files": 6296,
+          "bytes": 209549774,
+          "elapsed_seconds": 0.422307
+        }
+      },
+      {
+        "stage": "after-index-invariance",
+        "seconds": 0.463026,
+        "metric": {
+          "files": 6296,
+          "bytes": 209549774,
+          "elapsed_seconds": 0.463017
+        }
+      },
+      {
+        "stage": "final-managed-snapshot",
+        "seconds": 0.413253,
+        "metric": {
+          "files": 6296,
+          "bytes": 209549774,
+          "elapsed_seconds": 0.413243
+        }
+      }
+    ],
+    "checks": [
+      {
+        "id": "tracked-source-invariance",
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "diff",
+          "--exit-code",
+          "HEAD",
+          "--"
+        ],
+        "return_code": 0,
+        "seconds": 0.081671,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "index-invariance",
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "diff",
+          "--cached",
+          "--exit-code",
+          "HEAD",
+          "--"
+        ],
+        "return_code": 0,
+        "seconds": 0.012211,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "elapsed_seconds": 3.052964,
+    "peak_rss_bytes": 45236224,
+    "ignored_replica_files": 4735,
+    "scope_limit": "Real component bytes copied into an owned detached worktree; production snapshot and two Git invariance checks, not an end-to-end delegate/model or DMP business-test benchmark."
+  },
+  "usage": {
+    "coordinator_window": {
+      "model": "gpt-6.1-sol",
+      "window_start": "2026-10-31T04:14:19.322065Z",
+      "window_cutoff": "2026-10-31T09:52:12.370598Z",
+      "monotonic": true,
+      "usage_delta": {
+        "input_tokens": 49720489,
+        "cached_input_tokens": 49477504,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 303391,
+        "reasoning_output_tokens": 232588,
+        "total_tokens": 50023880
+      },
+      "scope": "All coordinator work during this Issue #1 batch, including setup, analysis, failed trials, waiting/tool coordination and evaluation. Not allocated to individual routes."
+    },
+    "opencode_unique_model_sessions": 6,
+    "opencode_total_observed_tokens": 242023,
+    "native_actor_tokens": 2108679,
+    "billing": "UNKNOWN; native OpenCode cost may use catalog-price fallback and is not an invoice",
+    "counting": "Codex input includes cached input, output includes reasoning; total=input+output. OpenCode native schema separates uncached input, visible output, reasoning, cache-read and cache-write; total is their sum. Each OpenCode session counted once after its last measured continuation/compaction.",
+    "comparison_limit": "Batch coordinator usage is observed but not attributable per route. Do not infer savings or invoice from one sample, partial attribution or catalog price."
+  },
+  "gates": {
+    "F05": "PARTIAL: actual bounded workflows accepted; full forbidden-tool invocation matrix and independent review remain",
+    "F10": "PARTIAL: real rules/drift/compaction observed; configuration-source and worktree-migration coverage needs review",
+    "F12": "EVIDENCE_READY_FOR_REVIEW: real captures and explicitly labeled derived faults; replay 13/13",
+    "F13": "PARTIAL: original root size guard plus real component and owned managed-snapshot profile; no whole-repository delegate lifecycle",
+    "F14": "PARTIAL: three-route small fix and eight coordinator cases; continuation/recovery are not three-route matched experiments; one actor over 60 seconds",
+    "F15": "OBSERVED_WITH_UNKNOWNS: actual batch coordinator/worker usage and timing; per-route coordinator attribution and invoices unknown"
+  },
+  "private_receipt_sha256": {
+    "read-only-result": "945dc09f0bd6fd0257e4ebd226519f56f5b2fff26b4b8fc14bdb8d494a91f797",
+    "bounded-edit-result": "e298ffb9979e95f76ba0481f968e87d5f9835b831753091da2c8609851a05406",
+    "comparison-codex-app-direct": "4c1440f3c3e366803a6a086f25c6256cf8046a8f54c5d7bc97de3d7e2e639f1f",
+    "comparison-native-child": "d62b368d1e4798dee0aca020bf7541fff0d80a2444b211f99908d452c8ab67e1",
+    "comparison-skill": "4476b78c3807a475c97666a61efed740508066769c82909525f734126db6b012",
+    "continuation-result": "a19e08e7cd8399fef3a7a6c434140991ea30af0024c46de0ac138291858451e4",
+    "timeout-result": "796a16d7055f0941c993ed4ca4a3ce97ddf75b1456ca976f95f95e6b9a276407",
+    "timeout-fresh-recovery": "92d059f2f3d2f02f019951d5ec9e0ac12463a4e952a76c6c1d27bff8efe39b93",
+    "native-permission-engine-bound": "76dfda25a1acf5f7092cca387bda2e6ecfa8e5ab24b6380f3c69fd95c44bf054",
+    "real-event-replay": "57410f9af379a7300943aa78fcae016e7ec1055d5feadf9921409f05ce658976",
+    "behavior-independent-audit": "8a2d3124e037d8309a545fe4cd3c35221c7defd6d97f036b4e1ba8809a9753ff",
+    "observed-usage-and-time": "b3ad23073c306023a98b5b13565ec17a69acd67af0b9b04c327b5885ae5e14c0",
+    "real-component-managed-profile": "ab3c7ffee88c2b2eb0d70a17baca312960b93b21ec4e2c648b671429ec6ffad8",
+    "offline-results": "13ab34081657956b4069d0a4d7cdbe96dde77432c66054cc18cc35ef01ad5bcd",
+    "install-results": "e2abdcf96d2667d905ffd05e98ecf45a2bbb002aadd41bac4f056dfeb22f75f2"
+  },
+  "publication": "No raw conversation, account data, user source or private absolute paths included; no stable certification or Issue closure claimed."
+}

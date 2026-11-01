@@ -29,15 +29,14 @@ from execution_budget import reserve as reserve_budget, settle as settle_budget,
 from process_control import terminate_group
 from lifecycle import begin as begin_operation, start_snapshot as operation_snapshot
 from handoff import ambient_rule_paths, freeze_instructions, check_instructions, instruction_config_fingerprint, redact_excerpt, failure_packet
-from opencode_adapter import probe, permission_config, runtime_env, normalize_config, check_effective_config, parse_events
+from opencode_adapter import probe, permission_config, runtime_env, normalize_config, check_effective_config, check_session_binding, parse_events
 from verification_support import verify_evidence, evidence_valid
 from completion_binding import checked_worker_completion
 
 
-def snapshot(root: Path) -> dict:
+def scan_files(root: Path) -> tuple[dict, int]:
     """Hash all regular files, including ignored/untracked files; never follow symlinks."""
     require(root.is_dir() and not root.is_symlink(), "Worktree missing or symlinked")
-    started = time.monotonic()
     entries: dict[str, Any] = {}
     size = 0
     stack = [root]
@@ -61,6 +60,13 @@ def snapshot(root: Path) -> dict:
             else:
                 raise GuardError(f"Special filesystem object not supported: {rel}")
             require(len(entries) <= MAX_FILES, f"Snapshot exceeds {MAX_FILES} files at {rel}")
+    return entries, size
+
+
+def snapshot(root: Path) -> dict:
+    """Managed-worktree snapshot; ordinary repositories remain invalid here."""
+    started = time.monotonic()
+    entries, size = scan_files(root)
     marker = root / ".git"
     require(marker.is_file() and not marker.is_symlink(), "Expected managed linked worktree .git file")
     value = {"files": entries,
@@ -250,18 +256,21 @@ def cmd_run(args) -> int:
             require(info["supports_variant"], "Requested model variant is unsupported", 3)
         wt = Path(s["worktree"])
         config, agent_key, perm_key = permission_config(c, info["major"], wt)
-        env = runtime_env(config)
+        env = runtime_env(config, wt)
+        sid = None if args.fresh_session else s["session_id"]
+        if sid:
+            check_session_binding(info, c, sid, wt, env)  # Before attempt/budget reservation.
         effective_hash = check_effective_config(info, config, agent_key, perm_key, wt, env)
         if s.get("effective_config_sha256"):
             require(s["effective_config_sha256"] == effective_hash, "Effective runtime config changed mid-task; rebaseline explicitly", 3)
         current_checked(task, s, cp)  # detect config/plugin initialization writes
-        sid = None if args.fresh_session else s["session_id"]
         anchors = {k: c[k] for k in ("task_id", "project_id", "environment", "mode", "objective", "non_goals", "allowed_paths", "protected_paths", "acceptance")}
+        anchors.update(managed_worktree=str(wt.resolve()), source_repository=str(Path(c['repo']).resolve()))
         context_index = []
         for item in s["context_sources"]:
             entry = before["files"].get(item["path"], {})
             context_index.append({**item, "baseline_sha256": item["sha256"], "current_sha256": entry.get("sha256"),
-                                  "available": entry.get("kind") == "file"})
+                                  "available": entry.get("kind") == "file", "worktree_path": str(wt / item['path'])})
         packet = {"validation_plan": c["checks"], "verification_sources": c["verification_sources"], "instruction_manifest": instructions, "failure_packet": failure_packet(task, s, args.share_failure_details), "contract_sha256": s["contract_sha256"], "base_commit": s["base_commit"], "worktree_snapshot": before["sha256"],
                   "anchors": anchors, "context_index": context_index, "feedback": feedback, "checkpoint": checkpoint_text}
         prompt = PRELUDE + "\nTASK_PACKET:\n" + json.dumps(packet, ensure_ascii=True, indent=2)
@@ -300,6 +309,20 @@ def cmd_run(args) -> int:
         atomic_json(attempt / "execution.json", execution)
         settle_budget(s, execution, task_limit=c.get("max_execution_seconds", 1800),
                       evidence_sha256=file_hash(attempt / "execution.json"))
+        parsed = None
+        try:
+            if execution["exit_code"] == 0 and execution["reason"] is None:
+                candidate = parse_events(attempt / "events.ndjson", c["task_id"], sid)
+                binding = check_session_binding(info, c, candidate['session_id'], wt, env)
+                if binding is not None:
+                    candidate['native_session_binding'] = binding
+                require(all(x["criterion_id"] in {a["id"] for a in c["acceptance"]} for x in candidate["result"]["claims"]), "Worker referenced unknown acceptance criterion", 4)
+                atomic_json(attempt / "worker-result.json", candidate)
+                parsed = candidate  # Commit success ONLY after validation and persistence.
+        except (GuardError, UnicodeError, OSError) as e:
+            s["protocol_error"] = str(e)
+        # Include any metadata-client initialization effects in the final source
+        # snapshot; permission/config inspection never excuses source writes.
         try:
             after = snapshot(wt)
             errors = invariant_errors(c, base, before, after, "run")
@@ -309,15 +332,6 @@ def cmd_run(args) -> int:
             atomic_json(attempt / "changes.json", {"delta": differences(before, after), "source_changes": [p for p in differences(base, after) if not matches(p, c["verification_artifacts"])], "errors": errors})
         except (GuardError, OSError) as e:
             after, errors = None, [f"Post-execution snapshot failed: {e}"]
-        parsed = None
-        try:
-            if execution["exit_code"] == 0 and execution["reason"] is None:
-                candidate = parse_events(attempt / "events.ndjson", c["task_id"], sid)
-                require(all(x["criterion_id"] in {a["id"] for a in c["acceptance"]} for x in candidate["result"]["claims"]), "Worker referenced unknown acceptance criterion", 4)
-                atomic_json(attempt / "worker-result.json", candidate)
-                parsed = candidate  # Commit success ONLY after validation and persistence.
-        except (GuardError, UnicodeError, OSError) as e:
-            s["protocol_error"] = str(e)
         if execution["reason"] in ("timeout", "interrupted", "output_limit", "descendants_still_running", "termination_unconfirmed"):
             s["status"] = "OUTCOME_UNKNOWN"
         elif errors:

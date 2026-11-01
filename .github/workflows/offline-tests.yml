@@ -47,7 +47,13 @@ jobs:
         run: python -m unittest discover -s opencode-delegate/scripts -p 'test_*.py' -v
       - name: Installer regression
         run: python tools/test_install.py
+      - name: Reviewed event corpus integrity and replay
+        run: |
+          python tools/test_real_event_corpus.py
+          python tools/check_real_events.py
       - name: Verify package manifest
         run: python tools/build_release.py --check
+      - name: Reviewed release documentation integrity
+        run: python tools/test_release_evidence.py
       - name: Installer dry run
         run: python install.py --dry-run --target "${{ runner.temp }}/skill-install/opencode-delegate"
